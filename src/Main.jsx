@@ -78,12 +78,18 @@ export default function Main() {
 
   function handleSelectLevel(index) {
     return () => {
+      if (storeState.answers.length > 0) {
+        handleReset();
+      }
       setLevel(index);
     };
   }
 
   function handleSelectInput(type) {
     return () => {
+      if (storeState.answers.length > 0) {
+        handleReset();
+      }
       setInput(type);
     };
   }
