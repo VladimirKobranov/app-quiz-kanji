@@ -29,7 +29,7 @@ function Main() {
           <ContentField />
         </div>
         <div
-          className="pl-2 border-t bg-muted/10"
+          className="pl-2 border-t bg-muted/10 flex items-center"
           style={{ gridArea: "footer" }}
         >
           <Footer />
@@ -40,7 +40,7 @@ function Main() {
         <Sheet open={show} onOpenChange={setShow}>
           <SheetTrigger asChild>
             <div
-              className={`absolute w-[60px] h-[60px] flex items-center justify-center rounded-full top-5 right-[5%] z-50 cursor-pointer transition-all shadow-md active:scale-95 
+              className={`fixed w-[60px] h-[60px] flex items-center justify-center rounded-full top-[20px] right-[20px] z-50 cursor-pointer transition-all shadow-md active:scale-95 
                 ${show ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}
               `}
               onClick={handleToggle}
@@ -58,7 +58,7 @@ function Main() {
         <div className="flex-1 overflow-hidden">
           <ContentField />
         </div>
-        <div className="h-[38px] flex items-center">
+        <div className="h-[38px] flex items-center justify-center">
           <Footer />
         </div>
       </div>

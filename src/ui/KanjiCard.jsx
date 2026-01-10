@@ -67,15 +67,15 @@ function KanjiCard(props) {
                 <div className="flex flex-col gap-1 text-sm">
                   <p>
                     <span className="font-bold opacity-70">Meaning:</span>{" "}
-                    {props.cardMeaning.join(", ")}
+                    {props.cardMeaning?.join(", ") || "-"}
                   </p>
                   <p>
                     <span className="font-bold opacity-70">Onyomi:</span>{" "}
-                    {props.cardOn.join(", ")}
+                    {props.cardOn?.join(", ") || "-"}
                   </p>
                   <p>
                     <span className="font-bold opacity-70">Kunyomi:</span>{" "}
-                    {props.cardKun.join(", ")}
+                    {props.cardKun?.join(", ") || "-"}
                   </p>
                 </div>
               </div>

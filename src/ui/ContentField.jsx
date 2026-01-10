@@ -60,17 +60,17 @@ function ContentField() {
     const answer = card.meanings.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("meaning")
+        inputsFromRedux.includes("meaning"),
     );
     const answerOn = card.readings_on.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-on")
+        inputsFromRedux.includes("reading-on"),
     );
     const answerKun = card.readings_kun.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-kun")
+        inputsFromRedux.includes("reading-kun"),
     );
     const readings_on = card.readingOn;
     const readings_kun = card.readingKun;
@@ -110,7 +110,7 @@ function ContentField() {
 
   return (
     <div className="flex flex-col gap-0 h-full bg-background text-foreground">
-      <div className="w-full h-[80px] md:h-[160px] flex items-center px-4">
+      <div className="w-full h-[80px] md:h-[140px] flex items-center px-4">
         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full">
           <p className="text-[24px] md:text-[40px] font-bold text-muted-foreground truncate">
             {jlptLevelFilter.length
@@ -124,12 +124,12 @@ function ContentField() {
           </p>
           {/* Hint button for mobile only */}
           {levelsFromRedux.length !== 0 && (
-            <div className="md:hidden absolute top-[10px] right-[75px] z-40">
+            <div className="md:hidden fixed top-[20px] right-[90px] z-40">
               <Button
                 variant="secondary"
                 size="icon"
                 onClick={handleHintClick}
-                className="text-[24px] h-[50px] w-[50px] rounded-full shadow-sm"
+                className="text-[24px] h-[60px] w-[60px] rounded-full shadow-sm"
               >
                 ?
               </Button>

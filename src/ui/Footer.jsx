@@ -1,5 +1,4 @@
 import React from "react";
-import style from "../css/Footer.module.css";
 
 const d = new Date();
 let year = d.getFullYear();
@@ -13,7 +12,7 @@ const link = () => (
 function Footer() {
   return (
     <div className="flex justify-center w-full">
-      <p className={`${style.footer}`}>
+      <p className="font-light text-xs uppercase text-muted-foreground/50">
         {link()}&nbsp;|&nbsp;{year}
       </p>
     </div>
