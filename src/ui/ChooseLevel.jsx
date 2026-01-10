@@ -1,21 +1,13 @@
 import React from "react";
 import styleMain from "../css/App.module.css";
 import ButtonLevels from "./ButtonLevels";
-import { isBrowser } from "react-device-detect";
-
 function ChooseLevel() {
   return (
     <div className="h-auto text-center w-auto">
-      <h2
-        className={
-          isBrowser ? styleMain.HeaderMain : styleMain.HeaderMainMobile
-        }
-      >
+      <h2 className="text-[30px] md:text-[20px] font-bold text-[#868686]">
         Choose levels
       </h2>
-      <div
-        className={`flex flex-col ${isBrowser ? "bg-[#E6E1E7] gap-0" : "bg-transparent gap-1.25"} rounded-sm h-auto`}
-      >
+      <div className="flex flex-col bg-transparent md:bg-[#E6E1E7] gap-1 md:gap-0 rounded-sm h-auto">
         <ButtonLevels index="5" name="N5" />
         <ButtonLevels index="4" name="N4" />
         <ButtonLevels index="3" name="N3" />

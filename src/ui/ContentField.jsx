@@ -5,7 +5,6 @@ import Content from "../css/contentField.module.css";
 import { useStore } from "../store/useStore";
 import InfoMessage from "./InfoMessage";
 import kanjiData from "../data/kanji.json";
-import { BrowserView, isBrowser, MobileView } from "react-device-detect";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 
@@ -110,67 +109,40 @@ function ContentField() {
   }
 
   return (
-    <div className="flex flex-col gap-0">
-      <div className={`w-full ${isBrowser ? "h-[160px]" : "h-[80px]"}`}>
-        <BrowserView>
-          <div className="flex items-center gap-2">
-            <p
-              className={
-                isBrowser ? style.SelectedLevel : style.SelectedLevelMobile
-              }
-            >
-              {jlptLevelFilter.length
-                ? "N" + jlptLevelFilter.join(", N")
-                : "Select level"}
-            </p>
-            <p
-              className={
-                isBrowser ? style.SelectedInputs : style.SelectedInputsMobile
-              }
-            >
-              {inputsFromRedux.length
-                ? inputsFromRedux.join(", ")
-                : "Select inputs"}
-            </p>
-          </div>
-        </BrowserView>
-        <MobileView>
-          <div className="flex flex-col items-center gap-1">
-            <p className={style.SelectedLevelMobile}>
-              {jlptLevelFilter.length
-                ? "N" + jlptLevelFilter.join(", N")
-                : "Select level"}
-            </p>
-            <p className={style.SelectedInputsMobile}>
-              {inputsFromRedux.length
-                ? inputsFromRedux.join(", ")
-                : "Select inputs"}
-            </p>
-            {levelsFromRedux.length === 0 ? (
-              ""
-            ) : (
-              <div className={style.hintButtonMobile}>
-                <Button
-                  onClick={handleHintClick}
-                  className="bg-[#d9d7dc] hover:bg-[#c2c0c5] text-[30px] h-[60px] w-[60px] rounded-full relative left-20 top-[-4px]"
-                >
-                  ?
-                </Button>
-              </div>
-            )}
-          </div>
-        </MobileView>
-      </div>
-      <ScrollArea
-        className={`w-full ${isBrowser ? "h-[76vh]" : "h-[80vh]"} ${Content.scroll}`}
-      >
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
-          {levelsFromRedux.length === 0 ? (
-            <InfoMessage />
-          ) : (
-            shuffledNames.map(createKanjiCard)
+    <div className="flex flex-col gap-0 h-full">
+      <div className="w-full h-[80px] md:h-[160px] flex items-center px-4">
+        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full">
+          <p className="text-[24px] md:text-[40px] font-bold text-[#868686] truncate">
+            {jlptLevelFilter.length
+              ? "N" + jlptLevelFilter.join(", N")
+              : "Select level"}
+          </p>
+          <p className="text-[14px] md:text-[20px] text-[#868686] truncate opacity-80">
+            {inputsFromRedux.length
+              ? inputsFromRedux.join(", ")
+              : "Select inputs"}
+          </p>
+          {/* Hint button for mobile only, positioned as per original design or improved */}
+          {levelsFromRedux.length !== 0 && (
+            <div className="md:hidden absolute top-[10px] right-[75px] z-40">
+              <Button
+                onClick={handleHintClick}
+                className="bg-[#d9d7dc] hover:bg-[#c2c0c5] text-[24px] h-[50px] w-[50px] rounded-full"
+              >
+                ?
+              </Button>
+            </div>
           )}
         </div>
+      </div>
+      <ScrollArea className={`w-full flex-1 ${Content.scroll}`}>
+        {levelsFromRedux.length === 0 ? (
+          <InfoMessage />
+        ) : (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
+            {shuffledNames.map(createKanjiCard)}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );
