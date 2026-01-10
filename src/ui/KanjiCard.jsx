@@ -1,22 +1,13 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Collapse,
-  Flex,
-  Input,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
 import style from "../css/KanjiCard.module.css";
 import { useStore } from "../store/useStore";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 function KanjiCard(props) {
   const inputsFromRedux = useStore((state) => state.inputs);
@@ -29,21 +20,19 @@ function KanjiCard(props) {
     const v = event.target.value;
     if (!v) return;
     let valid = props.validation(props.kanji, v);
-    console.log("card is valid", valid);
     if (valid) {
       setColor("#014A77");
     } else {
       setColor("#AF282F");
     }
-    console.log("index: ", index, inputsFromRedux[index]);
   };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       setKeyEnter(true);
       const v = event.target.value;
       if (!v) return;
       let valid = props.validation(props.kanji, v);
-      console.log("card is valid", valid);
       if (valid) {
         setColor("#014A77");
       } else {
@@ -52,87 +41,75 @@ function KanjiCard(props) {
     }
   };
 
-  const handleHintClick = (index) => {
-    console.log("hint clicked", index);
-  };
-
   return (
-    <VStack spacing="2px" w="100px" bg={color} rounded="2px">
-      <Flex position="relative" right="-30px" top="5px">
-        <Collapse in={hintState}>
-          <Popover isLazy placement="auto">
-            <PopoverTrigger>
+    <div
+      className="flex flex-col gap-0.5 w-[100px] rounded-sm transition-colors duration-200"
+      style={{ backgroundColor: color }}
+    >
+      <div className="flex justify-end pr-2.5 pt-1.25 min-h-[30px]">
+        {hintState && (
+          <Popover>
+            <PopoverTrigger asChild>
               <Button
-                rounded="20px"
-                size="xs"
-                onClick={() => handleHintClick(props)}
-                bg="#C2BCC1"
+                variant="ghost"
+                className="h-5 w-5 rounded-full p-0 bg-[#C2BCC1] text-xs hover:bg-[#b0adb1]"
               >
                 ?
               </Button>
             </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverCloseButton size="lg" color="#FCFCFDFF" />
-              <PopoverHeader
-                fontSize="lg"
-                fontWeight="700"
-                bg="#014A77"
-                color="#FCFCFDFF"
-                rounded="5px"
-              >
-                Hint
-              </PopoverHeader>
-              <PopoverBody rounded="5px">
-                <Flex>
-                  <Box mr="15px" p="5px">
-                    <Text className={style.hintHeaderKanji} rounded="2px">
+            <PopoverContent className="w-80 p-0 border-none shadow-lg">
+              <div className="rounded-md overflow-hidden bg-white">
+                <div className="flex justify-between items-center bg-[#014A77] text-white px-3 py-2">
+                  <h4 className="font-bold text-lg">Hint</h4>
+                </div>
+                <div className="p-4 flex gap-4">
+                  <div className="bg-[#f3f4f6] p-2 rounded flex items-center justify-center min-w-[60px]">
+                    <span className={`${style.hintHeaderKanji} text-4xl`}>
                       {props.kanji}
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Text fontWeight="700">Meaning:</Text>
-                    <Text>{props.cardMeaning.join(", ")}</Text>
-                    <Text fontWeight="700">Onyomi:</Text>
-                    <Text>{props.cardOn.join("、 ")}</Text>
-                    <Text fontWeight="700">Kunyomi:</Text>
-                    <Text>{props.cardKun.join("、")}</Text>
-                  </Box>
-                </Flex>
-              </PopoverBody>
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-1 text-sm">
+                    <p>
+                      <span className="font-bold mr-1">Meaning:</span>{" "}
+                      {props.cardMeaning.join(", ")}
+                    </p>
+                    <p>
+                      <span className="font-bold mr-1">Onyomi:</span>{" "}
+                      {props.cardOn.join("、 ")}
+                    </p>
+                    <p>
+                      <span className="font-bold mr-1">Kunyomi:</span>{" "}
+                      {props.cardKun.join("、")}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </PopoverContent>
           </Popover>
-        </Collapse>
-      </Flex>
-      <Box h="100px" className={style.CardKanji}>
-        <Text color={props.textCol}>{props.kanji}</Text>
-      </Box>
-      <Box h="auto" rounded="2px" className={style.CardText}>
-        <VStack spacing="2px">
+        )}
+      </div>
+      <div
+        className={`${style.CardKanji} h-[100px] flex items-center justify-center`}
+      >
+        <span className="text-[80px]" style={{ color: props.textCol }}>
+          {props.kanji}
+        </span>
+      </div>
+      <div className={`${style.CardText} h-auto rounded-sm p-1.5 pt-0`}>
+        <div className="flex flex-col gap-0.5 items-center">
           {inputsFromRedux.map((inputValue, index) => (
             <Input
-              index={props.index}
-              key={inputsFromRedux[index]}
+              key={inputValue + index}
               placeholder={inputValue}
-              variant="filled"
-              className={style.CardText}
-              size="sm"
-              style={{ width: "100px", height: "29px" }}
-              borderRadius="2px"
-              textAlign="center"
-              bg={color}
-              color={props.textCol}
-              _placeholder={{ opacity: 0.2, color: "#000000" }}
-              focusBorderColor="#E6E1E7"
-              _hover={{ backgroundColor: color }}
-              _focus={{ backgroundColor: color }}
+              className={`h-[29px] w-[90px] text-center rounded-sm text-sm border-none shadow-none focus-visible:ring-0 ${style.CardText}`}
+              style={{ backgroundColor: color, color: props.textCol }}
               onBlur={(event) => (keyEnter ? null : handleChange(event, index))}
               onKeyDown={handleKeyDown}
             />
           ))}
-        </VStack>
-      </Box>
-    </VStack>
+        </div>
+      </div>
+    </div>
   );
 }
 

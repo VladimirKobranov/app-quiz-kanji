@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
 import style from "../css/MyButton.module.css";
 import { useStore } from "../store/useStore";
 import { isBrowser } from "react-device-detect";
@@ -25,24 +24,17 @@ function ButtonLevels(props) {
     }
   }
 
-  const handleHover = () => {
-    if (isActive) {
-      return { color: "#fcfcfd", background: "#1b5c84" };
-    } else {
-      return { color: "#01111f", background: "#d9d7dc" };
-    }
-  };
-
   return (
-    <Box
-      className={isBrowser ? style.Button : style.ButtonMobile}
+    <div
+      className={`${isBrowser ? style.Button : style.ButtonMobile} cursor-pointer transition-colors duration-200 ${
+        isActive
+          ? "bg-[#014A77] text-[#fcfcfd] hover:bg-[#1b5c84]"
+          : "bg-[#E6E1E7] text-[#868686] hover:bg-[#d9d7dc] hover:text-[#01111f]"
+      }`}
       onClick={() => handleClick(props.index)}
-      bg={isActive ? "#014A77" : "#E6E1E7"}
-      color={isActive ? "#fcfcfd" : "#868686"}
-      _hover={handleHover()}
     >
       {props.name}
-    </Box>
+    </div>
   );
 }
 

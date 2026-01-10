@@ -1,32 +1,28 @@
 import React from "react";
-import { Box, Text, VStack } from "@chakra-ui/react";
 import styleMain from "../css/App.module.css";
 import ButtonLevels from "./ButtonLevels";
 import { isBrowser } from "react-device-detect";
 
-function ChooseLevel({ dataArray }) {
+function ChooseLevel() {
   return (
-    <Box h="auto" textAlign="center" w="auto">
-      <Text
+    <div className="h-auto text-center w-auto">
+      <h2
         className={
           isBrowser ? styleMain.HeaderMain : styleMain.HeaderMainMobile
         }
       >
         Choose levels
-      </Text>
-      <VStack
-        bg={isBrowser ? "#E6E1E7" : ""}
-        rounded="2px"
-        h="auto"
-        spacing={isBrowser ? "0" : "5px"}
+      </h2>
+      <div
+        className={`flex flex-col ${isBrowser ? "bg-[#E6E1E7] gap-0" : "bg-transparent gap-1.25"} rounded-sm h-auto`}
       >
         <ButtonLevels index="5" name="N5" />
         <ButtonLevels index="4" name="N4" />
         <ButtonLevels index="3" name="N3" />
         <ButtonLevels index="2" name="N2" />
         <ButtonLevels index="1" name="N1" />
-      </VStack>
-    </Box>
+      </div>
+    </div>
   );
 }
 

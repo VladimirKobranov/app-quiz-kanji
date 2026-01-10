@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Box, Collapse, Grid, GridItem } from "@chakra-ui/react";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import ContentField from "./ContentField";
 import { BrowserView, MobileView } from "react-device-detect";
-import Icon from "@mdi/react";
-import { mdiDotsHorizontal } from "@mdi/js";
+import { MoreHorizontal } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 function Main() {
   const [show, setShow] = useState(false);
@@ -18,63 +21,51 @@ function Main() {
     setDisplay(display === "none" ? "" : "none");
     setButtonColor(buttonColor === "#E6E1E7" ? "#014A77FF" : "#E6E1E7");
     setButtonTextColor(
-      buttonTextColor === "#01111FFF" ? "#E6E1E7FF" : "#01111FFF",
+      buttonTextColor === "#01111FFF" ? "#E6E1E7FF" : "#01111FFF"
     );
   };
 
   return (
-    <Box>
+    <div>
       <BrowserView>
-        <Grid
-          templateAreas={`"nav main" "footer footer" `}
-          gridTemplateRows="1fr 38px"
-          gridTemplateColumns="213px 1fr"
-          height="100%"
-          color="blackAlpha"
-          margin="10px"
+        <div
+          className="grid grid-cols-[213px_1fr] grid-rows-[1fr_38px] h-full text-black/80"
+          style={{ gridTemplateAreas: '"nav main" "footer footer"' }}
         >
-          <GridItem area="nav" width="213px" height="94vh">
+          <div className="w-[213px] h-full" style={{ gridArea: "nav" }}>
             <NavBar />
-          </GridItem>
-          <GridItem area="main" gridRow="span 1">
+          </div>
+          <div style={{ gridArea: "main" }} className="h-full overflow-hidden">
             <ContentField />
-          </GridItem>
-          <GridItem pl="2" area="footer">
+          </div>
+          <div className="pl-2" style={{ gridArea: "footer" }}>
             <Footer />
-          </GridItem>
-        </Grid>
+          </div>
+        </div>
       </BrowserView>
       <MobileView>
-        <Box w="auto" h="90%" m="20px">
-          <Box
-            position="absolute"
-            w="60px"
-            h="60px"
-            color="#101920"
-            bg={buttonColor}
-            borderRadius="50px"
-            top="4px"
-            right="5%"
-            onClick={handleToggle}
-          >
-            <Icon
-              path={mdiDotsHorizontal}
-              size={"60px"}
-              color={buttonTextColor}
-            />
-          </Box>
-          <Box>
-            <Collapse in={show}>
+        <div className="w-auto h-[90%] m-5 relative">
+          <Collapsible open={show} onOpenChange={setShow}>
+            <CollapsibleTrigger asChild>
+              <div
+                className="absolute w-[60px] h-[60px] flex items-center justify-center rounded-full top-1 right-[5%] z-50 cursor-pointer transition-colors"
+                style={{ backgroundColor: buttonColor, color: "#101920" }}
+                onClick={handleToggle}
+              >
+                <MoreHorizontal size={60} color={buttonTextColor} />
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pt-16">
               <NavBar />
-            </Collapse>
-            <Box display={display}>
-              <ContentField />
-            </Box>
-          </Box>
+            </CollapsibleContent>
+          </Collapsible>
+          <div style={{ display: display }}>
+            <ContentField />
+          </div>
           <Footer />
-        </Box>
+        </div>
       </MobileView>
-    </Box>
+    </div>
   );
 }
 

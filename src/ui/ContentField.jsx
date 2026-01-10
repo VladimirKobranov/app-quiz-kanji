@@ -1,12 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  HStack,
-  SimpleGrid,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
 import style from "../css/App.module.css";
 import KanjiCard from "./KanjiCard";
 import Content from "../css/contentField.module.css";
@@ -14,6 +6,8 @@ import { useStore } from "../store/useStore";
 import InfoMessage from "./InfoMessage";
 import kanjiData from "../data/kanji.json";
 import { BrowserView, isBrowser, MobileView } from "react-device-detect";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 
 function ContentField() {
   const levelsFromRedux = useStore((state) => state.levels);
@@ -33,7 +27,7 @@ function ContentField() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setData(kanjiData); // Set the imported data directly
+        setData(kanjiData);
         const kanjiNames = Object.keys(kanjiData);
         setNames(kanjiNames);
       } catch (error) {
@@ -59,7 +53,6 @@ function ContentField() {
   }
 
   function validateCard(kanji, value) {
-    //add to store
     const card = { meanings: [] };
     card.meanings = data[kanji].meanings;
     card.readings_on = data[kanji].readings_on;
@@ -68,17 +61,17 @@ function ContentField() {
     const answer = card.meanings.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("meaning"),
+        inputsFromRedux.includes("meaning")
     );
     const answerOn = card.readings_on.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-on"),
+        inputsFromRedux.includes("reading-on")
     );
     const answerKun = card.readings_kun.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-kun"),
+        inputsFromRedux.includes("reading-kun")
     );
     const readings_on = card.readingOn;
     const readings_kun = card.readingKun;
@@ -87,18 +80,7 @@ function ContentField() {
     if (answer || answerOn || answerKun) {
       answersTrue = true;
     }
-    console.log(
-      "input: ",
-      answer,
-      answerOn,
-      answerKun,
-      inputsFromRedux,
-      card.readings_kun,
-    );
-    console.log(
-      "index from content: ",
-      inputsFromRedux.map((x) => x),
-    );
+
     addAnswer({
       kanji,
       input: value,
@@ -109,7 +91,6 @@ function ContentField() {
       readingOn: readings_on,
       readingKun: readings_kun,
     });
-    console.log("card", card);
     return answersTrue;
   }
 
@@ -129,11 +110,11 @@ function ContentField() {
   }
 
   return (
-    <VStack spacing="0">
-      <Box w="100%" h={isBrowser ? "160px" : "80px"}>
+    <div className="flex flex-col gap-0">
+      <div className={`w-full ${isBrowser ? "h-[160px]" : "h-[80px]"}`}>
         <BrowserView>
-          <HStack>
-            <Text
+          <div className="flex items-center gap-2">
+            <p
               className={
                 isBrowser ? style.SelectedLevel : style.SelectedLevelMobile
               }
@@ -141,8 +122,8 @@ function ContentField() {
               {jlptLevelFilter.length
                 ? "N" + jlptLevelFilter.join(", N")
                 : "Select level"}
-            </Text>
-            <Text
+            </p>
+            <p
               className={
                 isBrowser ? style.SelectedInputs : style.SelectedInputsMobile
               }
@@ -150,60 +131,48 @@ function ContentField() {
               {inputsFromRedux.length
                 ? inputsFromRedux.join(", ")
                 : "Select inputs"}
-            </Text>
-          </HStack>
+            </p>
+          </div>
         </BrowserView>
         <MobileView>
-          <VStack>
-            <Text className={style.SelectedLevelMobile}>
+          <div className="flex flex-col items-center gap-1">
+            <p className={style.SelectedLevelMobile}>
               {jlptLevelFilter.length
                 ? "N" + jlptLevelFilter.join(", N")
                 : "Select level"}
-            </Text>
-            <Text className={style.SelectedInputsMobile}>
+            </p>
+            <p className={style.SelectedInputsMobile}>
               {inputsFromRedux.length
                 ? inputsFromRedux.join(", ")
                 : "Select inputs"}
-            </Text>
+            </p>
             {levelsFromRedux.length === 0 ? (
               ""
             ) : (
-              <Box className={style.hintButtonMobile}>
+              <div className={style.hintButtonMobile}>
                 <Button
                   onClick={handleHintClick}
-                  bg="#d9d7dc"
-                  _hover={{ bg: "#d9d7dc" }}
-                  fontSize="30px"
-                  height="60px"
-                  width="60px"
-                  borderRadius="100px"
-                  left="80px"
-                  top="-4px"
+                  className="bg-[#d9d7dc] hover:bg-[#c2c0c5] text-[30px] h-[60px] w-[60px] rounded-full relative left-20 top-[-4px]"
                 >
                   ?
                 </Button>
-              </Box>
+              </div>
             )}
-          </VStack>
+          </div>
         </MobileView>
-      </Box>
-      <Box
-        w="100%"
-        h={isBrowser ? "76vh" : window.innerHeight * 0.8}
-        className={Content.scroll}
+      </div>
+      <ScrollArea
+        className={`w-full ${isBrowser ? "h-[76vh]" : "h-[80vh]"} ${Content.scroll}`}
       >
-        <SimpleGrid
-          columns={15}
-          spacingX="10px"
-          spacingY="30px"
-          minChildWidth="100px"
-        >
-          {levelsFromRedux.length === 0
-            ? InfoMessage
-            : shuffledNames.map(createKanjiCard)}
-        </SimpleGrid>
-      </Box>
-    </VStack>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
+          {levelsFromRedux.length === 0 ? (
+            <InfoMessage />
+          ) : (
+            shuffledNames.map(createKanjiCard)
+          )}
+        </div>
+      </ScrollArea>
+    </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { VStack } from "@chakra-ui/react";
 import ChooseLevel from "./ChooseLevel";
 import ChooseInputs from "./ChooseInputs";
 import Title from "./Title";
@@ -8,12 +7,14 @@ import { isBrowser } from "react-device-detect";
 
 function NavBar() {
   return (
-    <VStack spacing={isBrowser ? "20px" : "15px"} mb="20px">
+    <div
+      className={`flex flex-col ${isBrowser ? "gap-5" : "gap-4"} mb-5 items-center`}
+    >
       <Title />
       <ChooseLevel />
       <ChooseInputs />
       <NavControlResults />
-    </VStack>
+    </div>
   );
 }
 

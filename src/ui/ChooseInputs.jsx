@@ -1,32 +1,28 @@
 import React from "react";
-import { Box, Text, VStack } from "@chakra-ui/react";
 import styleMain from "../css/App.module.css";
 import ButtonInputs from "./ButtonInputs";
 import { isBrowser } from "react-device-detect";
 
 function ChooseInputs() {
   return (
-    <Box h="auto" textAlign="center" w="auto">
-      <Text
+    <div className="h-auto text-center w-auto">
+      <h2
         className={
           isBrowser ? styleMain.HeaderMain : styleMain.HeaderMainMobile
         }
       >
         Choose inputs
-      </Text>
-      <Box rounded="2px">
-        <VStack
-          bg={isBrowser ? "#E6E1E7" : ""}
-          rounded="2px"
-          h="auto"
-          spacing={isBrowser ? "0" : "5px"}
+      </h2>
+      <div className="rounded-sm">
+        <div
+          className={`flex flex-col ${isBrowser ? "bg-[#E6E1E7] gap-0" : "bg-transparent gap-1.25"} rounded-sm h-auto`}
         >
           <ButtonInputs index="meaning" name="meaning" />
           <ButtonInputs index="reading-on" name="reading-on" />
           <ButtonInputs index="reading-kun" name="reading-kun" />
-        </VStack>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -1,88 +1,81 @@
-import { Box, Text } from "@chakra-ui/react";
-import Content from "../css/contentField.module.css";
 import React from "react";
+import Content from "../css/contentField.module.css";
 import { isBrowser } from "react-device-detect";
 
 function InfoMessage() {
   return (
-    <Box width={isBrowser ? "500px" : "auto"}>
-      <Text
+    <div className={isBrowser ? "w-[500px]" : "w-auto"}>
+      <p
         className={
           isBrowser ? Content.infoGreetingsJap : Content.infoGreetingsJapMobile
         }
       >
         いらっしゃいませ!
-      </Text>
-      <Text
-        className={
+      </p>
+      <p
+        className={`${
           isBrowser
             ? Content.infoGreetingsEngl
             : Content.infoGreetingsEnglMobile
-        }
-        mb="20px"
+        } mb-5`}
       >
         or greetings!
-      </Text>
-      <Text
-        className={
+      </p>
+      <p
+        className={`${
           isBrowser
             ? Content.infoGreetingsText
             : Content.infoGreetingsTextMobile
-        }
-        mb="20px"
+        } mb-5`}
       >
         Welcome to the Kanji Quiz App.
         <br />
         Here, you can practice with N5 to N1 Kanji levels, along with their
         meanings and On'yomi and Kun'yomi readings.
-      </Text>
-      <Text
-        className={
+      </p>
+      <p
+        className={`${
           isBrowser
             ? Content.infoGreetingsText
             : Content.infoGreetingsTextMobile
-        }
-        mb="20px"
+        } mb-5`}
       >
         First, select the desired level or even several levels.
         <br />
         Then, input your options. (On'yomi and Kun'yomi readings require a
         Japanese keyboard.)
-      </Text>
-      <Text
-        className={
+      </p>
+      <p
+        className={`${
           isBrowser
             ? Content.infoGreetingsText
             : Content.infoGreetingsTextMobile
-        }
-        mb="20px"
+        } mb-5`}
       >
         A blue card indicates a correct answer, while a red card indicates an
         incorrect one. <br />
         After you're done, press the "Results" button to see your accuracy
         percentage.
-      </Text>
-      <Text
-        className={
+      </p>
+      <p
+        className={`${
           isBrowser
             ? Content.infoGreetingsText
             : Content.infoGreetingsTextMobile
-        }
-        mb="20px"
+        } mb-5`}
       >
         Press the "Reset" button to start over.
-      </Text>
-      <Text
-        className={
+      </p>
+      <p
+        className={`${
           isBrowser
             ? Content.infoGreetingsText
             : Content.infoGreetingsTextMobile
-        }
-        mb="20px"
+        } mb-5`}
       >
         Good luck!
-      </Text>
-      <Text
+      </p>
+      <p
         className={
           isBrowser
             ? Content.infoGreetingsGoodLuckJap
@@ -90,9 +83,9 @@ function InfoMessage() {
         }
       >
         頑張って!
-      </Text>
-    </Box>
+      </p>
+    </div>
   );
 }
 
-export default InfoMessage();
+export default InfoMessage;

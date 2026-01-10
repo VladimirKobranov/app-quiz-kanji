@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Box, Button, Center, HStack, Text } from "@chakra-ui/react";
 import { useStore } from "../store/useStore";
 import style from "../css/App.module.css";
 import { BrowserView, isBrowser } from "react-device-detect";
+import { Button } from "@/components/ui/button";
 
 function NavControlResults() {
   const {
@@ -14,13 +14,13 @@ function NavControlResults() {
 
   const totalQuestions = Object.keys(answersFromRedux).length;
   const correctAnswers = Object.values(answersFromRedux).map(
-    (item) => item[0].correct,
+    (item) => item[0].correct
   );
   const correctAnswersOn = Object.values(answersFromRedux).map(
-    (item) => item[0].correctOn,
+    (item) => item[0].correctOn
   );
   const correctAnswersKun = Object.values(answersFromRedux).map(
-    (item) => item[0].correctKun,
+    (item) => item[0].correctKun
   );
 
   const correctCount =
@@ -38,7 +38,6 @@ function NavControlResults() {
   };
 
   const handleResultClick = () => {
-    // dispatch(result()); // Removed as it was seemingly unused/legacy
     setPercentage(accuracyPercentage);
     setQuestions(`${correctCount}/${totalQuestions}`);
   };
@@ -49,64 +48,53 @@ function NavControlResults() {
   };
 
   return (
-    <Box textAlign="center">
-      <Box
-        h="auto"
-        width="auto"
-        color="white"
-        w={isBrowser ? "150px" : "200px"}
-        mb="20px"
+    <div className="text-center">
+      <div
+        className={`flex flex-col gap-2.5 mb-5 ${
+          isBrowser ? "w-[150px]" : "w-[200px]"
+        }`}
       >
         <Button
-          bg="#AF282F"
-          h={isBrowser ? "30px" : "30px"}
-          rounded={isBrowser ? "2px" : "5px"}
-          w={isBrowser ? "150px" : "200px"}
+          className={`bg-[#AF282F] hover:bg-[#8A1F25] text-white ${
+            isBrowser
+              ? "rounded-sm h-[30px] w-[150px]"
+              : "rounded-md h-[30px] w-[200px]"
+          } mb-1.25`}
           onClick={() => handleResetClick()}
-          mb={isBrowser ? "5px" : "10px"}
         >
-          <Text fontSize={isBrowser ? "20px" : "20px"}>RESET</Text>
+          <span className="text-[20px]">RESET</span>
         </Button>
 
         <Button
-          bg="#014A77"
-          h={isBrowser ? "30px" : "30px"}
-          rounded={isBrowser ? "2px" : "5px"}
-          w="100%"
-          mb={isBrowser ? "5px" : "10px"}
+          className={`bg-[#014A77] hover:bg-[#013B5F] text-white w-full h-[30px] ${
+            isBrowser ? "rounded-sm" : "rounded-md"
+          } mb-1.25`}
           onClick={() => handleResultClick()}
         >
-          <Text fontSize={isBrowser ? "20px" : "20px"}>RESULT</Text>
+          <span className="text-[20px]">RESULT</span>
         </Button>
 
         <BrowserView>
           <Button
-            bg={hintState ? "#014A77" : "#d9d7dc"}
-            h={isBrowser ? "30px" : "30px"}
-            rounded={isBrowser ? "2px" : "5px"}
-            w="100%"
+            className={`w-full h-[30px] text-white ${
+              isBrowser ? "rounded-sm" : "rounded-md"
+            } ${hintState ? "bg-[#014A77] hover:bg-[#013B5F]" : "bg-[#d9d7dc] text-[#01111f] hover:bg-[#c2c0c5]"}`}
             onClick={() => handleHintClick()}
           >
-            <Text fontSize={isBrowser ? "20px" : "20px"}>HINT MODE</Text>
+            <span className="text-[20px]">HINT MODE</span>
           </Button>
         </BrowserView>
-      </Box>
-      <Box>
-        <Text className={isBrowser ? style.HeaderMain : style.HeaderMainMobile}>
+      </div>
+      <div>
+        <h3 className={isBrowser ? style.HeaderMain : style.HeaderMainMobile}>
           Accuracy
-        </Text>
-        <HStack>
-          <Center w="100%">
-            <Text w="auto" color="#868686" mr="20px">
-              {questions}
-            </Text>
-            <Text w="auto" color="#868686">
-              {percentage}
-            </Text>
-          </Center>
-        </HStack>
-      </Box>
-    </Box>
+        </h3>
+        <div className="flex justify-center items-center w-full">
+          <p className="w-auto text-[#868686] mr-5">{questions}</p>
+          <p className="w-auto text-[#868686]">{percentage}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 

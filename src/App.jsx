@@ -1,12 +1,11 @@
 import "./css/App.module.css";
-import { ChakraProvider } from "@chakra-ui/react";
 import Main from "./ui/Main";
 
 function App() {
   return (
-    <ChakraProvider>
+    <div className="h-full bg-background text-foreground font-sans antialiased">
       <Main />
-    </ChakraProvider>
+    </div>
   );
 }
 

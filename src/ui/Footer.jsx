@@ -1,21 +1,22 @@
 import React from "react";
-import { Center, Link, Text } from "@chakra-ui/react";
 import style from "../css/Footer.module.css";
 
 const d = new Date();
 let year = d.getFullYear();
 
 const link = () => (
-  <Link href="https://github.com/VladimirKobranov">copyright VK</Link>
+  <a href="https://github.com/VladimirKobranov" className="hover:underline">
+    copyright VK
+  </a>
 );
 
 function Footer() {
   return (
-    <Center w="100%">
-      <Text className={style.footer} w="auto">
+    <div className="flex justify-center w-full">
+      <p className={`${style.footer}`}>
         {link()}&nbsp;|&nbsp;{year}
-      </Text>
-    </Center>
+      </p>
+    </div>
   );
 }
 
