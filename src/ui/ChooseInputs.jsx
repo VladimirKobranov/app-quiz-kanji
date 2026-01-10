@@ -1,5 +1,4 @@
 import React from "react";
-import styleMain from "../css/App.module.css";
 import ButtonInputs from "./ButtonInputs";
 function ChooseInputs() {
   return (
@@ -8,7 +7,7 @@ function ChooseInputs() {
         Choose inputs
       </h2>
       <div className="rounded-sm">
-        <div className="flex flex-col bg-transparent md:bg-[#E6E1E7] gap-1 md:gap-0 rounded-sm h-auto">
+        <div className="flex flex-col bg-transparent gap-1 rounded-sm h-auto">
           <ButtonInputs index="meaning" name="meaning" />
           <ButtonInputs index="reading-on" name="reading-on" />
           <ButtonInputs index="reading-kun" name="reading-kun" />

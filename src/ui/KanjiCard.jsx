@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import style from "../css/KanjiCard.module.css";
 import { useStore } from "../store/useStore";
 import {
   Popover,
@@ -36,7 +35,7 @@ function KanjiCard(props) {
   const statusClasses = {
     idle: "bg-secondary text-muted-foreground",
     correct: "bg-primary text-primary-foreground",
-    incorrect: "bg-destructive text-destructive-foreground",
+    incorrect: "bg-destructive text-white",
   };
 
   return (

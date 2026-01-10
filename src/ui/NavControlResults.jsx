@@ -13,13 +13,13 @@ function NavControlResults() {
 
   const totalQuestions = Object.keys(answersFromRedux).length;
   const correctAnswers = Object.values(answersFromRedux).map(
-    (item) => item[0].correct
+    (item) => item[0].correct,
   );
   const correctAnswersOn = Object.values(answersFromRedux).map(
-    (item) => item[0].correctOn
+    (item) => item[0].correctOn,
   );
   const correctAnswersKun = Object.values(answersFromRedux).map(
-    (item) => item[0].correctKun
+    (item) => item[0].correctKun,
   );
 
   const correctCount =
@@ -47,11 +47,11 @@ function NavControlResults() {
   };
 
   return (
-    <div className="text-center w-full max-w-[200px] md:max-w-[150px] bg-background">
-      <div className="flex flex-col gap-2.5 mb-5 w-full">
+    <div className="text-center w-full max-w-50 md:max-w-37.5 bg-background">
+      <div className="flex flex-col gap-2 mb-5 w-full">
         <Button
           variant="destructive"
-          className="rounded-md h-[40px] md:h-[30px] w-full font-bold shadow-sm"
+          className="rounded-md h-10 md:h-7.5 w-full font-bold shadow-sm"
           onClick={() => handleResetClick()}
         >
           RESET
@@ -59,7 +59,7 @@ function NavControlResults() {
 
         <Button
           variant="default"
-          className="rounded-md h-[40px] md:h-[30px] w-full font-bold shadow-sm"
+          className="rounded-md h-10 md:h-7.5 w-full font-bold shadow-sm"
           onClick={() => handleResultClick()}
         >
           RESULT
@@ -68,7 +68,7 @@ function NavControlResults() {
         <div className="hidden md:block">
           <Button
             variant={hintState ? "default" : "outline"}
-            className="rounded-md h-[40px] md:h-[30px] w-full font-bold"
+            className="rounded-md h-10 md:h-7.5 w-full font-bold"
             onClick={() => handleHintClick()}
           >
             HINT MODE
@@ -83,7 +83,7 @@ function NavControlResults() {
           <p className="text-[20px] md:text-[16px] font-medium text-muted-foreground/80">
             {questions}
           </p>
-          <p className="text-[36px] md:text-[28px] font-bold text-primary">
+          <p className="text-[20px] md:text-[16px] font-medium text-muted-foreground/80">
             {percentage}
           </p>
         </div>

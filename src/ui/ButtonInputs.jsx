@@ -23,8 +23,8 @@ function ButtonInput(props) {
 
   return (
     <div
-      className={`cursor-pointer transition-all duration-200 border-none flex items-center justify-center font-bold text-[18px] h-full
-        w-full md:w-[150px] rounded-md shadow-sm active:scale-95
+      className={`cursor-pointer transition-all duration-200 border-none flex items-center justify-center text-[18px] h-full
+        w-full md:w-37.5 rounded-md shadow-sm active:scale-95
         ${
           isActive
             ? "bg-primary text-primary-foreground hover:bg-primary/90"

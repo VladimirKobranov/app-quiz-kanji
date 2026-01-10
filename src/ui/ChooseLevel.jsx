@@ -1,5 +1,4 @@
 import React from "react";
-import styleMain from "../css/App.module.css";
 import ButtonLevels from "./ButtonLevels";
 function ChooseLevel() {
   return (
@@ -7,7 +6,7 @@ function ChooseLevel() {
       <h2 className="text-[30px] md:text-[20px] font-bold text-[#868686]">
         Choose levels
       </h2>
-      <div className="flex flex-col bg-transparent md:bg-[#E6E1E7] gap-1 md:gap-0 rounded-sm h-auto">
+      <div className="flex flex-col bg-transparent gap-1  rounded-sm h-auto">
         <ButtonLevels index="5" name="N5" />
         <ButtonLevels index="4" name="N4" />
         <ButtonLevels index="3" name="N3" />
