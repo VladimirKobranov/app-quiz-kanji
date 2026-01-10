@@ -16,19 +16,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import style from "./css/KanjiCard.module.css";
-import { useSelector } from "react-redux";
-import { store } from "./store/store";
+import { useStore } from "./store/useStore";
 
 function KanjiCard(props) {
-  const inputsFromRedux = useSelector((state) => state.inputs);
+  const inputsFromRedux = useStore((state) => state.inputs);
+  const hintState = useStore((state) => state.hint);
+
   const [color, setColor] = useState("#E6E1E7");
   const [keyEnter, setKeyEnter] = useState(false);
-  const [hintState, setHintState] = useState(false);
-
-  store.subscribe(() => {
-    const leg = store.getState();
-    setHintState(leg.hint.hint);
-  });
 
   const handleChange = (event, index) => {
     const v = event.target.value;
@@ -65,10 +60,10 @@ function KanjiCard(props) {
     <VStack spacing="2px" w="100px" bg={color} rounded="2px">
       <Flex position="relative" right="-30px" top="5px">
         <Collapse in={hintState}>
-          <Popover isLazy placement="auto" >
+          <Popover isLazy placement="auto">
             <PopoverTrigger>
               <Button
-                rounded='20px'
+                rounded="20px"
                 size="xs"
                 onClick={() => handleHintClick(props)}
                 bg="#C2BCC1"
@@ -78,14 +73,22 @@ function KanjiCard(props) {
             </PopoverTrigger>
             <PopoverContent>
               <PopoverArrow />
-              <PopoverCloseButton size='lg' color='#FCFCFDFF'/>
-              <PopoverHeader fontSize="lg" fontWeight="700" bg='#014A77' color='#FCFCFDFF' rounded='5px'>
+              <PopoverCloseButton size="lg" color="#FCFCFDFF" />
+              <PopoverHeader
+                fontSize="lg"
+                fontWeight="700"
+                bg="#014A77"
+                color="#FCFCFDFF"
+                rounded="5px"
+              >
                 Hint
               </PopoverHeader>
-              <PopoverBody rounded='5px'>
+              <PopoverBody rounded="5px">
                 <Flex>
                   <Box mr="15px" p="5px">
-                    <Text className={style.hintHeaderKanji} rounded='2px'>{props.kanji}</Text>
+                    <Text className={style.hintHeaderKanji} rounded="2px">
+                      {props.kanji}
+                    </Text>
                   </Box>
                   <Box>
                     <Text fontWeight="700">Meaning:</Text>

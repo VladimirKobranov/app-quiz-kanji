@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import { Box, Button, Center, HStack, Text } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { reset, result, store, toggleHint } from "./store/store";
+import { useStore } from "./store/useStore";
 import style from "./css/App.module.css";
 import { BrowserView, isBrowser } from "react-device-detect";
 
 function NavControlResults() {
-  const dispatch = useDispatch();
-  const [hintState, setHintState] = useState(false);
-  const answersFromRedux = useSelector((state) => state.answers.answers);
+  const {
+    answers: answersFromRedux,
+    reset,
+    toggleHint,
+    hint: hintState,
+  } = useStore();
+
   const totalQuestions = Object.keys(answersFromRedux).length;
   const correctAnswers = Object.values(answersFromRedux).map(
-    (item) => item[0].correct,
+    (item) => item[0].correct
   );
   const correctAnswersOn = Object.values(answersFromRedux).map(
-    (item) => item[0].correctOn,
+    (item) => item[0].correctOn
   );
   const correctAnswersKun = Object.values(answersFromRedux).map(
-    (item) => item[0].correctKun,
+    (item) => item[0].correctKun
   );
 
   const correctCount =
@@ -31,24 +34,20 @@ function NavControlResults() {
   const [questions, setQuestions] = useState("0/0");
 
   const handleResetClick = () => {
-    dispatch(reset());
+    reset();
   };
+
   const handleResultClick = () => {
-    dispatch(result());
+    // dispatch(result()); // Removed as it was seemingly unused/legacy
     setPercentage(accuracyPercentage);
     setQuestions(`${correctCount}/${totalQuestions}`);
   };
 
-  store.subscribe(() => {
-    const leg = store.getState();
-    console.log("hint", leg.hint.hint);
-    setHintState(leg.hint.hint);
-  });
-
   const handleHintClick = () => {
-    dispatch(toggleHint());
+    toggleHint();
     console.log("hint dispatch");
   };
+
   return (
     <Box textAlign="center">
       <Box

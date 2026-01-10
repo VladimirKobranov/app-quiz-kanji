@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import style from "./css/MyButton.module.css";
-import { addInput, removeInput } from "./store/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore } from "./store/useStore";
 import { isBrowser } from "react-device-detect";
 
 function ButtonInput(props) {
   const [isActive, setIsActive] = useState(false);
-  const dispatch = useDispatch();
-  const inputsFromRedux = useSelector((state) => state.inputs);
+  const inputsFromRedux = useStore((state) => state.inputs);
+  const addInput = useStore((state) => state.addInput);
+  const removeInput = useStore((state) => state.removeInput);
 
   useEffect(() => {
     if (inputsFromRedux.length === 0) {
@@ -19,9 +19,9 @@ function ButtonInput(props) {
   function handleClick(index) {
     setIsActive(!isActive);
     if (isActive === false) {
-      dispatch(addInput(index));
+      addInput(index);
     } else {
-      dispatch(removeInput(index));
+      removeInput(index);
     }
   }
 

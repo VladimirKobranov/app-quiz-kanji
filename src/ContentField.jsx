@@ -10,23 +10,23 @@ import {
 import style from "./css/App.module.css";
 import KanjiCard from "./KanjiCard";
 import Content from "./css/contentField.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import {addAnswer, toggleHint} from "./store/store";
+import { useStore } from "./store/useStore";
 import InfoMessage from "./InfoMessage";
 import kanjiData from "./data/kanji.json";
 import { BrowserView, isBrowser, MobileView } from "react-device-detect";
 
 function ContentField() {
-  const levelsFromRedux = useSelector((state) => state.levels);
-  const inputsFromRedux = useSelector((state) => state.inputs);
-  const dispatch = useDispatch();
+  const levelsFromRedux = useStore((state) => state.levels);
+  const inputsFromRedux = useStore((state) => state.inputs);
+  const addAnswer = useStore((state) => state.addAnswer);
+  const toggleHint = useStore((state) => state.toggleHint);
 
   const [names, setNames] = useState([]);
   const [data, setData] = useState({});
   const [jlptLevelFilter, setJlptLevelFilter] = useState([]);
 
   const handleHintClick = () => {
-    dispatch(toggleHint());
+    toggleHint();
     console.log("hint dispatch");
   };
 
@@ -68,17 +68,17 @@ function ContentField() {
     const answer = card.meanings.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("meaning"),
+        inputsFromRedux.includes("meaning")
     );
     const answerOn = card.readings_on.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-on"),
+        inputsFromRedux.includes("reading-on")
     );
     const answerKun = card.readings_kun.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-kun"),
+        inputsFromRedux.includes("reading-kun")
     );
     const readings_on = card.readingOn;
     const readings_kun = card.readingKun;
@@ -93,24 +93,22 @@ function ContentField() {
       answerOn,
       answerKun,
       inputsFromRedux,
-      card.readings_kun,
+      card.readings_kun
     );
     console.log(
       "index from content: ",
-      inputsFromRedux.map((x) => x),
+      inputsFromRedux.map((x) => x)
     );
-    dispatch(
-      addAnswer({
-        kanji,
-        input: value,
-        correct: answer,
-        correctOn: answerOn,
-        correctKun: answerKun,
-        meaning: meaningsString,
-        readingOn: readings_on,
-        readingKun: readings_kun,
-      }),
-    );
+    addAnswer({
+      kanji,
+      input: value,
+      correct: answer,
+      correctOn: answerOn,
+      correctKun: answerKun,
+      meaning: meaningsString,
+      readingOn: readings_on,
+      readingKun: readings_kun,
+    });
     console.log("card", card);
     return answersTrue;
   }
@@ -170,17 +168,17 @@ function ContentField() {
             {levelsFromRedux.length === 0 ? (
               ""
             ) : (
-              <Box className={style.hintButtonMobile} >
+              <Box className={style.hintButtonMobile}>
                 <Button
                   onClick={handleHintClick}
-                  bg='#d9d7dc'
+                  bg="#d9d7dc"
                   _hover={{ bg: "#d9d7dc" }}
-                  fontSize='30px'
-                  height='60px'
-                  width='60px'
+                  fontSize="30px"
+                  height="60px"
+                  width="60px"
                   borderRadius="100px"
-                  left='80px'
-                  top='-4px'
+                  left="80px"
+                  top="-4px"
                 >
                   ?
                 </Button>
