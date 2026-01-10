@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import style from "../css/App.module.css";
 import KanjiCard from "./KanjiCard";
-import Content from "../css/contentField.module.css";
+
 import { useStore } from "../store/useStore";
 import InfoMessage from "./InfoMessage";
 import kanjiData from "../data/kanji.json";
@@ -137,7 +136,7 @@ function ContentField() {
           )}
         </div>
       </div>
-      <ScrollArea className={`w-full flex-1 ${Content.scroll}`}>
+      <ScrollArea className={`w-full flex-1 overflow-scroll overflow-x-hidden`}>
         {levelsFromRedux.length === 0 ? (
           <InfoMessage />
         ) : (

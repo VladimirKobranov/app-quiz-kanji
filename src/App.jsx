@@ -1,4 +1,4 @@
-import "./css/App.module.css";
+
 import Main from "./ui/Main";
 
 function App() {

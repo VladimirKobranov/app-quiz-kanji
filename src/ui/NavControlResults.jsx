@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useStore } from "../store/useStore";
-import style from "../css/App.module.css";
+
 import { Button } from "@/components/ui/button";
 
 function NavControlResults() {
