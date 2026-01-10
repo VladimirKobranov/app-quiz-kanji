@@ -59,17 +59,17 @@ function ContentField() {
     const answer = card.meanings.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("meaning"),
+        inputsFromRedux.includes("meaning")
     );
     const answerOn = card.readings_on.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-on"),
+        inputsFromRedux.includes("reading-on")
     );
     const answerKun = card.readings_kun.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-kun"),
+        inputsFromRedux.includes("reading-kun")
     );
     const readings_on = card.readingOn;
     const readings_kun = card.readingKun;
@@ -111,16 +111,22 @@ function ContentField() {
     <div className="flex flex-col gap-0 h-full bg-background text-foreground">
       <div className="w-full h-[80px] md:h-[140px] flex items-center px-4">
         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full">
-          <p className="text-[24px] md:text-[40px] font-bold text-muted-foreground truncate">
+          <p className="text-[18px] md:text-[30px] text-muted-foreground truncate">
             {jlptLevelFilter.length
               ? "N" + jlptLevelFilter.join(", N")
               : "Select level"}
           </p>
-          <p className="text-[14px] md:text-[20px] text-muted-foreground/60 truncate italic">
+          <p className="text-[18px] md:text-[30px] text-muted-foreground/50 truncate">
             {inputsFromRedux.length
               ? inputsFromRedux.join(", ")
               : "Select inputs"}
           </p>
+          {/* here add number of kanji for this level, for example: "100 kanji" */}
+          {jlptLevelFilter.length > 0 && (
+            <p className="text-[14px] md:text-[20px] text-muted-foreground/60 truncate">
+              {shuffledNames.length} kanji for this level
+            </p>
+          )}
           {/* Hint button for mobile only */}
           {levelsFromRedux.length !== 0 && (
             <div className="md:hidden fixed top-[20px] right-[90px] z-40">

@@ -55,7 +55,7 @@ function NavControlResults() {
   const strokeDashoffset = circumference - (percentNum / 100) * circumference;
 
   return (
-    <div className="w-full max-w-[200px] md:max-w-[150px]">
+    <div className="w-full">
       {/* Control Buttons */}
       <div className="flex flex-col gap-2 mb-4">
         <Button

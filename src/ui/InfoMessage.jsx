@@ -1,7 +1,9 @@
 import React from "react";
+import { Badge } from "@/components/ui/badge";
+
 function InfoMessage() {
   return (
-    <div className="w-full md:w-[500px] p-4">
+    <div className="w-full md:w-125 p-4">
       <p className="text-[30px] md:text-[30px] mb-2 font-bold">
         いらっしゃいませ!
       </p>
@@ -17,12 +19,13 @@ function InfoMessage() {
           (Note: On'yomi and Kun'yomi require a Japanese keyboard.)
         </p>
         <p>
-          A <span className="text-primary font-bold">black card</span> indicates
-          a correct answer, while a{" "}
-          <span className="text-destructive font-bold">red card</span> indicates
-          an incorrect one. Press "Results" to see your accuracy.
+          A <Badge>black card</Badge> indicates a correct answer, while a{" "}
+          <Badge variant="destructive">red card</Badge> indicates an incorrect
+          one. Press <Badge>Results</Badge> to see your accuracy.
         </p>
-        <p>Press "Reset" to start over.</p>
+        <p>
+          Press <Badge variant="destructive">Reset</Badge> to start over.
+        </p>
         <p className="font-bold">Good luck!</p>
       </div>
       <p className="text-[50px] md:text-[50px] text-primary mt-2 font-bold">
