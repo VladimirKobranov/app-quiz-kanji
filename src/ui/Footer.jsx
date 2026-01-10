@@ -1,6 +1,6 @@
 import React from "react";
 import { Center, Link, Text } from "@chakra-ui/react";
-import style from "./css/Footer.module.css";
+import style from "../css/Footer.module.css";
 
 const d = new Date();
 let year = d.getFullYear();

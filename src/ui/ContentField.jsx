@@ -7,12 +7,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import style from "./css/App.module.css";
+import style from "../css/App.module.css";
 import KanjiCard from "./KanjiCard";
-import Content from "./css/contentField.module.css";
-import { useStore } from "./store/useStore";
+import Content from "../css/contentField.module.css";
+import { useStore } from "../store/useStore";
 import InfoMessage from "./InfoMessage";
-import kanjiData from "./data/kanji.json";
+import kanjiData from "../data/kanji.json";
 import { BrowserView, isBrowser, MobileView } from "react-device-detect";
 
 function ContentField() {

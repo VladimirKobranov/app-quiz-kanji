@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, VStack } from "@chakra-ui/react";
-import styleMain from "./css/App.module.css";
+import styleMain from "../css/App.module.css";
 import ButtonLevels from "./ButtonLevels";
 import { isBrowser } from "react-device-detect";
 

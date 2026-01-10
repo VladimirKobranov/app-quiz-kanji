@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import Content from "./css/contentField.module.css";
+import Content from "../css/contentField.module.css";
 import React from "react";
 import { isBrowser } from "react-device-detect";
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
-import style from "./css/MyButton.module.css";
-import { useStore } from "./store/useStore";
+import style from "../css/MyButton.module.css";
+import { useStore } from "../store/useStore";
 import { isBrowser } from "react-device-detect";
 
 function ButtonInput(props) {

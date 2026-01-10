@@ -1,6 +1,6 @@
 import "./css/App.module.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import Main from "./Main";
+import Main from "./ui/Main";
 
 function App() {
   return (

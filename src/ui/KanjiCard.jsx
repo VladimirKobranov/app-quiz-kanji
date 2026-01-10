@@ -15,8 +15,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import style from "./css/KanjiCard.module.css";
-import { useStore } from "./store/useStore";
+import style from "../css/KanjiCard.module.css";
+import { useStore } from "../store/useStore";
 
 function KanjiCard(props) {
   const inputsFromRedux = useStore((state) => state.inputs);

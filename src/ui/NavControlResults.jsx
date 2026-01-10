@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Center, HStack, Text } from "@chakra-ui/react";
-import { useStore } from "./store/useStore";
-import style from "./css/App.module.css";
+import { useStore } from "../store/useStore";
+import style from "../css/App.module.css";
 import { BrowserView, isBrowser } from "react-device-detect";
 
 function NavControlResults() {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Center, Text, VStack } from "@chakra-ui/react";
-import style from "./css/Title.module.css";
+import style from "../css/Title.module.css";
 import { isBrowser } from "react-device-detect";
 
 function Title() {
