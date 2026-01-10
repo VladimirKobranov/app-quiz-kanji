@@ -109,25 +109,27 @@ function ContentField() {
   }
 
   return (
-    <div className="flex flex-col gap-0 h-full">
+    <div className="flex flex-col gap-0 h-full bg-background text-foreground">
       <div className="w-full h-[80px] md:h-[160px] flex items-center px-4">
         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full">
-          <p className="text-[24px] md:text-[40px] font-bold text-[#868686] truncate">
+          <p className="text-[24px] md:text-[40px] font-bold text-muted-foreground truncate">
             {jlptLevelFilter.length
               ? "N" + jlptLevelFilter.join(", N")
               : "Select level"}
           </p>
-          <p className="text-[14px] md:text-[20px] text-[#868686] truncate opacity-80">
+          <p className="text-[14px] md:text-[20px] text-muted-foreground/60 truncate italic">
             {inputsFromRedux.length
               ? inputsFromRedux.join(", ")
               : "Select inputs"}
           </p>
-          {/* Hint button for mobile only, positioned as per original design or improved */}
+          {/* Hint button for mobile only */}
           {levelsFromRedux.length !== 0 && (
             <div className="md:hidden absolute top-[10px] right-[75px] z-40">
               <Button
+                variant="secondary"
+                size="icon"
                 onClick={handleHintClick}
-                className="bg-[#d9d7dc] hover:bg-[#c2c0c5] text-[24px] h-[50px] w-[50px] rounded-full"
+                className="text-[24px] h-[50px] w-[50px] rounded-full shadow-sm"
               >
                 ?
               </Button>
@@ -139,7 +141,7 @@ function ContentField() {
         {levelsFromRedux.length === 0 ? (
           <InfoMessage />
         ) : (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5 p-4">
             {shuffledNames.map(createKanjiCard)}
           </div>
         )}

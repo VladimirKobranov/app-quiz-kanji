@@ -47,38 +47,45 @@ function NavControlResults() {
   };
 
   return (
-    <div className="text-center w-full max-w-[200px] md:max-w-[150px]">
+    <div className="text-center w-full max-w-[200px] md:max-w-[150px] bg-background">
       <div className="flex flex-col gap-2.5 mb-5 w-full">
         <Button
-          className="bg-[#AF282F] hover:bg-[#8A1F25] text-white rounded-md md:rounded-sm h-[30px] w-full mb-1.25"
+          variant="destructive"
+          className="rounded-md h-[40px] md:h-[30px] w-full font-bold shadow-sm"
           onClick={() => handleResetClick()}
         >
-          <span className="text-[20px]">RESET</span>
+          RESET
         </Button>
 
         <Button
-          className="bg-[#014A77] hover:bg-[#013B5F] text-white rounded-md md:rounded-sm h-[30px] w-full mb-1.25"
+          variant="default"
+          className="rounded-md h-[40px] md:h-[30px] w-full font-bold shadow-sm"
           onClick={() => handleResultClick()}
         >
-          <span className="text-[20px]">RESULT</span>
+          RESULT
         </Button>
 
         <div className="hidden md:block">
           <Button
-            className={`w-full h-[30px] text-white rounded-sm ${hintState ? "bg-[#014A77] hover:bg-[#013B5F]" : "bg-[#d9d7dc] text-[#01111f] hover:bg-[#c2c0c5]"}`}
+            variant={hintState ? "default" : "outline"}
+            className="rounded-md h-[40px] md:h-[30px] w-full font-bold"
             onClick={() => handleHintClick()}
           >
-            <span className="text-[20px]">HINT MODE</span>
+            HINT MODE
           </Button>
         </div>
       </div>
-      <div>
-        <h3 className="text-[30px] md:text-[20px] font-bold text-[#868686]">
+      <div className="space-y-1">
+        <h3 className="text-[24px] md:text-[20px] font-bold text-muted-foreground">
           Accuracy
         </h3>
-        <div className="flex justify-center items-center w-full">
-          <p className="w-auto text-[#868686] mr-5">{questions}</p>
-          <p className="w-auto text-[#868686]">{percentage}</p>
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-[20px] md:text-[16px] font-medium text-muted-foreground/80">
+            {questions}
+          </p>
+          <p className="text-[36px] md:text-[28px] font-bold text-primary">
+            {percentage}
+          </p>
         </div>
       </div>
     </div>

@@ -7,47 +7,49 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 function Main() {
   const [show, setShow] = useState(false);
-  const [buttonColor, setButtonColor] = useState("#E6E1E7");
-  const [buttonTextColor, setButtonTextColor] = useState("#01111FFF");
 
   const handleToggle = () => {
     setShow(!show);
-    setButtonColor(show ? "#E6E1E7" : "#014A77FF");
-    setButtonTextColor(show ? "#01111FFF" : "#E6E1E7FF");
   };
 
   return (
-    <div className="h-screen w-full overflow-hidden flex flex-col">
+    <div className="h-screen w-full overflow-hidden flex flex-col bg-background text-foreground">
       {/* Desktop View */}
       <div
-        className="hidden md:grid grid-cols-[213px_1fr] grid-rows-[1fr_38px] h-full text-black/80 w-full"
+        className="hidden md:grid grid-cols-[213px_1fr] grid-rows-[1fr_38px] h-full w-full"
         style={{ gridTemplateAreas: '"nav main" "footer footer"' }}
       >
-        <div className="w-[213px] h-full" style={{ gridArea: "nav" }}>
+        <div
+          className="w-[213px] h-full border-r bg-muted/30"
+          style={{ gridArea: "nav" }}
+        >
           <NavBar />
         </div>
         <div style={{ gridArea: "main" }} className="h-full overflow-hidden">
           <ContentField />
         </div>
-        <div className="pl-2" style={{ gridArea: "footer" }}>
+        <div
+          className="pl-2 border-t bg-muted/10"
+          style={{ gridArea: "footer" }}
+        >
           <Footer />
         </div>
       </div>
 
-      {/* Mobile View */}
       <div className="md:hidden flex flex-col h-full w-full p-5 relative overflow-hidden">
         <Sheet open={show} onOpenChange={setShow}>
           <SheetTrigger asChild>
             <div
-              className="absolute w-[60px] h-[60px] flex items-center justify-center rounded-full top-5 right-[5%] z-50 cursor-pointer transition-colors shadow-lg"
-              style={{ backgroundColor: buttonColor, color: "#101920" }}
+              className={`absolute w-[60px] h-[60px] flex items-center justify-center rounded-full top-5 right-[5%] z-50 cursor-pointer transition-all shadow-md active:scale-95 
+                ${show ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}
+              `}
               onClick={handleToggle}
             >
-              <MoreHorizontal size={60} color={buttonTextColor} />
+              <MoreHorizontal size={40} />
             </div>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[400px] p-4 bg-white">
-            <div className="mt-8">
+          <SheetContent side="left" className="w-[300px] p-0">
+            <div className="h-full py-8 px-4 overflow-y-auto">
               <NavBar />
             </div>
           </SheetContent>
@@ -56,7 +58,7 @@ function Main() {
         <div className="flex-1 overflow-hidden">
           <ContentField />
         </div>
-        <div className="h-[38px]">
+        <div className="h-[38px] flex items-center">
           <Footer />
         </div>
       </div>
