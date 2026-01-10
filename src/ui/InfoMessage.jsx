@@ -96,4 +96,3 @@ function InfoMessage() {
 }
 
 export default InfoMessage();
-

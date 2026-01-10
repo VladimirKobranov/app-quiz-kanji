@@ -16,14 +16,14 @@ Press the `RESET` button to start over.
 Press `HINT MODE` on desktop or big `?` on mobile to toggle on hint mode.
 Each `Kanji` can provide info in popover by pressing on `?` button.
 
-
 [^1]: To use On'yomi and Kun'yomi(or On-reading and Kun-reading) you need a Japanese layout in your system.
 
 ---
 
 ### Release changelog:
-* v1.0 release
-* v1.2 added hint button with popovers on mobile and desktop
+
+- v1.0 release
+- v1.2 added hint button with popovers on mobile and desktop
 
 ### References:
 

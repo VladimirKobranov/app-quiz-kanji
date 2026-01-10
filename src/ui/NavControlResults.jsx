@@ -14,13 +14,13 @@ function NavControlResults() {
 
   const totalQuestions = Object.keys(answersFromRedux).length;
   const correctAnswers = Object.values(answersFromRedux).map(
-    (item) => item[0].correct
+    (item) => item[0].correct,
   );
   const correctAnswersOn = Object.values(answersFromRedux).map(
-    (item) => item[0].correctOn
+    (item) => item[0].correctOn,
   );
   const correctAnswersKun = Object.values(answersFromRedux).map(
-    (item) => item[0].correctKun
+    (item) => item[0].correctKun,
   );
 
   const correctCount =

@@ -68,17 +68,17 @@ function ContentField() {
     const answer = card.meanings.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("meaning")
+        inputsFromRedux.includes("meaning"),
     );
     const answerOn = card.readings_on.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-on")
+        inputsFromRedux.includes("reading-on"),
     );
     const answerKun = card.readings_kun.some(
       (key) =>
         key.toUpperCase() === value.trim().toUpperCase() &&
-        inputsFromRedux.includes("reading-kun")
+        inputsFromRedux.includes("reading-kun"),
     );
     const readings_on = card.readingOn;
     const readings_kun = card.readingKun;
@@ -93,11 +93,11 @@ function ContentField() {
       answerOn,
       answerKun,
       inputsFromRedux,
-      card.readings_kun
+      card.readings_kun,
     );
     console.log(
       "index from content: ",
-      inputsFromRedux.map((x) => x)
+      inputsFromRedux.map((x) => x),
     );
     addAnswer({
       kanji,
