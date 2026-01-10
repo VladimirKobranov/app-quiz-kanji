@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 import ContentField from "./ContentField";
 import { MoreHorizontal } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 function Main() {
   const [show, setShow] = useState(false);
@@ -16,11 +16,11 @@ function Main() {
     <div className="h-screen w-full overflow-hidden flex flex-col bg-background text-foreground">
       {/* Desktop View */}
       <div
-        className="hidden md:grid grid-cols-[213px_1fr] grid-rows-[1fr_38px] h-full w-full"
+        className="hidden md:grid grid-cols-[300px_1fr] grid-rows-[1fr_38px] h-full w-full"
         style={{ gridTemplateAreas: '"nav main" "footer footer"' }}
       >
-        <div
-          className="w-[213px] h-full border-r bg-muted/30"
+        <div 
+          className="w-auto h-full border-r bg-muted/30"
           style={{ gridArea: "nav" }}
         >
           <NavBar />
@@ -48,7 +48,11 @@ function Main() {
               <MoreHorizontal size={40} />
             </div>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] p-0">
+          <SheetContent side="left" className="w-[400px] p-0">
+            <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            <SheetDescription className="sr-only">
+              Access the navigation menu and settings for the kanji quiz.
+            </SheetDescription>
             <div className="h-full py-8 px-4 overflow-y-auto">
               <NavBar />
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useStore } from "../store/useStore";
-
 import { Button } from "@/components/ui/button";
+import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
 
 function NavControlResults() {
   const {
@@ -13,13 +13,13 @@ function NavControlResults() {
 
   const totalQuestions = Object.keys(answersFromRedux).length;
   const correctAnswers = Object.values(answersFromRedux).map(
-    (item) => item[0].correct,
+    (item) => item[0].correct
   );
   const correctAnswersOn = Object.values(answersFromRedux).map(
-    (item) => item[0].correctOn,
+    (item) => item[0].correctOn
   );
   const correctAnswersKun = Object.values(answersFromRedux).map(
-    (item) => item[0].correctKun,
+    (item) => item[0].correctKun
   );
 
   const correctCount =
@@ -28,12 +28,16 @@ function NavControlResults() {
     correctAnswersKun.filter((answer) => answer).length;
 
   const accuracyPercentage =
-    ((correctCount / totalQuestions) * 100).toFixed(0) + "%";
-  const [percentage, setPercentage] = useState("0%");
-  const [questions, setQuestions] = useState("0/0");
+    totalQuestions > 0
+      ? ((correctCount / totalQuestions) * 100).toFixed(0) + "%"
+      : "0%";
+  const [percentage, setPercentage] = useState(null);
+  const [questions, setQuestions] = useState(null);
 
   const handleResetClick = () => {
     reset();
+    setPercentage(null);
+    setQuestions(null);
   };
 
   const handleResultClick = () => {
@@ -43,50 +47,104 @@ function NavControlResults() {
 
   const handleHintClick = () => {
     toggleHint();
-    console.log("hint dispatch");
   };
 
+  // Calculate percentage number for the ring
+  const percentNum = percentage ? Number.parseInt(percentage) : 0;
+  const circumference = 2 * Math.PI * 40;
+  const strokeDashoffset = circumference - (percentNum / 100) * circumference;
+
   return (
-    <div className="text-center w-full max-w-50 md:max-w-37.5 bg-background">
-      <div className="flex flex-col gap-2 mb-5 w-full">
+    <div className="w-full max-w-[200px] md:max-w-[150px]">
+      {/* Control Buttons */}
+      <div className="flex flex-col gap-2 mb-4">
         <Button
           variant="destructive"
-          className="rounded-md h-10 md:h-7.5 w-full font-bold shadow-sm"
-          onClick={() => handleResetClick()}
+          className="h-10 md:h-8 w-full font-semibold gap-2"
+          onClick={handleResetClick}
         >
-          RESET
+          <RotateCcw className="h-4 w-4" />
+          Reset
         </Button>
 
         <Button
           variant="default"
-          className="rounded-md h-10 md:h-7.5 w-full font-bold shadow-sm"
-          onClick={() => handleResultClick()}
+          className="h-10 md:h-8 w-full font-semibold gap-2"
+          onClick={handleResultClick}
         >
-          RESULT
+          <BarChart3 className="h-4 w-4" />
+          Result
         </Button>
 
         <div className="hidden md:block">
           <Button
             variant={hintState ? "default" : "outline"}
-            className="rounded-md h-10 md:h-7.5 w-full font-bold"
-            onClick={() => handleHintClick()}
+            className="h-10 md:h-8 w-full font-semibold gap-2"
+            onClick={handleHintClick}
           >
-            HINT MODE
+            <Lightbulb
+              className={`h-4 w-4 ${hintState ? "fill-current" : ""}`}
+            />
+            Hint Mode
           </Button>
         </div>
       </div>
-      <div className="space-y-1">
-        <h3 className="text-[24px] md:text-[20px] font-bold text-muted-foreground">
+
+      {/* Accuracy Display */}
+      <div className="rounded-xl border bg-card p-4 text-center">
+        <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
           Accuracy
         </h3>
-        <div className="flex flex-col items-center gap-1">
-          <p className="text-[20px] md:text-[16px] font-medium text-muted-foreground/80">
-            {questions}
-          </p>
-          <p className="text-[20px] md:text-[16px] font-medium text-muted-foreground/80">
-            {percentage}
-          </p>
-        </div>
+
+        {percentage ? (
+          <div className="flex flex-col items-center gap-3">
+            {/* Circular Progress */}
+            <div className="relative w-20 h-20">
+              <svg className="w-20 h-20 -rotate-90" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="40"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  className="text-muted/20"
+                />
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="40"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                  className={`transition-all duration-500 ${
+                    percentNum >= 70
+                      ? "text-green-500"
+                      : percentNum >= 40
+                        ? "text-yellow-500"
+                        : "text-red-500"
+                  }`}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold">{percentage}</span>
+              </div>
+            </div>
+
+            {/* Score */}
+            <div className="text-sm text-muted-foreground">
+              <span className="font-semibold text-foreground">{questions}</span>
+              <span className="ml-1">correct</span>
+            </div>
+          </div>
+        ) : (
+          <div className="py-4 text-sm text-muted-foreground/60">
+            Click Result to see your score
+          </div>
+        )}
       </div>
     </div>
   );
