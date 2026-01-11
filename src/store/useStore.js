@@ -32,11 +32,7 @@ export const useStore = create((set, get) => ({
         },
       };
     }),
-  removeAnswer: (payload) =>
-    set((state) => {
-        // Implementation kept for compatibility, though currently unused
-        return state;
-    }),
+
 
   toggleHint: () => set((state) => ({ hint: !state.hint })),
 
