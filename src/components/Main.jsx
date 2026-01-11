@@ -3,7 +3,13 @@ import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 import ContentField from "@/components/ContentField";
 import { MoreHorizontal } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 
 function Main() {
   const [show, setShow] = useState(false);
@@ -19,7 +25,7 @@ function Main() {
         className="hidden md:grid grid-cols-[300px_1fr] grid-rows-[1fr_38px] h-full w-full"
         style={{ gridTemplateAreas: '"nav main" "footer footer"' }}
       >
-        <div 
+        <div
           className="w-auto h-full border-r bg-muted/30"
           style={{ gridArea: "nav" }}
         >

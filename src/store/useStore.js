@@ -33,16 +33,16 @@ export const useStore = create((set, get) => ({
       };
     }),
 
-
   toggleHint: () => set((state) => ({ hint: !state.hint })),
 
-  reset: () => set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [] }),
+  reset: () =>
+    set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [] }),
 
   generateDeck: () => {
     const { levels } = get();
     // Parse levels to integers just like the component did
     const parsedLevels = levels.map((l) => parseInt(l, 10));
-    
+
     // Filter kanji names based on JLPT level
     const allKanjiNames = Object.keys(kanjiData);
     const filteredNames = allKanjiNames.filter((name) => {
@@ -54,7 +54,10 @@ export const useStore = create((set, get) => ({
     const shuffledNames = [...filteredNames];
     for (let i = shuffledNames.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledNames[i], shuffledNames[j]] = [shuffledNames[j], shuffledNames[i]];
+      [shuffledNames[i], shuffledNames[j]] = [
+        shuffledNames[j],
+        shuffledNames[i],
+      ];
     }
 
     set({ currentDeck: shuffledNames });
@@ -66,9 +69,9 @@ export const useStore = create((set, get) => ({
     if (!data) return false;
 
     const card = {
-        meanings: data.meanings,
-        readings_on: data.readings_on,
-        readings_kun: data.readings_kun,
+      meanings: data.meanings,
+      readings_on: data.readings_on,
+      readings_kun: data.readings_kun,
     };
 
     const trimmedValue = value.trim().toUpperCase();
