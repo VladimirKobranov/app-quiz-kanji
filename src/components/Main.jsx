@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Footer from "./Footer";
-import NavBar from "./NavBar";
-import ContentField from "./ContentField";
+import Footer from "@/components/Footer";
+import NavBar from "@/components/NavBar";
+import ContentField from "@/components/ContentField";
 import { MoreHorizontal } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import kanjiData from "../data/kanji.json";
+import kanjiData from "@/data/kanji.json";
 
 export const useStore = create((set, get) => ({
   levels: [],

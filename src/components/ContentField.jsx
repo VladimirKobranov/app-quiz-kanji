@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import KanjiCard from "./KanjiCard";
+import KanjiCard from "@/components/KanjiCard";
 
-import { useStore } from "../store/useStore";
-import InfoMessage from "./InfoMessage";
+import { useStore } from "@/store/useStore";
+import InfoMessage from "@/components/InfoMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 

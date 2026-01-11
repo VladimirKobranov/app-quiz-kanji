@@ -1,8 +1,8 @@
 import React from "react";
-import ChooseLevel from "./ChooseLevel";
-import ChooseInputs from "./ChooseInputs";
-import Title from "./Title";
-import NavControlResults from "./NavControlResults";
+import ChooseLevel from "@/components/ChooseLevel";
+import ChooseInputs from "@/components/ChooseInputs";
+import Title from "@/components/Title";
+import NavControlResults from "@/components/NavControlResults";
 function NavBar() {
   return (
     <div className="flex flex-col gap-6 md:gap-8 items-center w-full px-4 md:px-6 py-6 h-full overflow-y-auto overflow-x-hidden">

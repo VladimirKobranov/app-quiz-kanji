@@ -1,5 +1,5 @@
 
-import Main from "./ui/Main";
+import Main from "@/components/Main";
 
 function App() {
   return (

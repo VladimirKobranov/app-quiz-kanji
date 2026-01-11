@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useStore } from "../store/useStore";
-import kanjiData from "../data/kanji.json";
+import { useStore } from "@/store/useStore";
+import kanjiData from "@/data/kanji.json";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import KanjiHint from "./KanjiHint";
+import KanjiHint from "@/components/KanjiHint";
 
 function KanjiCard(props) {
   const inputs = useStore((state) => state.inputs);

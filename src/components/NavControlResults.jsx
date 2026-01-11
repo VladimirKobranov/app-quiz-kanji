@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useStore } from "../store/useStore";
+import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
 
