@@ -37,11 +37,11 @@ function KanjiCard(props) {
 
   return (
     <div
-      className={`flex flex-col gap-0.5 w-[100px] rounded-lg transition-all duration-300 shadow-sm border
+      className={`flex flex-col gap-0.5 w-25 rounded-lg transition-all duration-300 shadow-sm border
         ${statusClasses[status]}
       `}
     >
-      <div className="flex justify-end pr-2 pt-1 min-h-[30px]">
+      <div className="flex justify-end pr-2 pt-1 min-h-7.5">
         {hintState && (
           <KanjiHint
             kanji={props.kanji}
@@ -51,7 +51,7 @@ function KanjiCard(props) {
           />
         )}
       </div>
-      <div className="h-[100px] flex items-center justify-center">
+      <div className="h-25 flex items-center justify-center">
         <span className="text-[60px] font-bold select-none">{props.kanji}</span>
       </div>
       <div className="p-1 px-1.5 pb-2">
