@@ -11,12 +11,12 @@ const INPUTS = [
 ]
 
 function ChooseInputs() {
-  const inputsFromStore = useStore((state) => state.inputs)
+  const inputs = useStore((state) => state.inputs)
   const addInput = useStore((state) => state.addInput)
   const removeInput = useStore((state) => state.removeInput)
 
   const handleClick = (index) => {
-    if (inputsFromStore.includes(index)) {
+    if (inputs.includes(index)) {
       removeInput(index)
     } else {
       addInput(index)
@@ -29,13 +29,13 @@ function ChooseInputs() {
         <CardTitle className="flex items-center gap-2 text-base font-semibold text-foreground">
           <PenLine className="h-5 w-5 text-primary" />
           <span>Choose Inputs</span>
-          <span className="text-xs text-muted-foreground font-normal ml-auto">{inputsFromStore.length} selected</span>
+          <span className="text-xs text-muted-foreground font-normal ml-auto">{inputs.length} selected</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex flex-col gap-2">
           {INPUTS.map((input) => {
-            const isSelected = inputsFromStore.includes(input.index)
+            const isSelected = inputs.includes(input.index)
             const Icon = input.icon
             return (
               <Button

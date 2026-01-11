@@ -12,13 +12,15 @@ const LEVELS = [
   { index: "1", name: "N1", description: "Advanced" },
 ]
 
+
+
 function ChooseLevel() {
-  const levelsFromStore = useStore((state) => state.levels)
+  const levels = useStore((state) => state.levels)
   const addLevel = useStore((state) => state.addLevel)
   const removeLevel = useStore((state) => state.removeLevel)
 
   const handleClick = (index) => {
-    if (levelsFromStore.includes(index)) {
+    if (levels.includes(index)) {
       removeLevel(index)
     } else {
       addLevel(index)
@@ -31,13 +33,13 @@ function ChooseLevel() {
         <CardTitle className="flex items-center gap-2 text-base font-semibold text-foreground">
           <GraduationCap className="h-5 w-5 text-primary" />
           <span>Choose Levels</span>
-          <span className="text-xs text-muted-foreground font-normal ml-auto">{levelsFromStore.length} selected</span>
+          <span className="text-xs text-muted-foreground font-normal ml-auto">{levels.length} selected</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex flex-col gap-2">
           {LEVELS.map((level) => {
-            const isSelected = levelsFromStore.includes(level.index)
+            const isSelected = levels.includes(level.index)
             return (
               <Button
                 key={level.index}

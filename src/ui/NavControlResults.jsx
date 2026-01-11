@@ -5,20 +5,20 @@ import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
 
 function NavControlResults() {
   const {
-    answers: answersFromRedux,
+    answers,
     reset,
     toggleHint,
     hint: hintState,
   } = useStore();
 
-  const totalQuestions = Object.keys(answersFromRedux).length;
-  const correctAnswers = Object.values(answersFromRedux).map(
+  const totalQuestions = Object.keys(answers).length;
+  const correctAnswers = Object.values(answers).map(
     (item) => item[0].correct
   );
-  const correctAnswersOn = Object.values(answersFromRedux).map(
+  const correctAnswersOn = Object.values(answers).map(
     (item) => item[0].correctOn
   );
-  const correctAnswersKun = Object.values(answersFromRedux).map(
+  const correctAnswersKun = Object.values(answers).map(
     (item) => item[0].correctKun
   );
 

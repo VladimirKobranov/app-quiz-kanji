@@ -1,14 +1,21 @@
 import { create } from "zustand";
+import kanjiData from "../data/kanji.json";
 
-export const useStore = create((set) => ({
+export const useStore = create((set, get) => ({
   levels: [],
   inputs: [],
   answers: {},
   hint: false,
+  currentDeck: [],
 
-  addLevel: (level) => set((state) => ({ levels: [...state.levels, level] })),
-  removeLevel: (level) =>
-    set((state) => ({ levels: state.levels.filter((l) => l !== level) })),
+  addLevel: (level) => {
+    set((state) => ({ levels: [...state.levels, level] }));
+    get().generateDeck();
+  },
+  removeLevel: (level) => {
+    set((state) => ({ levels: state.levels.filter((l) => l !== level) }));
+    get().generateDeck();
+  },
 
   addInput: (input) => set((state) => ({ inputs: [...state.inputs, input] })),
   removeInput: (input) =>
@@ -27,34 +34,74 @@ export const useStore = create((set) => ({
     }),
   removeAnswer: (payload) =>
     set((state) => {
-      // Redux impl: const index = state.indexOf(action.payload); state.splice(index, 1);
-      // But redux payload passed to removeAnswer is usually the item itself?
-      // Wait, Redux implementation was:
-      // const index = state.indexOf(action.payload);
-      // state.splice(index, 1);
-      // This suggests `state` here is the array of answers for a specific Kanji?
-      // No, answersSlice state is { answers: {} }.
-      // Ah, `removeAnswer(state, action)` in answersSlice seems to assume `state` is an array?
-      // Let's re-read answersSlice.
-      // It says `initialState: { answers: {} }`.
-      // Then `removeAnswer(state, action)`.
-      // `const index = state.indexOf(action.payload);`
-      // If state is `{ answers: {} }`, it doesn't have `indexOf`.
-      // This looks like a bug in the original Redux code or I misread it.
-      // Let's assume for now we don't need strict removeAnswer parity if it was broken,
-      // OR the user calls it differently.
-      // But wait, the slice might have been mutated?
-      // Actually, if `answersSlice` was defined with `initialState: { answers: {} }`,
-      // then `state` in reducers is that object.
-      // `state.indexOf` would crash.
-      // Maybe the user never used `removeAnswer`?
-      // I will implement a safe version or omit if unused.
-      // Checking `NavControlResults` or others... removedAnswer wasn't used in the files I read.
-      // I'll skip complex implementation for now or just log it.
-      return state;
+        // Implementation kept for compatibility, though currently unused
+        return state;
     }),
 
   toggleHint: () => set((state) => ({ hint: !state.hint })),
 
-  reset: () => set({ levels: [], inputs: [], answers: {}, hint: false }),
+  reset: () => set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [] }),
+
+  generateDeck: () => {
+    const { levels } = get();
+    // Parse levels to integers just like the component did
+    const parsedLevels = levels.map((l) => parseInt(l, 10));
+    
+    // Filter kanji names based on JLPT level
+    const allKanjiNames = Object.keys(kanjiData);
+    const filteredNames = allKanjiNames.filter((name) => {
+      const kData = kanjiData[name];
+      return kData && parsedLevels.includes(kData.jlpt_new);
+    });
+
+    // Shuffle
+    const shuffledNames = [...filteredNames];
+    for (let i = shuffledNames.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledNames[i], shuffledNames[j]] = [shuffledNames[j], shuffledNames[i]];
+    }
+
+    set({ currentDeck: shuffledNames });
+  },
+
+  validateAnswer: (kanji, value) => {
+    const { inputs, addAnswer } = get();
+    const data = kanjiData[kanji];
+    if (!data) return false;
+
+    const card = {
+        meanings: data.meanings,
+        readings_on: data.readings_on,
+        readings_kun: data.readings_kun,
+    };
+
+    const trimmedValue = value.trim().toUpperCase();
+
+    const isCorrectMeaning =
+      inputs.includes("meaning") &&
+      card.meanings.some((m) => m.toUpperCase() === trimmedValue);
+
+    const isCorrectOn =
+      inputs.includes("reading-on") &&
+      card.readings_on.some((r) => r.toUpperCase() === trimmedValue);
+
+    const isCorrectKun =
+      inputs.includes("reading-kun") &&
+      card.readings_kun.some((r) => r.toUpperCase() === trimmedValue);
+
+    const isValid = isCorrectMeaning || isCorrectOn || isCorrectKun;
+
+    addAnswer({
+      kanji,
+      input: value,
+      correct: isCorrectMeaning,
+      correctOn: isCorrectOn,
+      correctKun: isCorrectKun,
+      meaning: card.meanings.join(","),
+      readingOn: card.readings_on, // Note: original code passed raw array/string mismatch potentially, keeping consistent
+      readingKun: card.readings_kun,
+    });
+
+    return isValid;
+  },
 }));

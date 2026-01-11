@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import { useStore } from "../store/useStore";
+import kanjiData from "../data/kanji.json";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import KanjiHint from "./KanjiHint";
 
 function KanjiCard(props) {
-  const inputsFromRedux = useStore((state) => state.inputs);
+  const inputs = useStore((state) => state.inputs);
   const hintState = useStore((state) => state.hint);
+  const validateAnswer = useStore((state) => state.validateAnswer);
 
   const [status, setStatus] = useState("idle");
   const [keyEnter, setKeyEnter] = useState(false);
 
+  const data = kanjiData[props.kanji] || {};
+
   const handleChange = (event) => {
     const v = event.target.value;
     if (!v) return;
-    let valid = props.validation(props.kanji, v);
+    const valid = validateAnswer(props.kanji, v);
     setStatus(valid ? "correct" : "incorrect");
   };
 
@@ -24,7 +28,7 @@ function KanjiCard(props) {
       setKeyEnter(true);
       const v = event.target.value;
       if (!v) return;
-      let valid = props.validation(props.kanji, v);
+      const valid = validateAnswer(props.kanji, v);
       setStatus(valid ? "correct" : "incorrect");
     }
   };
@@ -45,9 +49,9 @@ function KanjiCard(props) {
         {hintState && (
           <KanjiHint
             kanji={props.kanji}
-            cardMeaning={props.cardMeaning}
-            cardOn={props.cardOn}
-            cardKun={props.cardKun}
+            cardMeaning={data.meanings}
+            cardOn={data.readings_on}
+            cardKun={data.readings_kun}
           />
         )}
       </div>
@@ -56,7 +60,7 @@ function KanjiCard(props) {
       </div>
       <div className="p-1 px-1.5 pb-2">
         <div className="flex flex-col gap-1">
-          {inputsFromRedux.map((inputValue, index) => (
+          {inputs.map((inputValue, index) => (
             <Input
               key={inputValue + index}
               placeholder={inputValue}
