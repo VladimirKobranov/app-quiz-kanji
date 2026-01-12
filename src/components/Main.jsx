@@ -23,12 +23,7 @@ function Main() {
       {/* Desktop View */}
       <div className="hidden md:flex h-full w-full">
         <div className="w-[300px] h-full border-r bg-muted/30 flex flex-col flex-none">
-          <div className="flex-1 overflow-y-auto">
-            <NavBar />
-          </div>
-          <div className="pl-4 pr-4 py-2 border-t bg-muted/10 flex-none bg-background">
-            <Footer />
-          </div>
+          <NavBar />
         </div>
         <div className="flex-1 h-full overflow-hidden">
           <ContentField />
@@ -52,7 +47,7 @@ function Main() {
             <SheetDescription className="sr-only">
               Access the navigation menu and settings for the kanji quiz.
             </SheetDescription>
-            <div className="h-full py-8 px-4 overflow-y-auto">
+            <div className="h-full overflow-hidden">
               <NavBar />
             </div>
           </SheetContent>
@@ -60,9 +55,6 @@ function Main() {
 
         <div className="flex-1 overflow-hidden">
           <ContentField />
-        </div>
-        <div className="h-[38px] flex items-center justify-center flex-none border-t bg-background px-2">
-          <Footer />
         </div>
       </div>
     </div>
