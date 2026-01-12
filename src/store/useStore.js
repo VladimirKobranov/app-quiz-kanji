@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import kanjiData from "@/data/kanji.json";
+import { loadKanjiData } from "@/data/loader";
 
 export const useStore = create((set, get) => ({
   levels: [],
@@ -7,6 +7,8 @@ export const useStore = create((set, get) => ({
   answers: {},
   hint: false,
   currentDeck: [],
+  kanjiData: {},
+  loading: false,
   currentPage: 1,
   itemsPerPage: 100,
 
@@ -41,35 +43,60 @@ export const useStore = create((set, get) => ({
   setItemsPerPage: (count) => set({ itemsPerPage: count }),
 
   reset: () =>
-    set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [], currentPage: 1 }),
+    set({
+      levels: [],
+      inputs: [],
+      answers: {},
+      hint: false,
+      currentDeck: [],
+      kanjiData: {},
+      currentPage: 1,
+    }),
 
-  generateDeck: () => {
+  generateDeck: async () => {
     const { levels } = get();
-    // Parse levels to integers just like the component did
-    const parsedLevels = levels.map((l) => parseInt(l, 10));
-
-    // Filter kanji names based on JLPT level
-    const allKanjiNames = Object.keys(kanjiData);
-    const filteredNames = allKanjiNames.filter((name) => {
-      const kData = kanjiData[name];
-      return kData && parsedLevels.includes(kData.jlpt_new);
-    });
-
-    // Shuffle
-    const shuffledNames = [...filteredNames];
-    for (let i = shuffledNames.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledNames[i], shuffledNames[j]] = [
-        shuffledNames[j],
-        shuffledNames[i],
-      ];
+    if (!levels.length) {
+      return set({ currentDeck: [], kanjiData: {}, currentPage: 1 });
     }
 
-    set({ currentDeck: shuffledNames, currentPage: 1 });
+    set({ loading: true });
+
+    try {
+      // Load only required kanji data
+      const data = await loadKanjiData(levels);
+      const parsedLevels = levels.map((l) => parseInt(l, 10));
+
+      // Filter kanji names based on JLPT level
+      const allKanjiNames = Object.keys(data);
+      const filteredNames = allKanjiNames.filter((name) => {
+        const kData = data[name];
+        return kData && parsedLevels.includes(kData.jlpt_new);
+      });
+
+      // Shuffle
+      const shuffledNames = [...filteredNames];
+      for (let i = shuffledNames.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledNames[i], shuffledNames[j]] = [
+          shuffledNames[j],
+          shuffledNames[i],
+        ];
+      }
+
+      set({
+        currentDeck: shuffledNames,
+        kanjiData: data,
+        currentPage: 1,
+        loading: false,
+      });
+    } catch (error) {
+      console.error("Failed to load kanji data:", error);
+      set({ loading: false });
+    }
   },
 
   validateAnswer: (kanji, value) => {
-    const { inputs, addAnswer } = get();
+    const { inputs, addAnswer, kanjiData } = get();
     const data = kanjiData[kanji];
     if (!data) return false;
 
@@ -102,7 +129,7 @@ export const useStore = create((set, get) => ({
       correctOn: isCorrectOn,
       correctKun: isCorrectKun,
       meaning: card.meanings.join(","),
-      readingOn: card.readings_on, // Note: original code passed raw array/string mismatch potentially, keeping consistent
+      readingOn: card.readings_on,
       readingKun: card.readings_kun,
     });
 

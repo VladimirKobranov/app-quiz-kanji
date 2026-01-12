@@ -1,37 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, memo, useCallback } from "react";
 import { useStore } from "@/store/useStore";
-import kanjiData from "@/data/kanji.json";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import KanjiHint from "@/components/KanjiHint";
 
-function KanjiCard(props) {
+const KanjiCard = memo(function KanjiCard({ kanji }) {
   const inputs = useStore((state) => state.inputs);
   const hintState = useStore((state) => state.hint);
   const validateAnswer = useStore((state) => state.validateAnswer);
+  const data = useStore((state) => state.kanjiData[kanji] || {});
 
   const [status, setStatus] = useState("idle");
   const [keyEnter, setKeyEnter] = useState(false);
 
-  const data = kanjiData[props.kanji] || {};
-
-  const handleChange = (event) => {
-    const v = event.target.value;
-    if (!v) return;
-    const valid = validateAnswer(props.kanji, v);
-    setStatus(valid ? "correct" : "incorrect");
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      setKeyEnter(true);
+  const handleChange = useCallback(
+    (event) => {
       const v = event.target.value;
       if (!v) return;
-      const valid = validateAnswer(props.kanji, v);
+      const valid = validateAnswer(kanji, v);
       setStatus(valid ? "correct" : "incorrect");
-    }
-  };
+    },
+    [kanji, validateAnswer],
+  );
+
+  const handleKeyDown = useCallback(
+    (event) => {
+      if (event.key === "Enter") {
+        setKeyEnter(true);
+        const v = event.target.value;
+        if (!v) return;
+        const valid = validateAnswer(kanji, v);
+        setStatus(valid ? "correct" : "incorrect");
+      }
+    },
+    [kanji, validateAnswer],
+  );
 
   const statusClasses = {
     idle: "bg-secondary text-muted-foreground",
@@ -48,7 +51,7 @@ function KanjiCard(props) {
       <div className="flex justify-end pr-2 pt-1 min-h-7.5">
         {hintState && (
           <KanjiHint
-            kanji={props.kanji}
+            kanji={kanji}
             cardMeaning={data.meanings}
             cardOn={data.readings_on}
             cardKun={data.readings_kun}
@@ -57,7 +60,7 @@ function KanjiCard(props) {
         )}
       </div>
       <div className="h-25 flex items-center justify-center">
-        <span className="text-[60px] font-bold select-none">{props.kanji}</span>
+        <span className="text-[60px] font-bold select-none">{kanji}</span>
       </div>
       <div className="p-1 px-1.5 pb-2">
         <div className="flex flex-col gap-1">
@@ -74,6 +77,6 @@ function KanjiCard(props) {
       </div>
     </div>
   );
-}
+});
 
 export default KanjiCard;

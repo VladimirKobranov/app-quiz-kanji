@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo, useCallback } from "react";
 import KanjiCard from "@/components/KanjiCard";
 
 import { useStore } from "@/store/useStore";
 import InfoMessage from "@/components/InfoMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -15,10 +14,12 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-function ContentField() {
+import { KANJI_CARD } from "@/config/constants";
+
+const ContentField = memo(function ContentField() {
   const levels = useStore((state) => state.levels);
   const inputs = useStore((state) => state.inputs);
-  const toggleHint = useStore((state) => state.toggleHint);
+  const loading = useStore((state) => state.loading);
   const currentDeck = useStore((state) => state.currentDeck);
   const currentPage = useStore((state) => state.currentPage);
   const itemsPerPage = useStore((state) => state.itemsPerPage);
@@ -34,52 +35,46 @@ function ContentField() {
       const entry = entries[0];
       if (!entry) return;
 
-      const { width: containerWidth, height: containerHeight } = entry.contentRect;
+      const { width: containerWidth, height: containerHeight } =
+        entry.contentRect;
       if (containerWidth <= 0 || containerHeight <= 0) return;
 
-      // Card dimensions based on CSS: w-25 (100px), gap-x-2.5 (10px)
-      const cardWidth = 100;
-      const cardGapX = 10;
-      
-      // Vertical dimensions: header/kanji (135px) + inputs (32px each) + gap-y (30px)
-      const cardBaseHeight = 138; 
-      const cardGapY = 30;
-      const inputHeight = inputs.length * 32;
+      const cardWidth = KANJI_CARD.WIDTH;
+      const cardGapX = KANJI_CARD.GAP_X;
+      const cardBaseHeight = KANJI_CARD.BASE_HEIGHT;
+      const cardGapY = KANJI_CARD.GAP_Y;
+      const inputHeight = inputs.length * KANJI_CARD.INPUT_HEIGHT;
       const rowHeight = cardBaseHeight + inputHeight + cardGapY;
 
-      // Usable area (subtracting p-4 = 32px)
-      const width = containerWidth - 32; 
+      const width = containerWidth - 32;
       const height = containerHeight - 32;
 
-      // Formula: (TotalWidth + Gap) / (CardWidth + Gap)
       const cols = Math.floor((width + cardGapX) / (cardWidth + cardGapX)) || 1;
       const rows = Math.floor((height + cardGapY) / rowHeight) || 1;
-      
+
       const newItemsPerPage = cols * rows;
 
-      if (newItemsPerPage !== useStore.getState().itemsPerPage) {
+      if (newItemsPerPage !== itemsPerPage) {
         setItemsPerPage(newItemsPerPage);
       }
     });
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [inputs.length, setItemsPerPage, levels.length]);
+  }, [inputs.length, setItemsPerPage, levels.length, itemsPerPage]);
 
   const totalPages = Math.ceil(currentDeck.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = currentDeck.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
-  const handleHintClick = () => {
-    toggleHint();
-    console.log("hint dispatch");
-  };
+  const handlePageChange = useCallback(
+    (page) => {
+      if (page >= 1 && page <= totalPages) {
+        setCurrentPage(page);
+      }
+    },
+    [totalPages, setCurrentPage],
+  );
 
   return (
     <div className="flex flex-col gap-0 h-full bg-background text-foreground">
@@ -87,7 +82,7 @@ function ContentField() {
         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full">
           <p className="text-[18px] md:text-[30px] text-muted-foreground truncate">
             {levels.length
-              ? "N" + levels.map((l) => parseInt(l, 10)).join(", N") // basic formatting
+              ? "N" + levels.map((l) => parseInt(l, 10)).join(", N")
               : "Select level"}
           </p>
           <p className="text-[18px] md:text-[30px] text-muted-foreground/50 truncate">
@@ -102,24 +97,25 @@ function ContentField() {
       </div>
       <div ref={containerRef} className="w-full flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="w-full h-full">
-        {levels.length === 0 ? (
-          <InfoMessage />
-        ) : (
-          <div className="p-4">
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
-              {currentData.map((name, index) => (
-                <KanjiCard
-                  key={name + index}
-                  kanji={name}
-                />
-              ))}
+          {levels.length === 0 ? (
+            <InfoMessage />
+          ) : loading ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="p-4">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
+                {currentData.map((name, index) => (
+                  <KanjiCard key={name + index} kanji={name} />
+                ))}
+              </div>
+            </div>
+          )}
         </ScrollArea>
       </div>
 
-      {levels.length > 0 && (
+      {levels.length > 0 && !loading && (
         <div className="flex-none p-2 border-t bg-background z-10">
           <Pagination>
             <PaginationContent>
@@ -130,14 +126,14 @@ function ContentField() {
                     e.preventDefault();
                     handlePageChange(currentPage - 1);
                   }}
-                  className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                  className={
+                    currentPage === 1 ? "pointer-events-none opacity-50" : ""
+                  }
                 />
               </PaginationItem>
-              
-              {/* Simple pagination logic: show current page and neighbors, or just a few */}
+
               {Array.from({ length: totalPages }).map((_, i) => {
                 const page = i + 1;
-                // Show first, last, current, and neighbors
                 if (
                   page === 1 ||
                   page === totalPages ||
@@ -162,9 +158,9 @@ function ContentField() {
                   page === currentPage + 2
                 ) {
                   return (
-                      <PaginationItem key={page}>
-                        <PaginationEllipsis />
-                      </PaginationItem>
+                    <PaginationItem key={page}>
+                      <PaginationEllipsis />
+                    </PaginationItem>
                   );
                 }
                 return null;
@@ -177,7 +173,11 @@ function ContentField() {
                     e.preventDefault();
                     handlePageChange(currentPage + 1);
                   }}
-                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
                 />
               </PaginationItem>
             </PaginationContent>
@@ -186,6 +186,6 @@ function ContentField() {
       )}
     </div>
   );
-}
+});
 
 export default ContentField;

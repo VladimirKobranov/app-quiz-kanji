@@ -1,4 +1,5 @@
 "use client";
+import React, { memo, useCallback } from "react";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,18 +11,21 @@ const INPUTS = [
   { index: "reading-kun", name: "Kun'yomi", japanese: "訓読み", icon: PenLine },
 ];
 
-function ChooseInputs() {
+const ChooseInputs = memo(function ChooseInputs() {
   const inputs = useStore((state) => state.inputs);
   const addInput = useStore((state) => state.addInput);
   const removeInput = useStore((state) => state.removeInput);
 
-  const handleClick = (index) => {
-    if (inputs.includes(index)) {
-      removeInput(index);
-    } else {
-      addInput(index);
-    }
-  };
+  const handleClick = useCallback(
+    (index) => {
+      if (inputs.includes(index)) {
+        removeInput(index);
+      } else {
+        addInput(index);
+      }
+    },
+    [inputs, removeInput, addInput],
+  );
 
   return (
     <Card className="w-full max-w-xs border-border bg-card">
@@ -67,6 +71,6 @@ function ChooseInputs() {
       </CardContent>
     </Card>
   );
-}
+});
 
 export default ChooseInputs;

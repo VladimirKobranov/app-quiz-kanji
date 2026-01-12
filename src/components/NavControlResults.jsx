@@ -10,10 +10,10 @@ function NavControlResults() {
   const totalQuestions = Object.keys(answers).length;
   const correctAnswers = Object.values(answers).map((item) => item[0].correct);
   const correctAnswersOn = Object.values(answers).map(
-    (item) => item[0].correctOn
+    (item) => item[0].correctOn,
   );
   const correctAnswersKun = Object.values(answers).map(
-    (item) => item[0].correctKun
+    (item) => item[0].correctKun,
   );
 
   const correctCount =

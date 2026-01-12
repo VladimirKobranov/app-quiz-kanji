@@ -1,4 +1,5 @@
 "use client";
+import React, { memo, useCallback } from "react";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,18 +13,21 @@ const LEVELS = [
   { index: "1", name: "N1", description: "Advanced" },
 ];
 
-function ChooseLevel() {
+const ChooseLevel = memo(function ChooseLevel() {
   const levels = useStore((state) => state.levels);
   const addLevel = useStore((state) => state.addLevel);
   const removeLevel = useStore((state) => state.removeLevel);
 
-  const handleClick = (index) => {
-    if (levels.includes(index)) {
-      removeLevel(index);
-    } else {
-      addLevel(index);
-    }
-  };
+  const handleClick = useCallback(
+    (index) => {
+      if (levels.includes(index)) {
+        removeLevel(index);
+      } else {
+        addLevel(index);
+      }
+    },
+    [levels, removeLevel, addLevel],
+  );
 
   return (
     <Card className="w-full max-w-xs border-border bg-card">
@@ -67,6 +71,6 @@ function ChooseLevel() {
       </CardContent>
     </Card>
   );
-}
+});
 
 export default ChooseLevel;

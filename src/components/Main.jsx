@@ -11,6 +11,8 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 
+import { LAYOUT } from "@/config/constants";
+
 function Main() {
   const [show, setShow] = useState(false);
 
@@ -22,7 +24,10 @@ function Main() {
     <div className="h-screen w-full overflow-hidden flex flex-col bg-background text-foreground">
       {/* Desktop View */}
       <div className="hidden md:flex h-full w-full">
-        <div className="w-[300px] h-full border-r bg-muted/30 flex flex-col flex-none">
+        <div
+          style={{ width: LAYOUT.SIDEBAR_WIDTH }}
+          className="h-full border-r bg-muted/30 flex flex-col flex-none"
+        >
           <NavBar />
         </div>
         <div className="flex-1 h-full overflow-hidden">
@@ -34,7 +39,11 @@ function Main() {
         <Sheet open={show} onOpenChange={setShow}>
           <SheetTrigger asChild>
             <div
-              className={`fixed w-[60px] h-[60px] flex items-center justify-center rounded-full top-[20px] right-[20px] z-50 cursor-pointer transition-all shadow-md active:scale-95 
+              style={{
+                width: LAYOUT.MOBILE_MENU_SIZE,
+                height: LAYOUT.MOBILE_MENU_SIZE,
+              }}
+              className={`fixed flex items-center justify-center rounded-full top-[20px] right-[20px] z-50 cursor-pointer transition-all shadow-md active:scale-95 
                 ${show ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}
               `}
               onClick={handleToggle}
