@@ -7,6 +7,8 @@ export const useStore = create((set, get) => ({
   answers: {},
   hint: false,
   currentDeck: [],
+  currentPage: 1,
+  itemsPerPage: 100,
 
   addLevel: (level) => {
     set((state) => ({ levels: [...state.levels, level] }));
@@ -35,8 +37,10 @@ export const useStore = create((set, get) => ({
 
   toggleHint: () => set((state) => ({ hint: !state.hint })),
 
+  setCurrentPage: (page) => set({ currentPage: page }),
+
   reset: () =>
-    set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [] }),
+    set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [], currentPage: 1 }),
 
   generateDeck: () => {
     const { levels } = get();
@@ -60,7 +64,7 @@ export const useStore = create((set, get) => ({
       ];
     }
 
-    set({ currentDeck: shuffledNames });
+    set({ currentDeck: shuffledNames, currentPage: 1 });
   },
 
   validateAnswer: (kanji, value) => {

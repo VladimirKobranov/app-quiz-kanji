@@ -21,28 +21,21 @@ function Main() {
   return (
     <div className="h-screen w-full overflow-hidden flex flex-col bg-background text-foreground">
       {/* Desktop View */}
-      <div
-        className="hidden md:grid grid-cols-[300px_1fr] grid-rows-[1fr_38px] h-full w-full"
-        style={{ gridTemplateAreas: '"nav main" "footer footer"' }}
-      >
-        <div
-          className="w-auto h-full border-r bg-muted/30"
-          style={{ gridArea: "nav" }}
-        >
-          <NavBar />
+      <div className="hidden md:flex h-full w-full">
+        <div className="w-[300px] h-full border-r bg-muted/30 flex flex-col flex-none">
+          <div className="flex-1 overflow-y-auto">
+            <NavBar />
+          </div>
+          <div className="pl-4 pr-4 py-2 border-t bg-muted/10 flex-none bg-background">
+            <Footer />
+          </div>
         </div>
-        <div style={{ gridArea: "main" }} className="h-full overflow-hidden">
+        <div className="flex-1 h-full overflow-hidden">
           <ContentField />
-        </div>
-        <div
-          className="pl-2 border-t bg-muted/10 flex items-center"
-          style={{ gridArea: "footer" }}
-        >
-          <Footer />
         </div>
       </div>
 
-      <div className="md:hidden flex flex-col h-full w-full p-5 relative overflow-hidden">
+      <div className="md:hidden flex flex-col h-full w-full relative">
         <Sheet open={show} onOpenChange={setShow}>
           <SheetTrigger asChild>
             <div
@@ -68,7 +61,7 @@ function Main() {
         <div className="flex-1 overflow-hidden">
           <ContentField />
         </div>
-        <div className="h-[38px] flex items-center justify-center">
+        <div className="h-[38px] flex items-center justify-center flex-none border-t bg-background px-2">
           <Footer />
         </div>
       </div>
