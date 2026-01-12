@@ -88,7 +88,7 @@ function ContentField() {
       </ScrollArea>
 
       {levels.length > 0 && (
-        <div className="flex-none p-4 border-t bg-background z-10">
+        <div className="flex-none p-2 border-t bg-background z-10">
           <Pagination>
             <PaginationContent>
               <PaginationItem>

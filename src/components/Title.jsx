@@ -1,6 +1,6 @@
 function Title() {
   return (
-    <div className="flex flex-col items-center w-full py-4 md:py-6">
+    <div className="flex flex-col items-center w-full py-4 md:py-6 border-b">
       <div className="relative flex flex-col items-center gap-2">
         {/* Decorative element */}
         <div className="absolute -inset-4 bg-linear-to-r from-primary/5 via-primary/10 to-primary/5 rounded-2xl blur-xl" />
