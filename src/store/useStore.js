@@ -38,6 +38,7 @@ export const useStore = create((set, get) => ({
   toggleHint: () => set((state) => ({ hint: !state.hint })),
 
   setCurrentPage: (page) => set({ currentPage: page }),
+  setItemsPerPage: (count) => set({ itemsPerPage: count }),
 
   reset: () =>
     set({ levels: [], inputs: [], answers: {}, hint: false, currentDeck: [], currentPage: 1 }),

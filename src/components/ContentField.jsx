@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import KanjiCard from "@/components/KanjiCard";
 
 import { useStore } from "@/store/useStore";
@@ -23,6 +23,48 @@ function ContentField() {
   const currentPage = useStore((state) => state.currentPage);
   const itemsPerPage = useStore((state) => state.itemsPerPage);
   const setCurrentPage = useStore((state) => state.setCurrentPage);
+  const setItemsPerPage = useStore((state) => state.setItemsPerPage);
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current || levels.length === 0) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+
+      const { width: containerWidth, height: containerHeight } = entry.contentRect;
+      if (containerWidth <= 0 || containerHeight <= 0) return;
+
+      // Card dimensions based on CSS: w-25 (100px), gap-x-2.5 (10px)
+      const cardWidth = 100;
+      const cardGapX = 10;
+      
+      // Vertical dimensions: header/kanji (135px) + inputs (32px each) + gap-y (30px)
+      const cardBaseHeight = 138; 
+      const cardGapY = 30;
+      const inputHeight = inputs.length * 32;
+      const rowHeight = cardBaseHeight + inputHeight + cardGapY;
+
+      // Usable area (subtracting p-4 = 32px)
+      const width = containerWidth - 32; 
+      const height = containerHeight - 32;
+
+      // Formula: (TotalWidth + Gap) / (CardWidth + Gap)
+      const cols = Math.floor((width + cardGapX) / (cardWidth + cardGapX)) || 1;
+      const rows = Math.floor((height + cardGapY) / rowHeight) || 1;
+      
+      const newItemsPerPage = cols * rows;
+
+      if (newItemsPerPage !== useStore.getState().itemsPerPage) {
+        setItemsPerPage(newItemsPerPage);
+      }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [inputs.length, setItemsPerPage, levels.length]);
 
   const totalPages = Math.ceil(currentDeck.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -58,7 +100,8 @@ function ContentField() {
           )}
         </div>
       </div>
-      <ScrollArea className="w-full flex-1 min-h-0">
+      <div ref={containerRef} className="w-full flex-1 min-h-0 overflow-hidden">
+        <ScrollArea className="w-full h-full">
         {levels.length === 0 ? (
           <InfoMessage />
         ) : (
@@ -73,7 +116,8 @@ function ContentField() {
             </div>
           </div>
         )}
-      </ScrollArea>
+        </ScrollArea>
+      </div>
 
       {levels.length > 0 && (
         <div className="flex-none p-2 border-t bg-background z-10">
