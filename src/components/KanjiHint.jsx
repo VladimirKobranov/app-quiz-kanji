@@ -7,14 +7,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function KanjiHint({ kanji, cardMeaning, cardOn, cardKun }) {
+function KanjiHint({ kanji, cardMeaning, cardOn, cardKun, status = "idle" }) {
+  const statusClasses = {
+    idle: "bg-secondary text-muted-foreground",
+    correct: "bg-primary text-primary-foreground",
+    incorrect: "bg-destructive text-white",
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
           size="icon"
-          className="size-5 rounded-full p-0 bg-muted hover:bg-primary hover:text-primary-foreground text-xs font-medium transition-colors"
+          className={`size-5 rounded-full p-0 hover:bg-primary hover:text-primary-foreground text-xs font-medium transition-colors ${statusClasses[status]}`}
         >
           ?
         </Button>

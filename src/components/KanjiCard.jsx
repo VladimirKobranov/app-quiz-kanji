@@ -52,6 +52,7 @@ function KanjiCard(props) {
             cardMeaning={data.meanings}
             cardOn={data.readings_on}
             cardKun={data.readings_kun}
+            status={status}
           />
         )}
       </div>
