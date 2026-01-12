@@ -56,18 +56,6 @@ function ContentField() {
               {currentDeck.length} kanji for this level
             </p>
           )}
-          {levels.length !== 0 && (
-            <div className="md:hidden fixed top-[20px] right-[90px] z-40">
-              <Button
-                variant="secondary"
-                size="icon"
-                onClick={handleHintClick}
-                className="text-[24px] h-[60px] w-[60px] rounded-full shadow-sm"
-              >
-                ?
-              </Button>
-            </div>
-          )}
         </div>
       </div>
       <ScrollArea className="w-full flex-1 min-h-0">

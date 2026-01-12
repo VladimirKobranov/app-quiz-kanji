@@ -71,18 +71,16 @@ function NavControlResults() {
             Result
           </Button>
 
-          <div className="hidden md:block">
-            <Button
-              variant={hintState ? "default" : "outline"}
-              className="h-10 md:h-8 w-full font-semibold gap-2"
-              onClick={handleHintClick}
-            >
-              <Lightbulb
-                className={`h-4 w-4 ${hintState ? "fill-current" : ""}`}
-              />
-              Hint Mode
-            </Button>
-          </div>
+          <Button
+            variant={hintState ? "default" : "outline"}
+            className="h-10 md:h-8 w-full font-semibold gap-2"
+            onClick={handleHintClick}
+          >
+            <Lightbulb
+              className={`h-4 w-4 ${hintState ? "fill-current" : ""}`}
+            />
+            Hint Mode
+          </Button>
         </div>
 
         {/* Accuracy Display */}
