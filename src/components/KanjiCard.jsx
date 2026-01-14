@@ -4,36 +4,64 @@ import { useStore } from "@/store/useStore";
 import { Input } from "@/components/ui/input";
 import KanjiHint from "@/components/KanjiHint";
 
+const EMPTY_OBJ = {};
+
 const KanjiCard = memo(function KanjiCard({ kanji }) {
   const inputs = useStore((state) => state.inputs);
   const hintState = useStore((state) => state.hint);
   const validateAnswer = useStore((state) => state.validateAnswer);
-  const data = useStore((state) => state.kanjiData[kanji] || {});
 
-  const [status, setStatus] = useState("idle");
+  // Use stable selector for data
+  const data = useStore((state) => state.kanjiData[kanji]) || EMPTY_OBJ;
+
+  // Use stable selector for inputs
+  const inputValues =
+    useStore((state) => state.inputValues[kanji]) || EMPTY_OBJ;
+  const cardStatus = useStore((state) => state.cardStatuses[kanji] || "idle");
+
+  const setInputValue = useStore((state) => state.setInputValue);
+  const setCardStatus = useStore((state) => state.setCardStatus);
+
   const [keyEnter, setKeyEnter] = useState(false);
 
-  const handleChange = useCallback(
-    (event) => {
+  /* New handler for validation on blur */
+  const handleBlur = useCallback(
+    (inputType, event) => {
       const v = event.target.value;
       if (!v) return;
       const valid = validateAnswer(kanji, v);
-      setStatus(valid ? "correct" : "incorrect");
+      setCardStatus(kanji, valid ? "correct" : "incorrect");
     },
-    [kanji, validateAnswer],
+    [kanji, validateAnswer, setCardStatus],
+  );
+
+  const handleChange = useCallback(
+    (inputType, event) => {
+      const v = event.target.value;
+      setInputValue(kanji, inputType, v);
+      // Validation removed from here
+    },
+    [kanji, setInputValue],
   );
 
   const handleKeyDown = useCallback(
-    (event) => {
+    (inputType, event) => {
       if (event.key === "Enter") {
         setKeyEnter(true);
         const v = event.target.value;
+        setInputValue(kanji, inputType, v);
+
         if (!v) return;
         const valid = validateAnswer(kanji, v);
-        setStatus(valid ? "correct" : "incorrect");
+        setCardStatus(kanji, valid ? "correct" : "incorrect");
+
+        // Remove focus from input to trigger blur behavior visually if needed,
+        // or just let the user stay there.
+        // Usually pressing enter keeps focus, but validation shows result.
+        event.target.blur();
       }
     },
-    [kanji, validateAnswer],
+    [kanji, validateAnswer, setInputValue, setCardStatus],
   );
 
   const statusClasses = {
@@ -45,7 +73,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
   return (
     <div
       className={`flex flex-col gap-0.5 w-25 rounded-lg transition-all duration-300 shadow-sm border
-        ${statusClasses[status]}
+        ${statusClasses[cardStatus]}
       `}
     >
       <div className="flex justify-end pr-2 pt-1 min-h-7.5">
@@ -55,7 +83,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
             cardMeaning={data.meanings}
             cardOn={data.readings_on}
             cardKun={data.readings_kun}
-            status={status}
+            status={cardStatus}
           />
         )}
       </div>
@@ -64,13 +92,15 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
       </div>
       <div className="p-1 px-1.5 pb-2">
         <div className="flex flex-col gap-1">
-          {inputs.map((inputValue, index) => (
+          {inputs.map((inputType, index) => (
             <Input
-              key={inputValue + index}
-              placeholder={inputValue}
+              key={inputType + index}
+              placeholder={inputType}
+              value={inputValues[inputType] || ""}
               className={`h-[28px] w-full text-center rounded-md text-xs border-none shadow-none focus-visible:ring-1 focus-visible:ring-ring/50 bg-white/10 placeholder:text-current/50`}
-              onBlur={(event) => (keyEnter ? null : handleChange(event))}
-              onKeyDown={handleKeyDown}
+              onChange={(event) => handleChange(inputType, event)}
+              onBlur={(event) => handleBlur(inputType, event)}
+              onKeyDown={(event) => handleKeyDown(inputType, event)}
             />
           ))}
         </div>
