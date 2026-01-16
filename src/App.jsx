@@ -1,5 +1,6 @@
 import Main from "@/components/Main";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <ErrorBoundary>
         <Main />
       </ErrorBoundary>
+      <Analytics />
     </div>
   );
 }
