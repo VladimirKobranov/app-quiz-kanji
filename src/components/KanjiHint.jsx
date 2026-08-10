@@ -18,6 +18,7 @@ function KanjiHint({ kanji, cardMeaning, cardOn, cardKun, status = "idle" }) {
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          tabIndex={-1}
           variant="ghost"
           size="icon"
           className={`size-5 rounded-full p-0 hover:bg-primary hover:text-primary-foreground text-xs font-medium transition-colors ${statusClasses[status]}`}
