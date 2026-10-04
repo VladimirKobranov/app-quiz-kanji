@@ -18,6 +18,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
   const inputValues =
     useStore((state) => state.inputValues[kanji]) || EMPTY_OBJ;
   const cardStatus = useStore((state) => state.cardStatuses[kanji] || "idle");
+  const isLocked = cardStatus !== "idle";
 
   const setInputValue = useStore((state) => state.setInputValue);
   const setCardStatus = useStore((state) => state.setCardStatus);
@@ -101,7 +102,8 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
               key={inputType + index}
               placeholder={inputType}
               value={inputValues[inputType] || ""}
-              className={`h-[28px] w-full text-center rounded-md text-xs border-none shadow-none focus-visible:ring-1 focus-visible:ring-ring/50 bg-white/10 placeholder:text-current/50`}
+              disabled={isLocked}
+              className={`w-full text-center ${isLocked ? "border-none" : ""}`}
               onChange={(event) => handleChange(inputType, event)}
               onBlur={(event) => handleBlur(inputType, event)}
               onKeyDown={(event) => handleKeyDown(inputType, event)}
