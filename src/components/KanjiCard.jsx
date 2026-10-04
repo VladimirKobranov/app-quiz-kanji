@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useState } from "react";
 import { useStore } from "@/store/useStore";
 
 import { Input } from "@/components/ui/input";
@@ -25,9 +25,15 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
     useStore((state) => state.inputValues[kanji]) || EMPTY_OBJ;
   const cardStatus = useStore((state) => state.cardStatuses[kanji] || "idle");
   const isLocked = cardStatus !== "idle";
+  const [hintOpen, setHintOpen] = useState(false);
 
   const setInputValue = useStore((state) => state.setInputValue);
   const setCardStatus = useStore((state) => state.setCardStatus);
+
+  const handleCardClick = useCallback((event) => {
+    if (event.target.closest("input")) return;
+    setHintOpen(true);
+  }, []);
 
   /* New handler for validation on blur */
   const handleBlur = useCallback(
@@ -63,7 +69,8 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
 
   return (
     <div
-      className={`flex flex-col gap-0.5 w-25 rounded-lg transition-all duration-300 shadow-sm border
+      onClick={hintState ? handleCardClick : undefined}
+      className={`group flex flex-col gap-0.5 w-25 rounded-lg transition-all duration-300 shadow-sm border
         ${statusClasses[cardStatus]}
       `}
     >
@@ -81,12 +88,15 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
               cardFrequency={data.freq}
               cardJlpt={data.jlpt_new}
               status={cardStatus}
+              open={hintOpen}
+              onOpenChange={setHintOpen}
+              trigger="card"
             />
           </div>
         )}
       </div>
       <div className="flex h-25 w-full items-center justify-center text-center">
-        <span className="select-none -translate-y-2 text-[60px] font-bold leading-none">
+        <span className="select-none -translate-y-2 cursor-pointer text-[60px] font-bold leading-none transition-transform duration-200 group-hover:scale-105 group-hover:brightness-125">
           {kanji}
         </span>
       </div>

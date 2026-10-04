@@ -1,7 +1,7 @@
 {
   "name": "kanji-quiz",
   "homepage": "https://app-quiz-kanji.vercel.app/",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "private": true,
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

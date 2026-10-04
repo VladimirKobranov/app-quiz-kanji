@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Popover,
+  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
@@ -18,6 +19,9 @@ function KanjiHint({
   cardFrequency,
   cardJlpt,
   status = "idle",
+  open,
+  onOpenChange,
+  trigger = "button",
 }) {
   const [cardVocabulary, setCardVocabulary] = useState([]);
 
@@ -39,21 +43,27 @@ function KanjiHint({
   };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          tabIndex={-1}
-          variant="ghost"
-          size="icon"
-          className={cn(
-            "size-5 rounded-full p-0 text-xs font-medium transition-colors",
-            statusClasses[status],
-            "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/80",
-          )}
-        >
-          ?
-        </Button>
-      </PopoverTrigger>
+    <Popover open={open} onOpenChange={onOpenChange}>
+      {trigger === "button" ? (
+        <PopoverTrigger asChild>
+          <Button
+            tabIndex={-1}
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "size-5 rounded-full p-0 text-xs font-medium transition-colors",
+              statusClasses[status],
+              "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/80",
+            )}
+          >
+            ?
+          </Button>
+        </PopoverTrigger>
+      ) : (
+        <PopoverAnchor asChild>
+          <span className="absolute right-2 top-1 size-5" />
+        </PopoverAnchor>
+      )}
       <PopoverContent
         className="w-[420px] max-w-[calc(100vw-1rem)] select-text overflow-hidden rounded-2xl border border-border bg-popover p-0 shadow-xl"
         sideOffset={8}
