@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 function NavBar() {
   return (
-    <div className="flex h-full w-full flex-col items-center overflow-x-hidden px-2.5 py-4 md:px-5">
+    <div className="flex h-full w-full select-none flex-col items-center overflow-x-hidden px-2.5 py-4 md:px-5">
       <div className="flex w-full max-w-none flex-1 flex-col items-center gap-6 overflow-y-auto md:max-w-[260px]">
         <Title />
         <ChooseFilters />

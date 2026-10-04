@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useStore } from "@/store/useStore";
 
 import { Input } from "@/components/ui/input";
@@ -29,8 +29,6 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
   const setInputValue = useStore((state) => state.setInputValue);
   const setCardStatus = useStore((state) => state.setCardStatus);
 
-  const [keyEnter, setKeyEnter] = useState(false);
-
   /* New handler for validation on blur */
   const handleBlur = useCallback(
     (inputType, event) => {
@@ -51,25 +49,11 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
     [kanji, setInputValue],
   );
 
-  const handleKeyDown = useCallback(
-    (inputType, event) => {
-      if (event.key === "Enter") {
-        setKeyEnter(true);
-        const v = event.target.value;
-        setInputValue(kanji, inputType, v);
-
-        if (!v) return;
-        const valid = validateAnswer(kanji, v);
-        setCardStatus(kanji, valid ? "correct" : "incorrect");
-
-        // Remove focus from input to trigger blur behavior visually if needed,
-        // or just let the user stay there.
-        // Usually pressing enter keeps focus, but validation shows result.
-        event.target.blur();
-      }
-    },
-    [kanji, validateAnswer, setInputValue, setCardStatus],
-  );
+  const handleKeyDown = useCallback((_inputType, event) => {
+    if (event.key === "Enter") {
+      event.target.blur();
+    }
+  }, []);
 
   const statusClasses = {
     idle: "bg-secondary text-muted-foreground",
@@ -114,7 +98,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
               placeholder={INPUT_PLACEHOLDERS[inputType] || inputType}
               value={inputValues[inputType] || ""}
               disabled={isLocked}
-              className={`w-full text-center ${isLocked ? "border-none" : ""}`}
+              className={`w-full select-text text-center ${isLocked ? "border-none" : ""}`}
               onChange={(event) => handleChange(inputType, event)}
               onBlur={(event) => handleBlur(inputType, event)}
               onKeyDown={(event) => handleKeyDown(inputType, event)}

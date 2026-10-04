@@ -42,7 +42,7 @@ function KanjiHint({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[340px] overflow-hidden rounded-2xl border border-border bg-popover p-0 shadow-xl"
+        className="w-[340px] select-text overflow-hidden rounded-2xl border border-border bg-popover p-0 shadow-xl"
         sideOffset={8}
       >
         <div className="flex min-h-[300px]">

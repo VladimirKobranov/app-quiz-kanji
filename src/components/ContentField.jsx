@@ -87,8 +87,8 @@ const ContentField = memo(function ContentField() {
   );
 
   return (
-    <div className="flex flex-col gap-0 h-full bg-background text-foreground">
-      <div className="z-10 flex h-14 w-full flex-none items-center gap-2 border-b bg-background px-3 py-2 md:h-[60px] md:px-4 md:py-0">
+    <div className="flex h-full select-none flex-col gap-0 bg-background text-foreground">
+      <div className="z-10 flex h-14 w-full select-none flex-none items-center gap-2 border-b bg-background px-3 py-2 md:h-[60px] md:px-4 md:py-0">
         <SidebarTrigger className="size-9 shrink-0" />
         <div className="ml-auto flex h-9 items-center gap-2">
           <ListFilter className="size-4 shrink-0 text-muted-foreground" />
@@ -125,7 +125,7 @@ const ContentField = memo(function ContentField() {
       </div>
 
       {currentDeck.length > 0 && !loading && (
-        <div className="flex-none p-2 border-t bg-background z-10">
+        <div className="flex-none select-none border-t bg-background p-2 z-10">
           <Pagination>
             <PaginationContent>
               <PaginationItem>
