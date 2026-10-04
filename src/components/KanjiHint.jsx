@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -19,6 +19,19 @@ function KanjiHint({
   cardJlpt,
   status = "idle",
 }) {
+  const [cardVocabulary, setCardVocabulary] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    import("@/data/kanji-vocabulary.json").then(({ default: vocabulary }) => {
+      if (active) setCardVocabulary(vocabulary[kanji] || []);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [kanji]);
+
   const statusClasses = {
     idle: "bg-secondary text-muted-foreground",
     correct: "bg-primary text-primary-foreground",
@@ -42,7 +55,7 @@ function KanjiHint({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[340px] select-text overflow-hidden rounded-2xl border border-border bg-popover p-0 shadow-xl"
+        className="w-[420px] max-w-[calc(100vw-1rem)] select-text overflow-hidden rounded-2xl border border-border bg-popover p-0 shadow-xl"
         sideOffset={8}
       >
         <div className="flex min-h-[300px]">
@@ -77,6 +90,35 @@ function KanjiHint({
               labelJp="部首"
               className="text-foreground/90"
             />
+            {cardVocabulary?.length > 0 && (
+              <div className="border-t border-border/70 pt-4">
+                <div className="mb-2 flex items-center gap-1.5">
+                  <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                    Vocabulary
+                  </span>
+                  <span className="text-[9px] text-muted-foreground/60">
+                    単語
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {cardVocabulary.slice(0, 4).map((item) => (
+                    <div key={`${item.word}-${item.reading}`}>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-base font-semibold text-popover-foreground">
+                          {item.word}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {item.reading}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {item.meaning}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-x-5 gap-y-4 border-t border-border/70 pt-4">
               <InfoRow label="Strokes" value={cardStrokes} labelJp="画数" />
               <InfoRow label="Grade" value={cardGrade} labelJp="学年" />
