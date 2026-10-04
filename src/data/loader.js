@@ -1,5 +1,5 @@
-import radicalData from "./kanjidic-radicals.json";
-import partsData from "./kanji-parts.json";
+import radicalData from "@/data/kanjidic-radicals.json";
+import partsData from "@/data/kanji-parts.json";
 
 export const loadKanjiData = async (levels) => {
   // Dynamic import based on selected levels
@@ -9,15 +9,15 @@ export const loadKanjiData = async (levels) => {
       const l = parseInt(level, 10);
       switch (l) {
         case 1:
-          return import("./kanji-1.json");
+          return import("@/data/kanji-1.json");
         case 2:
-          return import("./kanji-2.json");
+          return import("@/data/kanji-2.json");
         case 3:
-          return import("./kanji-3.json");
+          return import("@/data/kanji-3.json");
         case 4:
-          return import("./kanji-4.json");
+          return import("@/data/kanji-4.json");
         case 5:
-          return import("./kanji-5.json");
+          return import("@/data/kanji-5.json");
         default:
           return Promise.resolve({ default: {} });
       }
