@@ -109,7 +109,6 @@ function NavControlResults() {
             />
             Hint Mode
           </Button>
-
         </div>
 
         {/* Accuracy Display */}
