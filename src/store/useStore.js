@@ -6,10 +6,13 @@ export const useStore = create(
   persist(
     (set, get) => ({
       levels: [],
+      filterMode: "jlpt",
+      gradeFilters: [],
+      frequencyFilter: "all",
       inputs: [],
       answers: {},
       hint: false,
-      random: true,
+      sortMode: "random",
       currentDeck: [],
       kanjiData: {},
       loading: false,
@@ -24,6 +27,25 @@ export const useStore = create(
       },
       removeLevel: (level) => {
         set((state) => ({ levels: state.levels.filter((l) => l !== level) }));
+        get().generateDeck();
+      },
+
+      toggleGradeFilter: (grade) => {
+        set((state) => ({
+          gradeFilters: state.gradeFilters.includes(grade)
+            ? state.gradeFilters.filter((value) => value !== grade)
+            : [...state.gradeFilters, grade],
+        }));
+        get().generateDeck();
+      },
+
+      setFrequencyFilter: (frequencyFilter) => {
+        set({ frequencyFilter });
+        get().generateDeck();
+      },
+
+      setFilterMode: (filterMode) => {
+        set({ filterMode });
         get().generateDeck();
       },
 
@@ -65,8 +87,8 @@ export const useStore = create(
 
       toggleHint: () => set((state) => ({ hint: !state.hint })),
 
-      toggleRandom: () => {
-        set((state) => ({ random: !state.random }));
+      setSortMode: (sortMode) => {
+        set({ sortMode });
         get().generateDeck();
       },
 
@@ -76,7 +98,10 @@ export const useStore = create(
       reset: () =>
         set({
           levels: [],
+          filterMode: "jlpt",
           inputs: [],
+          gradeFilters: [],
+          frequencyFilter: "all",
           answers: {},
           hint: false,
           currentDeck: [],
@@ -87,8 +112,8 @@ export const useStore = create(
         }),
 
       generateDeck: async () => {
-        const { levels } = get();
-        if (!levels.length) {
+        const { levels, filterMode } = get();
+        if (filterMode === "jlpt" && !levels.length) {
           return set({ currentDeck: [], kanjiData: {}, currentPage: 1 });
         }
 
@@ -96,19 +121,44 @@ export const useStore = create(
 
         try {
           // Load only required kanji data
-          const data = await loadKanjiData(levels);
+          const data = await loadKanjiData(
+            filterMode === "jlpt" ? levels : ["1", "2", "3", "4", "5"],
+          );
           const parsedLevels = levels.map((l) => parseInt(l, 10));
 
           // Filter kanji names based on JLPT level
           const allKanjiNames = Object.keys(data);
+          const { gradeFilters, frequencyFilter } = get();
           const filteredNames = allKanjiNames.filter((name) => {
             const kData = data[name];
-            return kData && parsedLevels.includes(kData.jlpt_new);
+            if (!kData) return false;
+            if (
+              filterMode === "jlpt" &&
+              !parsedLevels.includes(kData.jlpt_new)
+            ) {
+              return false;
+            }
+            if (filterMode === "grade" && !gradeFilters.includes(kData.grade)) {
+              return false;
+            }
+            if (filterMode === "frequency" && frequencyFilter === "rare")
+              return !kData.freq || kData.freq > 3000;
+            if (filterMode === "frequency" && frequencyFilter !== "all") {
+              const limit = Number(frequencyFilter.replace("top-", ""));
+              if (!kData.freq || kData.freq > limit) return false;
+            }
+            return true;
           });
 
-          const { random } = get();
           const shuffledNames = [...filteredNames];
-          if (random) {
+          const { sortMode } = get();
+          if (sortMode === "strokes") {
+            shuffledNames.sort((a, b) => data[a].strokes - data[b].strokes);
+          } else if (sortMode === "frequency") {
+            shuffledNames.sort(
+              (a, b) => (data[a].freq ?? Infinity) - (data[b].freq ?? Infinity),
+            );
+          } else if (sortMode === "random") {
             for (let i = shuffledNames.length - 1; i > 0; i--) {
               const j = Math.floor(Math.random() * (i + 1));
               [shuffledNames[i], shuffledNames[j]] = [
@@ -175,10 +225,13 @@ export const useStore = create(
       name: "kanji-quiz-storage", // unique name
       partialize: (state) => ({
         levels: state.levels,
+        filterMode: state.filterMode,
+        gradeFilters: state.gradeFilters,
+        frequencyFilter: state.frequencyFilter,
         inputs: state.inputs,
         answers: state.answers,
         hint: state.hint,
-        random: state.random,
+        sortMode: state.sortMode,
         currentDeck: state.currentDeck,
         kanjiData: state.kanjiData,
         inputValues: state.inputValues,

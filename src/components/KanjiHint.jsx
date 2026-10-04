@@ -76,11 +76,7 @@ function KanjiHint({
             <div className="grid grid-cols-2 gap-x-5 gap-y-4 border-t border-border/70 pt-4">
               <InfoRow label="Strokes" value={cardStrokes} labelJp="画数" />
               <InfoRow label="Grade" value={cardGrade} labelJp="学年" />
-              <InfoRow
-                label="Frequency"
-                value={cardFrequency}
-                labelJp="頻度"
-              />
+              <InfoRow label="Frequency" value={cardFrequency} labelJp="頻度" />
               <InfoRow label="JLPT" value={cardJlpt ? `N${cardJlpt}` : null} />
             </div>
           </div>

@@ -18,6 +18,7 @@ import { KANJI_CARD } from "@/config/constants";
 
 const ContentField = memo(function ContentField() {
   const levels = useStore((state) => state.levels);
+  const filterMode = useStore((state) => state.filterMode);
   const inputs = useStore((state) => state.inputs);
   const loading = useStore((state) => state.loading);
   const currentDeck = useStore((state) => state.currentDeck);
@@ -29,7 +30,7 @@ const ContentField = memo(function ContentField() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!containerRef.current || levels.length === 0) return;
+    if (!containerRef.current || currentDeck.length === 0) return;
 
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0];
@@ -61,7 +62,7 @@ const ContentField = memo(function ContentField() {
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [inputs.length, setItemsPerPage, levels.length, itemsPerPage]);
+  }, [inputs.length, setItemsPerPage, currentDeck.length, itemsPerPage]);
 
   const totalPages = Math.ceil(currentDeck.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -81,9 +82,13 @@ const ContentField = memo(function ContentField() {
       <div className="z-10 flex h-[88px] w-full flex-none items-center border-b bg-background px-3 py-2 md:h-[60px] md:px-4 md:py-0">
         <div className="flex w-full min-w-0 flex-col gap-0 pr-14 md:flex-row md:items-center md:gap-4 md:pr-0">
           <p className="min-w-0 truncate text-[17px] text-muted-foreground md:text-[30px]">
-            {levels.length
+            {filterMode === "jlpt" && levels.length
               ? "N" + levels.map((l) => parseInt(l, 10)).join(", N")
-              : "Select level"}
+              : filterMode === "grade"
+                ? "Grade"
+                : filterMode === "frequency"
+                  ? "Frequency"
+                  : "Select level"}
           </p>
           <p className="min-w-0 truncate text-[17px] text-muted-foreground/50 md:text-[30px]">
             {inputs.length ? inputs.join(", ") : "Select inputs"}
@@ -97,7 +102,7 @@ const ContentField = memo(function ContentField() {
       </div>
       <div ref={containerRef} className="w-full flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="w-full h-full">
-          {levels.length === 0 ? (
+          {currentDeck.length === 0 && !loading ? (
             <InfoMessage />
           ) : loading ? (
             <div className="flex items-center justify-center h-full">
@@ -115,7 +120,7 @@ const ContentField = memo(function ContentField() {
         </ScrollArea>
       </div>
 
-      {levels.length > 0 && !loading && (
+      {currentDeck.length > 0 && !loading && (
         <div className="flex-none p-2 border-t bg-background z-10">
           <Pagination>
             <PaginationContent>

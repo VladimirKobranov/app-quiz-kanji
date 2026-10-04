@@ -88,15 +88,15 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
           <div className="absolute right-2 top-1">
             <KanjiHint
               kanji={kanji}
-            cardMeaning={data.meanings}
-            cardOn={data.readings_on}
-            cardKun={data.readings_kun}
-            cardRadical={data.radical?.glyph || radicalData[kanji]?.glyph}
-            cardStrokes={data.strokes}
-            cardGrade={data.grade}
-            cardFrequency={data.freq}
-            cardJlpt={data.jlpt_new}
-            status={cardStatus}
+              cardMeaning={data.meanings}
+              cardOn={data.readings_on}
+              cardKun={data.readings_kun}
+              cardRadical={data.radical?.glyph || radicalData[kanji]?.glyph}
+              cardStrokes={data.strokes}
+              cardGrade={data.grade}
+              cardFrequency={data.freq}
+              cardJlpt={data.jlpt_new}
+              status={cardStatus}
             />
           </div>
         )}
