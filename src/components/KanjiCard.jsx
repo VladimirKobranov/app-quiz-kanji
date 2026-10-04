@@ -76,19 +76,23 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
         ${statusClasses[cardStatus]}
       `}
     >
-      <div className="flex justify-end pr-2 pt-1 min-h-7.5">
+      <div className="relative h-7.5 shrink-0">
         {hintState && (
-          <KanjiHint
-            kanji={kanji}
-            cardMeaning={data.meanings}
-            cardOn={data.readings_on}
-            cardKun={data.readings_kun}
-            status={cardStatus}
-          />
+          <div className="absolute right-2 top-1">
+            <KanjiHint
+              kanji={kanji}
+              cardMeaning={data.meanings}
+              cardOn={data.readings_on}
+              cardKun={data.readings_kun}
+              status={cardStatus}
+            />
+          </div>
         )}
       </div>
-      <div className="h-25 flex items-center justify-center">
-        <span className="text-[60px] font-bold select-none">{kanji}</span>
+      <div className="flex h-25 w-full items-center justify-center text-center">
+        <span className="select-none -translate-y-2 text-[60px] font-bold leading-none">
+          {kanji}
+        </span>
       </div>
       <div className="p-1 px-1.5 pb-2">
         <div className="flex flex-col gap-1">
