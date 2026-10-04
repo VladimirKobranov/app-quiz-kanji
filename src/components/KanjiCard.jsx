@@ -4,6 +4,7 @@ import { useStore } from "@/store/useStore";
 import { Input } from "@/components/ui/input";
 import KanjiHint from "@/components/KanjiHint";
 import radicalData from "@/data/kanjidic-radicals.json";
+import partsData from "@/data/kanji-parts.json";
 
 const EMPTY_OBJ = {};
 const INPUT_PLACEHOLDERS = {
@@ -87,6 +88,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
               cardOn={data.readings_on}
               cardKun={data.readings_kun}
               cardRadical={data.radical?.glyph || radicalData[kanji]?.glyph}
+              cardParts={data.parts || partsData[kanji]}
               cardStrokes={data.strokes}
               cardGrade={data.grade}
               cardFrequency={data.freq}

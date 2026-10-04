@@ -14,6 +14,7 @@ function KanjiHint({
   cardOn,
   cardKun,
   cardRadical,
+  cardParts,
   cardStrokes,
   cardGrade,
   cardFrequency,
@@ -100,6 +101,14 @@ function KanjiHint({
               labelJp="部首"
               className="text-foreground/90"
             />
+            {cardParts?.length > 0 && (
+              <InfoRow
+                label="Parts"
+                value={cardParts.join(" · ")}
+                labelJp="構成"
+                className="text-foreground/90"
+              />
+            )}
             {cardVocabulary?.length > 0 && (
               <div className="border-t border-border/70 pt-4">
                 <div className="mb-2 flex items-center gap-1.5">

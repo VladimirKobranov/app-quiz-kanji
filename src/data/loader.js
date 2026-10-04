@@ -1,4 +1,5 @@
 import radicalData from "./kanjidic-radicals.json";
+import partsData from "./kanji-parts.json";
 
 export const loadKanjiData = async (levels) => {
   // Dynamic import based on selected levels
@@ -28,6 +29,7 @@ export const loadKanjiData = async (levels) => {
       acc[kanji] = {
         ...data,
         radical: radicalData[kanji] || null,
+        parts: partsData[kanji] || [],
       };
     }
     return acc;
