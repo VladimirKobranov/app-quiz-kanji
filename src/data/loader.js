@@ -1,3 +1,5 @@
+import radicalData from "./kanjidic-radicals.json";
+
 export const loadKanjiData = async (levels) => {
   // Dynamic import based on selected levels
   const kanjiModules = await Promise.all(
@@ -22,6 +24,12 @@ export const loadKanjiData = async (levels) => {
   );
 
   return kanjiModules.reduce((acc, module) => {
-    return { ...acc, ...module.default };
+    for (const [kanji, data] of Object.entries(module.default)) {
+      acc[kanji] = {
+        ...data,
+        radical: radicalData[kanji] || null,
+      };
+    }
+    return acc;
   }, {});
 };

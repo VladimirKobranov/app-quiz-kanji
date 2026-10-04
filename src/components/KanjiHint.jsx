@@ -12,7 +12,11 @@ function KanjiHint({
   cardMeaning,
   cardOn,
   cardKun,
-  cardRadicals,
+  cardRadical,
+  cardStrokes,
+  cardGrade,
+  cardFrequency,
+  cardJlpt,
   status = "idle",
 }) {
   const statusClasses = {
@@ -34,20 +38,22 @@ function KanjiHint({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-72 p-0 overflow-hidden rounded-xl border border-border shadow-lg"
+        className="w-[340px] overflow-hidden rounded-2xl border border-border bg-popover p-0 shadow-xl"
         sideOffset={8}
       >
-        <div className="flex">
+        <div className="flex min-h-[300px]">
           {/* Kanji display section */}
-          <div className="bg-primary text-primary-foreground p-4 flex flex-col items-center justify-center min-w-[80px]">
-            <span className="text-4xl font-bold tracking-tight">{kanji}</span>
-            <span className="text-[10px] uppercase tracking-widest mt-1 opacity-70">
+          <div className="flex w-24 shrink-0 flex-col items-center justify-center bg-primary p-3 text-primary-foreground">
+            <span className="text-5xl font-bold leading-none tracking-tight">
+              {kanji}
+            </span>
+            <span className="mt-3 text-[10px] uppercase tracking-[0.2em] opacity-70">
               漢字
             </span>
           </div>
 
           {/* Info section */}
-          <div className="flex-1 p-4 space-y-3 bg-popover">
+          <div className="min-w-0 flex-1 space-y-4 p-5">
             <InfoRow label="Meaning" value={cardMeaning} labelJp="意味" />
             <InfoRow
               label="Onyomi"
@@ -63,10 +69,20 @@ function KanjiHint({
             />
             <InfoRow
               label="Radicals"
-              value={cardRadicals}
+              value={cardRadical}
               labelJp="部首"
               className="text-foreground/90"
             />
+            <div className="grid grid-cols-2 gap-x-5 gap-y-4 border-t border-border/70 pt-4">
+              <InfoRow label="Strokes" value={cardStrokes} labelJp="画数" />
+              <InfoRow label="Grade" value={cardGrade} labelJp="学年" />
+              <InfoRow
+                label="Frequency"
+                value={cardFrequency}
+                labelJp="頻度"
+              />
+              <InfoRow label="JLPT" value={cardJlpt ? `N${cardJlpt}` : null} />
+            </div>
           </div>
         </div>
       </PopoverContent>
@@ -86,7 +102,7 @@ function InfoRow({ label, labelJp, value, className }) {
       <p
         className={cn("text-sm font-medium text-popover-foreground", className)}
       >
-        {value?.join(", ") || "—"}
+        {Array.isArray(value) ? value.join(", ") || "—" : value || "—"}
       </p>
     </div>
   );

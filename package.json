@@ -19,6 +19,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "data:radicals": "node scripts/extract-kanjidic-radicals.js",
     "format": "prettier --write ."
   },
   "eslintConfig": {
