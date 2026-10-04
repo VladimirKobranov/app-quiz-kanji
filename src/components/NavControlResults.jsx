@@ -1,25 +1,11 @@
 import React, { useState } from "react";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, BarChart3, Lightbulb, ListFilter } from "lucide-react";
+import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 function NavControlResults() {
-  const {
-    answers,
-    reset,
-    toggleHint,
-    hint: hintState,
-    sortMode,
-    setSortMode,
-  } = useStore();
+  const { answers, reset, toggleHint, hint: hintState } = useStore();
 
   const totalQuestions = Object.keys(answers).length;
   const correctAnswers = Object.values(answers).map((item) => item[0].correct);
@@ -67,20 +53,6 @@ function NavControlResults() {
       <div className="w-full">
         {/* Control Buttons */}
         <div className="flex flex-col gap-2 mb-4">
-          <div className="flex h-10 w-full items-center gap-2 md:h-8">
-            <ListFilter className="h-4 w-4 shrink-0" />
-            <Select value={sortMode} onValueChange={setSortMode}>
-              <SelectTrigger className="h-10 min-w-0 flex-1 font-semibold md:h-8">
-                <SelectValue placeholder="Sort" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="random">Random</SelectItem>
-                <SelectItem value="default">Default</SelectItem>
-                <SelectItem value="strokes">By strokes</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           <Button
             variant="destructive"
             className="h-10 md:h-8 w-full font-semibold gap-2"

@@ -1,9 +1,18 @@
 import React, { useEffect, useRef, memo, useCallback } from "react";
 import KanjiCard from "@/components/KanjiCard";
+import { ListFilter } from "lucide-react";
 
 import { useStore } from "@/store/useStore";
 import InfoMessage from "@/components/InfoMessage";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Pagination,
   PaginationContent,
@@ -17,9 +26,9 @@ import {
 import { KANJI_CARD } from "@/config/constants";
 
 const ContentField = memo(function ContentField() {
-  const levels = useStore((state) => state.levels);
-  const filterMode = useStore((state) => state.filterMode);
   const inputs = useStore((state) => state.inputs);
+  const sortMode = useStore((state) => state.sortMode);
+  const setSortMode = useStore((state) => state.setSortMode);
   const loading = useStore((state) => state.loading);
   const currentDeck = useStore((state) => state.currentDeck);
   const currentPage = useStore((state) => state.currentPage);
@@ -79,25 +88,20 @@ const ContentField = memo(function ContentField() {
 
   return (
     <div className="flex flex-col gap-0 h-full bg-background text-foreground">
-      <div className="z-10 flex h-[88px] w-full flex-none items-center border-b bg-background px-3 py-2 md:h-[60px] md:px-4 md:py-0">
-        <div className="flex w-full min-w-0 flex-col gap-0 pr-14 md:flex-row md:items-center md:gap-4 md:pr-0">
-          <p className="min-w-0 truncate text-[17px] text-muted-foreground md:text-[30px]">
-            {filterMode === "jlpt" && levels.length
-              ? "N" + levels.map((l) => parseInt(l, 10)).join(", N")
-              : filterMode === "grade"
-                ? "Grade"
-                : filterMode === "frequency"
-                  ? "Frequency"
-                  : "Select level"}
-          </p>
-          <p className="min-w-0 truncate text-[17px] text-muted-foreground/50 md:text-[30px]">
-            {inputs.length ? inputs.join(", ") : "Select inputs"}
-          </p>
-          {levels.length > 0 && (
-            <p className="min-w-0 truncate text-[12px] text-muted-foreground/60 md:text-[20px]">
-              {currentDeck.length} kanji for this level
-            </p>
-          )}
+      <div className="z-10 flex h-14 w-full flex-none items-center gap-2 border-b bg-background px-3 py-2 md:h-[60px] md:px-4 md:py-0">
+        <SidebarTrigger className="size-9 shrink-0" />
+        <div className="ml-auto flex h-9 items-center gap-2">
+          <ListFilter className="size-4 shrink-0 text-muted-foreground" />
+          <Select value={sortMode} onValueChange={setSortMode}>
+            <SelectTrigger className="h-9 w-[132px] font-semibold">
+              <SelectValue placeholder="Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="random">Random</SelectItem>
+              <SelectItem value="default">Default</SelectItem>
+              <SelectItem value="strokes">By strokes</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <div ref={containerRef} className="w-full flex-1 min-h-0 overflow-hidden">

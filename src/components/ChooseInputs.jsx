@@ -33,9 +33,6 @@ const ChooseInputs = memo(function ChooseInputs() {
         <CardTitle className="flex items-center gap-2 text-base font-semibold text-foreground">
           <PenLine className="h-5 w-5 text-primary" />
           <span>Choose Inputs</span>
-          <span className="text-xs text-muted-foreground font-normal ml-auto">
-            {inputs.length} selected
-          </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
