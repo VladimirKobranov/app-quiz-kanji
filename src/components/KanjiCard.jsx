@@ -66,11 +66,15 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
     correct: "bg-primary text-primary-foreground",
     incorrect: "bg-destructive text-white",
   };
+  const hintClasses = hintState
+    ? "group cursor-pointer transition-all duration-300 hover:shadow-md"
+    : "";
 
   return (
     <div
       onClick={hintState ? handleCardClick : undefined}
-      className={`group flex flex-col gap-0.5 w-25 rounded-lg transition-all duration-300 shadow-sm border
+      className={`flex flex-col gap-0.5 w-25 rounded-lg shadow-sm border
+        ${hintClasses}
         ${statusClasses[cardStatus]}
       `}
     >
@@ -96,7 +100,13 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
         )}
       </div>
       <div className="flex h-25 w-full items-center justify-center text-center">
-        <span className="select-none -translate-y-2 cursor-pointer text-[60px] font-bold leading-none transition-transform duration-200 group-hover:scale-105 group-hover:brightness-125">
+        <span
+          className={`select-none -translate-y-2 text-[60px] font-bold leading-none ${
+            hintState
+              ? "cursor-pointer transition-transform duration-200 group-hover:scale-105 group-hover:brightness-125"
+              : ""
+          }`}
+        >
           {kanji}
         </span>
       </div>
