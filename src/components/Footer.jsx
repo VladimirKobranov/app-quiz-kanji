@@ -1,4 +1,5 @@
 import React from "react";
+import packageJson from "../../package.json";
 
 const d = new Date();
 let year = d.getFullYear();
@@ -11,8 +12,11 @@ const link = () => (
 
 function Footer() {
   return (
-    <div className="flex justify-center w-full">
-      <p className="font-light text-xs uppercase text-muted-foreground/50">
+    <div className="flex w-full flex-col items-center gap-1">
+      <p className="text-xs font-light text-muted-foreground/50">
+        v{packageJson.version}
+      </p>
+      <p className="text-xs font-light uppercase text-muted-foreground/50">
         {link()}&nbsp;|&nbsp;{year}
       </p>
     </div>
