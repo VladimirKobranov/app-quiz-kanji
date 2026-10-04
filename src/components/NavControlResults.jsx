@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
+import { RotateCcw, BarChart3, Lightbulb, Shuffle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 function NavControlResults() {
-  const { answers, reset, toggleHint, hint: hintState } = useStore();
+  const {
+    answers,
+    reset,
+    toggleHint,
+    hint: hintState,
+    random: randomState,
+    toggleRandom,
+  } = useStore();
 
   const totalQuestions = Object.keys(answers).length;
   const correctAnswers = Object.values(answers).map((item) => item[0].correct);
@@ -63,7 +70,7 @@ function NavControlResults() {
           </Button>
 
           <Button
-            variant="default"
+            variant="outline"
             className="h-10 md:h-8 w-full font-semibold gap-2"
             onClick={handleResultClick}
           >
@@ -80,6 +87,15 @@ function NavControlResults() {
               className={`h-4 w-4 ${hintState ? "fill-current" : ""}`}
             />
             Hint Mode
+          </Button>
+
+          <Button
+            variant={randomState ? "default" : "outline"}
+            className="h-10 gap-2 font-semibold md:h-8 w-full"
+            onClick={toggleRandom}
+          >
+            <Shuffle className="h-4 w-4" />
+            Random
           </Button>
         </div>
 

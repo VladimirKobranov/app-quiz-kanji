@@ -5,6 +5,11 @@ import { Input } from "@/components/ui/input";
 import KanjiHint from "@/components/KanjiHint";
 
 const EMPTY_OBJ = {};
+const INPUT_PLACEHOLDERS = {
+  meaning: "meaning",
+  "reading-on": "on",
+  "reading-kun": "kun",
+};
 
 const KanjiCard = memo(function KanjiCard({ kanji }) {
   const inputs = useStore((state) => state.inputs);
@@ -100,7 +105,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }) {
           {inputs.map((inputType, index) => (
             <Input
               key={inputType + index}
-              placeholder={inputType}
+              placeholder={INPUT_PLACEHOLDERS[inputType] || inputType}
               value={inputValues[inputType] || ""}
               disabled={isLocked}
               className={`w-full text-center ${isLocked ? "border-none" : ""}`}

@@ -78,18 +78,18 @@ const ContentField = memo(function ContentField() {
 
   return (
     <div className="flex flex-col gap-0 h-full bg-background text-foreground">
-      <div className="w-full h-[100px] md:h-[100px] flex items-center px-4 flex-none border-b bg-background z-10">
-        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full">
-          <p className="text-[18px] md:text-[30px] text-muted-foreground truncate">
+      <div className="z-10 flex h-[88px] w-full flex-none items-center border-b bg-background px-3 py-2 md:h-[60px] md:px-4 md:py-0">
+        <div className="flex w-full min-w-0 flex-col gap-0 pr-14 md:flex-row md:items-center md:gap-4 md:pr-0">
+          <p className="min-w-0 truncate text-[17px] text-muted-foreground md:text-[30px]">
             {levels.length
               ? "N" + levels.map((l) => parseInt(l, 10)).join(", N")
               : "Select level"}
           </p>
-          <p className="text-[18px] md:text-[30px] text-muted-foreground/50 truncate">
+          <p className="min-w-0 truncate text-[17px] text-muted-foreground/50 md:text-[30px]">
             {inputs.length ? inputs.join(", ") : "Select inputs"}
           </p>
           {levels.length > 0 && (
-            <p className="text-[14px] md:text-[20px] text-muted-foreground/60 truncate">
+            <p className="min-w-0 truncate text-[12px] text-muted-foreground/60 md:text-[20px]">
               {currentDeck.length} kanji for this level
             </p>
           )}

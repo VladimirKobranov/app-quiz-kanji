@@ -9,6 +9,7 @@ export const useStore = create(
       inputs: [],
       answers: {},
       hint: false,
+      random: true,
       currentDeck: [],
       kanjiData: {},
       loading: false,
@@ -64,6 +65,11 @@ export const useStore = create(
 
       toggleHint: () => set((state) => ({ hint: !state.hint })),
 
+      toggleRandom: () => {
+        set((state) => ({ random: !state.random }));
+        get().generateDeck();
+      },
+
       setCurrentPage: (page) => set({ currentPage: page }),
       setItemsPerPage: (count) => set({ itemsPerPage: count }),
 
@@ -100,14 +106,16 @@ export const useStore = create(
             return kData && parsedLevels.includes(kData.jlpt_new);
           });
 
-          // Shuffle
+          const { random } = get();
           const shuffledNames = [...filteredNames];
-          for (let i = shuffledNames.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledNames[i], shuffledNames[j]] = [
-              shuffledNames[j],
-              shuffledNames[i],
-            ];
+          if (random) {
+            for (let i = shuffledNames.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [shuffledNames[i], shuffledNames[j]] = [
+                shuffledNames[j],
+                shuffledNames[i],
+              ];
+            }
           }
 
           set({
@@ -170,6 +178,7 @@ export const useStore = create(
         inputs: state.inputs,
         answers: state.answers,
         hint: state.hint,
+        random: state.random,
         currentDeck: state.currentDeck,
         kanjiData: state.kanjiData,
         inputValues: state.inputValues,

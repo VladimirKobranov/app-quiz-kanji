@@ -6,8 +6,8 @@ import NavControlResults from "@/components/NavControlResults";
 import Footer from "@/components/Footer";
 function NavBar() {
   return (
-    <div className="flex flex-col items-center w-full px-4 md:px-6 py-6 h-full overflow-x-hidden">
-      <div className="flex-1 w-full max-w-[260px] flex flex-col items-center gap-6 md:gap-6 overflow-y-auto">
+    <div className="flex h-full w-full flex-col items-center overflow-x-hidden px-2.5 py-4 md:px-5">
+      <div className="flex w-full max-w-none flex-1 flex-col items-center gap-6 overflow-y-auto md:max-w-[260px]">
         <Title />
         <ChooseLevel />
         <ChooseInputs />

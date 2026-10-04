@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 import ContentField from "@/components/ContentField";
-import { MoreHorizontal } from "lucide-react";
+import { Menu } from "lucide-react";
 import {
   Sheet,
   SheetContent,
-  SheetTrigger,
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
@@ -37,21 +36,29 @@ function Main() {
 
       <div className="md:hidden flex flex-col h-full w-full relative">
         <Sheet open={show} onOpenChange={setShow}>
-          <SheetTrigger asChild>
-            <div
-              style={{
-                width: LAYOUT.MOBILE_MENU_SIZE,
-                height: LAYOUT.MOBILE_MENU_SIZE,
-              }}
-              className={`fixed flex items-center justify-center rounded-full top-[20px] right-[20px] z-50 cursor-pointer transition-all shadow-md active:scale-95 
-                ${show ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}
-              `}
+          {!show && (
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="fixed right-3 top-3 z-50 flex size-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-md transition-all active:scale-95 md:right-5 md:top-5 md:size-15"
               onClick={handleToggle}
             >
-              <MoreHorizontal size={40} />
-            </div>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-[400px] p-0">
+              <Menu className="size-6 md:size-8" />
+            </button>
+          )}
+          <SheetContent
+            side="left"
+            showClose={false}
+            className="!w-full !max-w-none p-0"
+          >
+            <button
+              type="button"
+              aria-label="Close menu"
+              className="absolute right-3 top-3 z-10 flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md transition-all active:scale-95 md:right-5 md:top-5 md:size-15"
+              onClick={handleToggle}
+            >
+              <Menu className="size-6 md:size-8" />
+            </button>
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
             <SheetDescription className="sr-only">
               Access the navigation menu and settings for the kanji quiz.
