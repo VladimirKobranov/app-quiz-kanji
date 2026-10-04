@@ -32,7 +32,11 @@ function KanjiHint({
           tabIndex={-1}
           variant="ghost"
           size="icon"
-          className={`size-5 rounded-full p-0 hover:bg-primary hover:text-primary-foreground text-xs font-medium transition-colors ${statusClasses[status]}`}
+          className={cn(
+            "size-5 rounded-full p-0 text-xs font-medium transition-colors",
+            statusClasses[status],
+            "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/80",
+          )}
         >
           ?
         </Button>

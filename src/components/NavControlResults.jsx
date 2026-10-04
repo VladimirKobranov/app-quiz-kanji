@@ -3,6 +3,14 @@ import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import {
+  Label,
+  PolarGrid,
+  PolarRadiusAxis,
+  RadialBar,
+  RadialBarChart,
+} from "recharts";
+import { ChartContainer } from "@/components/ui/chart";
 
 function NavControlResults() {
   const { answers, reset, toggleHint, hint: hintState } = useStore();
@@ -43,10 +51,14 @@ function NavControlResults() {
     toggleHint();
   };
 
-  // Calculate percentage number for the ring
   const percentNum = percentage ? Number.parseInt(percentage) : 0;
-  const circumference = 2 * Math.PI * 40;
-  const strokeDashoffset = circumference - (percentNum / 100) * circumference;
+  const chartData = [{ score: percentNum, fill: "var(--color-score)" }];
+  const chartConfig = {
+    score: {
+      label: "Accuracy",
+      color: "var(--chart-2)",
+    },
+  };
 
   return (
     <Card className="w-full max-w-xs border-border bg-card p-4">
@@ -91,41 +103,66 @@ function NavControlResults() {
 
           {percentage ? (
             <div className="flex flex-col items-center gap-3">
-              {/* Circular Progress */}
-              <div className="relative w-20 h-20">
-                <svg className="w-20 h-20 -rotate-90" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    className="text-muted/20"
+              <ChartContainer
+                config={chartConfig}
+                className="mx-auto aspect-square h-24 max-h-24 w-24"
+              >
+                <RadialBarChart
+                  data={chartData}
+                  startAngle={90}
+                  endAngle={90 - percentNum * 3.6}
+                  innerRadius={30}
+                  outerRadius={42}
+                >
+                  <PolarGrid
+                    gridType="circle"
+                    radialLines={false}
+                    stroke="none"
+                    className="first:fill-muted last:fill-background"
+                    polarRadius={[42, 30]}
                   />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    strokeLinecap="round"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    className={`transition-all duration-500 ${
-                      percentNum >= 70
-                        ? "text-green-500"
-                        : percentNum >= 40
-                          ? "text-yellow-500"
-                          : "text-red-500"
-                    }`}
+                  <RadialBar
+                    dataKey="score"
+                    background
+                    cornerRadius={8}
+                    className="fill-[var(--color-score)]"
                   />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-lg font-bold">{percentage}</span>
-                </div>
-              </div>
+                  <PolarRadiusAxis
+                    tick={false}
+                    tickLine={false}
+                    axisLine={false}
+                  >
+                    <Label
+                      content={({ viewBox }) => {
+                        if (
+                          !viewBox ||
+                          !("cx" in viewBox) ||
+                          !("cy" in viewBox)
+                        ) {
+                          return null;
+                        }
+
+                        return (
+                          <text
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-lg font-bold"
+                            >
+                              {percentage}
+                            </tspan>
+                          </text>
+                        );
+                      }}
+                    />
+                  </PolarRadiusAxis>
+                </RadialBarChart>
+              </ChartContainer>
 
               {/* Score */}
               <div className="text-sm text-muted-foreground">
