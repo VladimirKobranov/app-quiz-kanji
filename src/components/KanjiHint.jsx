@@ -7,7 +7,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function KanjiHint({ kanji, cardMeaning, cardOn, cardKun, status = "idle" }) {
+function KanjiHint({
+  kanji,
+  cardMeaning,
+  cardOn,
+  cardKun,
+  cardRadicals,
+  status = "idle",
+}) {
   const statusClasses = {
     idle: "bg-secondary text-muted-foreground",
     correct: "bg-primary text-primary-foreground",
@@ -52,6 +59,12 @@ function KanjiHint({ kanji, cardMeaning, cardOn, cardKun, status = "idle" }) {
               label="Kunyomi"
               value={cardKun}
               labelJp="訓読み"
+              className="text-foreground/90"
+            />
+            <InfoRow
+              label="Radicals"
+              value={cardRadicals}
+              labelJp="部首"
               className="text-foreground/90"
             />
           </div>
