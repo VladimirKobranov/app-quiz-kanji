@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import KanjiHint from "@/components/KanjiHint";
 import radicalData from "@/data/kanjidic-radicals.json";
 import partsData from "@/data/kanji-parts.json";
-import type { KanjiData } from "@/store/useStore";
+import type { KanjiData } from "@/types";
 
 const EMPTY_OBJ: KanjiData = {
   strokes: 0,

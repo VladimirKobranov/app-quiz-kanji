@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useStore } from "@/store/useStore";
-import type { KanjiData } from "@/store/useStore";
+import type { KanjiData } from "@/types";
 import radicalData from "@/data/kanjidic-radicals.json";
 import partsData from "@/data/kanji-parts.json";
 import {

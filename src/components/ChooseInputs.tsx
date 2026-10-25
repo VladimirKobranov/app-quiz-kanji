@@ -4,7 +4,7 @@ import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PenLine, Check, Languages, BookOpen } from "lucide-react";
-import type { QuizInput } from "@/store/useStore";
+import type { QuizInput } from "@/types";
 
 const INPUTS: Array<{
   index: QuizInput;

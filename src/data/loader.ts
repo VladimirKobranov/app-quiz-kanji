@@ -1,6 +1,6 @@
 import radicalData from "@/data/kanjidic-radicals.json";
 import partsData from "@/data/kanji-parts.json";
-import type { KanjiData } from "@/store/useStore";
+import type { KanjiData } from "@/types";
 
 type RawKanjiData = Omit<KanjiData, "radical" | "parts">;
 
