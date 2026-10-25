@@ -2,8 +2,71 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { loadKanjiData } from "@/data/loader";
 
-export const useStore = create(
-  persist(
+type FilterMode = "jlpt" | "grade" | "frequency";
+type SortMode = "random" | "strokes" | "frequency";
+type CardStatus = "idle" | "correct" | "incorrect";
+type QuizInput = "meaning" | "reading-on" | "reading-kun";
+
+interface KanjiData {
+  strokes: number;
+  grade: number;
+  freq?: number;
+  jlpt_new: number;
+  meanings: string[];
+  readings_on: string[];
+  readings_kun: string[];
+  radical?: { glyph: string } | null;
+  parts?: string[];
+}
+
+interface Answer {
+  kanji: string;
+  input: string;
+  correct: boolean;
+  correctOn: boolean;
+  correctKun: boolean;
+  meaning: string;
+  readingOn: string[];
+  readingKun: string[];
+}
+
+interface StoreState {
+  levels: string[];
+  filterMode: FilterMode;
+  gradeFilters: number[];
+  frequencyFilter: string;
+  inputs: QuizInput[];
+  answers: Record<string, Answer[]>;
+  hint: boolean;
+  sortMode: SortMode;
+  currentDeck: string[];
+  kanjiData: Record<string, KanjiData>;
+  loading: boolean;
+  currentPage: number;
+  itemsPerPage: number;
+  inputValues: Record<string, Partial<Record<QuizInput, string>>>;
+  cardStatuses: Record<string, CardStatus>;
+  addLevel: (level: string) => void;
+  removeLevel: (level: string) => void;
+  toggleGradeFilter: (grade: number) => void;
+  setFrequencyFilter: (filter: string) => void;
+  setFilterMode: (mode: FilterMode) => void;
+  addInput: (input: QuizInput) => void;
+  removeInput: (input: QuizInput) => void;
+  addAnswer: (answer: Answer) => void;
+  setInputValue: (kanji: string, key: QuizInput, value: string) => void;
+  setCardStatus: (kanji: string, status: CardStatus) => void;
+  toggleHint: () => void;
+  setSortMode: (mode: SortMode) => void;
+  setCurrentPage: (page: number) => void;
+  setItemsPerPage: (count: number) => void;
+  reset: () => void;
+  generateDeck: () => Promise<void>;
+  validateAnswer: (kanji: string, value: string) => boolean;
+}
+
+export const useStore = create<StoreState>()(
+  persist<StoreState, [], [], Partial<StoreState>>(
     (set, get) => ({
       levels: [],
       filterMode: "jlpt",
@@ -114,7 +177,8 @@ export const useStore = create(
       generateDeck: async () => {
         const { levels, filterMode } = get();
         if (filterMode === "jlpt" && !levels.length) {
-          return set({ currentDeck: [], kanjiData: {}, currentPage: 1 });
+          set({ currentDeck: [], kanjiData: {}, currentPage: 1 });
+          return;
         }
 
         set({ loading: true });
