@@ -1,8 +1,3 @@
-export const LAYOUT = {
-  SIDEBAR_WIDTH: 300,
-  MOBILE_MENU_SIZE: 60,
-};
-
 export const KANJI_CARD = {
   WIDTH: 100,
   GAP_X: 10,

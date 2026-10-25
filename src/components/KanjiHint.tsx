@@ -144,81 +144,6 @@ function KanjiHint({
     incorrect: "bg-destructive text-white",
   };
 
-  const _details = (
-    <div className="flex min-h-0">
-      <div className="flex w-24 shrink-0 flex-col items-center justify-center bg-primary p-3 text-primary-foreground">
-        <span className="text-5xl font-bold leading-none tracking-tight">
-          {kanji}
-        </span>
-        <span className="mt-3 text-[10px] uppercase tracking-[0.2em] opacity-70">
-          漢字
-        </span>
-      </div>
-      <div className="min-w-0 flex-1 space-y-4 overflow-y-auto p-5">
-        <InfoRow label="Meaning" value={cardMeaning} labelJp="意味" />
-        <InfoRow
-          label="Onyomi"
-          value={cardOn}
-          labelJp="音読み"
-          className="text-foreground/90"
-        />
-        <InfoRow
-          label="Kunyomi"
-          value={cardKun}
-          labelJp="訓読み"
-          className="text-foreground/90"
-        />
-        <InfoRow
-          label="Radicals"
-          value={cardRadical}
-          labelJp="部首"
-          className="text-foreground/90"
-        />
-        {cardParts?.length > 0 && (
-          <InfoRow
-            label="Parts"
-            value={cardParts.join(" · ")}
-            labelJp="構成"
-            className="text-foreground/90"
-          />
-        )}
-        {cardVocabulary?.length > 0 && (
-          <div className="border-t border-border/70 pt-4">
-            <div className="mb-2 flex items-center gap-1.5">
-              <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                Vocabulary
-              </span>
-              <span className="text-[9px] text-muted-foreground/60">単語</span>
-            </div>
-            <div className="space-y-2">
-              {cardVocabulary.slice(0, 4).map((item) => (
-                <div key={`${item.word}-${item.reading}`}>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-base font-semibold text-popover-foreground">
-                      {item.word}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {item.reading}
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {item.meaning}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="grid grid-cols-2 gap-x-5 gap-y-4 border-t border-border/70 pt-4">
-          <InfoRow label="Strokes" value={cardStrokes} labelJp="画数" />
-          <InfoRow label="Grade" value={cardGrade} labelJp="学年" />
-          <InfoRow label="Frequency" value={cardFrequency} labelJp="頻度" />
-          <InfoRow label="JLPT" value={cardJlpt ? `N${cardJlpt}` : null} />
-        </div>
-      </div>
-    </div>
-  );
-
   const meanings = Array.isArray(displayMeaning)
     ? displayMeaning
     : String(displayMeaning || "")
@@ -630,34 +555,6 @@ function KanjiHint({
         </div>
       </SheetContent>
     </Sheet>
-  );
-}
-
-function InfoRow({
-  label,
-  labelJp,
-  value,
-  className,
-}: {
-  label: string;
-  labelJp?: string;
-  value: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className="space-y-0.5">
-      <div className="flex items-center gap-1.5">
-        <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
-          {label}
-        </span>
-        <span className="text-[9px] text-muted-foreground/60">{labelJp}</span>
-      </div>
-      <p
-        className={cn("text-sm font-medium text-popover-foreground", className)}
-      >
-        {Array.isArray(value) ? value.join(", ") || "—" : value || "—"}
-      </p>
-    </div>
   );
 }
 
