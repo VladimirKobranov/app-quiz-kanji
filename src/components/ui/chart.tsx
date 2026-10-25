@@ -32,7 +32,7 @@ function ChartContainer({
   config,
   initialDimension = INITIAL_DIMENSION,
   ...props
-}) {
+}: any) {
   const uniqueId = React.useId();
   const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
@@ -58,9 +58,9 @@ function ChartContainer({
   );
 }
 
-const ChartStyle = ({ id, config }) => {
+const ChartStyle = ({ id, config }: any) => {
   const colorConfig = Object.entries(config).filter(
-    ([, config]) => config.theme ?? config.color,
+    ([, config]: [string, any]) => config.theme ?? config.color,
   );
 
   if (!colorConfig.length) {
@@ -75,7 +75,7 @@ const ChartStyle = ({ id, config }) => {
             ([theme, prefix]) => `
 ${prefix} [data-chart=${id}] {
 ${colorConfig
-  .map(([key, itemConfig]) => {
+  .map(([key, itemConfig]: [string, any]) => {
     const color = itemConfig.theme?.[theme] ?? itemConfig.color;
     return color ? `  --color-${key}: ${color};` : null;
   })
@@ -105,7 +105,7 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}) {
+}: any) {
   const { config } = useChart();
 
   const tooltipLabel = React.useMemo(() => {
@@ -196,7 +196,7 @@ function ChartTooltipContent({
                           style={{
                             "--color-bg": indicatorColor,
                             "--color-border": indicatorColor,
-                          }}
+                          } as React.CSSProperties}
                         />
                       )
                     )}
@@ -238,7 +238,7 @@ function ChartLegendContent({
   payload,
   verticalAlign = "bottom",
   nameKey,
-}) {
+}: any) {
   const { config } = useChart();
 
   if (!payload?.length) {

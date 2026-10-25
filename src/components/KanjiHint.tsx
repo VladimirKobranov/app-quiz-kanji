@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useStore } from "@/store/useStore";
+import type { KanjiData } from "@/store/useStore";
 import radicalData from "@/data/kanjidic-radicals.json";
 import partsData from "@/data/kanji-parts.json";
 import {
@@ -12,6 +13,23 @@ import {
   SheetDescription,
   SheetTitle,
 } from "@/components/ui/sheet";
+
+interface KanjiHintProps {
+  kanji: string;
+  cardMeaning?: string[];
+  cardOn?: string[];
+  cardKun?: string[];
+  cardRadical?: string | null;
+  cardParts?: string[];
+  cardStrokes?: number;
+  cardGrade?: number;
+  cardFrequency?: number;
+  cardJlpt?: number;
+  status?: "idle" | "correct" | "incorrect";
+  open?: boolean;
+  onOpenChange: (open: boolean) => void;
+  trigger?: "button" | "card" | "none";
+}
 
 function KanjiHint({
   kanji,
@@ -28,7 +46,7 @@ function KanjiHint({
   open,
   onOpenChange,
   trigger = "button",
-}) {
+}: KanjiHintProps) {
   const [cardVocabulary, setCardVocabulary] = useState([]);
   const [activeKanji, setActiveKanji] = useState(kanji);
   const [mobileTab, setMobileTab] = useState("Overview");
@@ -37,7 +55,17 @@ function KanjiHint({
   const touchStart = useRef(null);
   const fullHeroRef = useRef(null);
   const isMobile = useIsMobile();
-  const kanjiData = useStore((state) => state.kanjiData[activeKanji]) || {};
+  const kanjiData = useStore((state) => state.kanjiData[activeKanji]) as
+    | KanjiData
+    | undefined;
+  const activeKanjiData = kanjiData ?? {
+    strokes: 0,
+    grade: 0,
+    jlpt_new: 0,
+    meanings: [],
+    readings_on: [],
+    readings_kun: [],
+  } satisfies KanjiData;
   const currentDeck = useStore((state) => state.currentDeck);
   const currentPage = useStore((state) => state.currentPage);
   const itemsPerPage = useStore((state) => state.itemsPerPage);
@@ -47,27 +75,27 @@ function KanjiHint({
   const canGoPrevious = activeIndex > 0;
   const canGoNext = activeIndex >= 0 && activeIndex < pageKanji.length - 1;
   const displayMeaning =
-    kanjiData.meanings ?? (activeKanji === kanji ? cardMeaning : []);
+    activeKanjiData.meanings ?? (activeKanji === kanji ? cardMeaning : []);
   const displayOn =
-    kanjiData.readings_on ?? (activeKanji === kanji ? cardOn : []);
+    activeKanjiData.readings_on ?? (activeKanji === kanji ? cardOn : []);
   const displayKun =
-    kanjiData.readings_kun ?? (activeKanji === kanji ? cardKun : []);
+    activeKanjiData.readings_kun ?? (activeKanji === kanji ? cardKun : []);
   const displayRadical =
-    kanjiData.radical?.glyph ||
+    activeKanjiData.radical?.glyph ||
     radicalData[activeKanji]?.glyph ||
     (activeKanji === kanji ? cardRadical : null);
   const displayParts =
-    kanjiData.parts ||
+    activeKanjiData.parts ||
     partsData[activeKanji] ||
     (activeKanji === kanji ? cardParts : []);
   const displayStrokes =
-    kanjiData.strokes ?? (activeKanji === kanji ? cardStrokes : null);
+    activeKanjiData.strokes ?? (activeKanji === kanji ? cardStrokes : null);
   const displayGrade =
-    kanjiData.grade ?? (activeKanji === kanji ? cardGrade : null);
+    activeKanjiData.grade ?? (activeKanji === kanji ? cardGrade : null);
   const displayFrequency =
-    kanjiData.freq ?? (activeKanji === kanji ? cardFrequency : null);
+    activeKanjiData.freq ?? (activeKanji === kanji ? cardFrequency : null);
   const displayJlpt =
-    kanjiData.jlpt_new ?? (activeKanji === kanji ? cardJlpt : null);
+    activeKanjiData.jlpt_new ?? (activeKanji === kanji ? cardJlpt : null);
 
   const navigate = (direction) => {
     const nextIndex = activeIndex + direction;
@@ -604,7 +632,7 @@ function KanjiHint({
   );
 }
 
-function InfoRow({ label, labelJp, value, className }) {
+function InfoRow({ label, labelJp, value, className }: { label: string; labelJp?: string; value: React.ReactNode; className?: string }) {
   return (
     <div className="space-y-0.5">
       <div className="flex items-center gap-1.5">

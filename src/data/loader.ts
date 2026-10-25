@@ -1,12 +1,17 @@
 import radicalData from "@/data/kanjidic-radicals.json";
 import partsData from "@/data/kanji-parts.json";
+import type { KanjiData } from "@/store/useStore";
 
-export const loadKanjiData = async (levels) => {
+type RawKanjiData = Omit<KanjiData, "radical" | "parts">;
+
+export const loadKanjiData = async (
+  levels: Array<string | number>,
+): Promise<Record<string, KanjiData>> => {
   // Dynamic import based on selected levels
   const kanjiModules = await Promise.all(
     levels.map((level) => {
       // Use level since it's already a string or number
-      const l = parseInt(level, 10);
+      const l = parseInt(String(level), 10);
       switch (l) {
         case 1:
           return import("@/data/kanji-1.json");
@@ -24,10 +29,10 @@ export const loadKanjiData = async (levels) => {
     }),
   );
 
-  return kanjiModules.reduce((acc, module) => {
+  return kanjiModules.reduce<Record<string, KanjiData>>((acc, module) => {
     for (const [kanji, data] of Object.entries(module.default)) {
       acc[kanji] = {
-        ...data,
+        ...(data as RawKanjiData),
         radical: radicalData[kanji] || null,
         parts: partsData[kanji] || [],
       };

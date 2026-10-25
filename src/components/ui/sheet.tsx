@@ -5,23 +5,23 @@ import { cn } from "cn";
 import { XIcon } from "lucide-react";
 import { Dialog as SheetPrimitive } from "radix-ui";
 
-function Sheet({ ...props }) {
+function Sheet({ ...props }: any) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
-function SheetTrigger({ ...props }) {
+function SheetTrigger({ ...props }: any) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
-function SheetClose({ ...props }) {
+function SheetClose({ ...props }: any) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
-function SheetPortal({ ...props }) {
+function SheetPortal({ ...props }: any) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-function SheetOverlay({ className, ...props }) {
+function SheetOverlay({ className, ...props }: any) {
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
@@ -42,7 +42,7 @@ function SheetContent({
   showCloseButton = true,
   onClose,
   ...props
-}) {
+}: any) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -78,7 +78,7 @@ function SheetContent({
   );
 }
 
-function SheetHeader({ className, ...props }) {
+function SheetHeader({ className, ...props }: any) {
   return (
     <div
       data-slot="sheet-header"
@@ -88,7 +88,7 @@ function SheetHeader({ className, ...props }) {
   );
 }
 
-function SheetFooter({ className, ...props }) {
+function SheetFooter({ className, ...props }: any) {
   return (
     <div
       data-slot="sheet-footer"
@@ -98,7 +98,7 @@ function SheetFooter({ className, ...props }) {
   );
 }
 
-function SheetTitle({ className, ...props }) {
+function SheetTitle({ className, ...props }: any) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
@@ -108,7 +108,7 @@ function SheetTitle({ className, ...props }) {
   );
 }
 
-function SheetDescription({ className, ...props }) {
+function SheetDescription({ className, ...props }: any) {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"

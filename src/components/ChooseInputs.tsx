@@ -4,8 +4,9 @@ import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PenLine, Check, Languages, BookOpen } from "lucide-react";
+import type { QuizInput } from "@/store/useStore";
 
-const INPUTS = [
+const INPUTS: Array<{ index: QuizInput; name: string; japanese: string; icon: typeof BookOpen }> = [
   { index: "meaning", name: "Meaning", japanese: "意味", icon: BookOpen },
   { index: "reading-on", name: "On'yomi", japanese: "音読み", icon: Languages },
   { index: "reading-kun", name: "Kun'yomi", japanese: "訓読み", icon: PenLine },

@@ -25,7 +25,7 @@ const badgeVariants = cva(
   },
 );
 
-function Badge({ className, variant, asChild = false, ...props }) {
+function Badge({ className, variant, asChild = false, ...props }: any) {
   const Comp = asChild ? SlotPrimitive.Slot : "span";
 
   return (

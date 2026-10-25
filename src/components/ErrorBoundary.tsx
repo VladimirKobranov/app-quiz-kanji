@@ -1,7 +1,11 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 
-class ErrorBoundary extends React.Component {
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<React.PropsWithChildren, ErrorBoundaryState> {
   constructor(props) {
     super(props);
     this.state = { hasError: false };

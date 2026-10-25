@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "cn";
 
-function Input({ className, type, ...props }) {
+function Input({ className, type, ...props }: any) {
   return (
     <input
       type={type}

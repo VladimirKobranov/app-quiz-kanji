@@ -8,7 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-function Pagination({ className, ...props }) {
+function Pagination({ className, ...props }: any) {
   return (
     <nav
       role="navigation"
@@ -20,7 +20,7 @@ function Pagination({ className, ...props }) {
   );
 }
 
-function PaginationContent({ className, ...props }) {
+function PaginationContent({ className, ...props }: any) {
   return (
     <ul
       data-slot="pagination-content"
@@ -30,11 +30,11 @@ function PaginationContent({ className, ...props }) {
   );
 }
 
-function PaginationItem({ ...props }) {
+function PaginationItem({ ...props }: any) {
   return <li data-slot="pagination-item" {...props} />;
 }
 
-function PaginationLink({ className, isActive, size = "icon", ...props }) {
+function PaginationLink({ className, isActive, size = "icon", ...props }: any) {
   return (
     <a
       aria-current={isActive ? "page" : undefined}
@@ -52,7 +52,7 @@ function PaginationLink({ className, isActive, size = "icon", ...props }) {
   );
 }
 
-function PaginationPrevious({ className, ...props }) {
+function PaginationPrevious({ className, ...props }: any) {
   return (
     <PaginationLink
       aria-label="Go to previous page"
@@ -66,7 +66,7 @@ function PaginationPrevious({ className, ...props }) {
   );
 }
 
-function PaginationNext({ className, ...props }) {
+function PaginationNext({ className, ...props }: any) {
   return (
     <PaginationLink
       aria-label="Go to next page"
@@ -80,7 +80,7 @@ function PaginationNext({ className, ...props }) {
   );
 }
 
-function PaginationEllipsis({ className, ...props }) {
+function PaginationEllipsis({ className, ...props }: any) {
   return (
     <span
       aria-hidden

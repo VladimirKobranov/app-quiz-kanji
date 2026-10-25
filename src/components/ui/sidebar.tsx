@@ -50,7 +50,7 @@ function SidebarProvider({
   style,
   children,
   ...props
-}) {
+}: any) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
 
@@ -141,7 +141,7 @@ function Sidebar({
   className,
   children,
   ...props
-}) {
+}: any) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   if (collapsible === "none") {
@@ -230,7 +230,7 @@ function Sidebar({
   );
 }
 
-function SidebarTrigger({ className, onClick, ...props }) {
+function SidebarTrigger({ className, onClick, ...props }: any) {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -252,7 +252,7 @@ function SidebarTrigger({ className, onClick, ...props }) {
   );
 }
 
-function SidebarRail({ className, ...props }) {
+function SidebarRail({ className, ...props }: any) {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -277,7 +277,7 @@ function SidebarRail({ className, ...props }) {
   );
 }
 
-function SidebarInset({ className, ...props }) {
+function SidebarInset({ className, ...props }: any) {
   return (
     <main
       data-slot="sidebar-inset"
@@ -291,7 +291,7 @@ function SidebarInset({ className, ...props }) {
   );
 }
 
-function SidebarInput({ className, ...props }) {
+function SidebarInput({ className, ...props }: any) {
   return (
     <Input
       data-slot="sidebar-input"
@@ -302,7 +302,7 @@ function SidebarInput({ className, ...props }) {
   );
 }
 
-function SidebarHeader({ className, ...props }) {
+function SidebarHeader({ className, ...props }: any) {
   return (
     <div
       data-slot="sidebar-header"
@@ -313,7 +313,7 @@ function SidebarHeader({ className, ...props }) {
   );
 }
 
-function SidebarFooter({ className, ...props }) {
+function SidebarFooter({ className, ...props }: any) {
   return (
     <div
       data-slot="sidebar-footer"
@@ -324,7 +324,7 @@ function SidebarFooter({ className, ...props }) {
   );
 }
 
-function SidebarSeparator({ className, ...props }) {
+function SidebarSeparator({ className, ...props }: any) {
   return (
     <Separator
       data-slot="sidebar-separator"
@@ -335,7 +335,7 @@ function SidebarSeparator({ className, ...props }) {
   );
 }
 
-function SidebarContent({ className, ...props }) {
+function SidebarContent({ className, ...props }: any) {
   return (
     <div
       data-slot="sidebar-content"
@@ -349,7 +349,7 @@ function SidebarContent({ className, ...props }) {
   );
 }
 
-function SidebarGroup({ className, ...props }) {
+function SidebarGroup({ className, ...props }: any) {
   return (
     <div
       data-slot="sidebar-group"
@@ -360,7 +360,7 @@ function SidebarGroup({ className, ...props }) {
   );
 }
 
-function SidebarGroupLabel({ className, asChild = false, ...props }) {
+function SidebarGroupLabel({ className, asChild = false, ...props }: any) {
   const Comp = asChild ? Slot.Root : "div";
 
   return (
@@ -377,7 +377,7 @@ function SidebarGroupLabel({ className, asChild = false, ...props }) {
   );
 }
 
-function SidebarGroupAction({ className, asChild = false, ...props }) {
+function SidebarGroupAction({ className, asChild = false, ...props }: any) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
@@ -396,7 +396,7 @@ function SidebarGroupAction({ className, asChild = false, ...props }) {
   );
 }
 
-function SidebarGroupContent({ className, ...props }) {
+function SidebarGroupContent({ className, ...props }: any) {
   return (
     <div
       data-slot="sidebar-group-content"
@@ -407,7 +407,7 @@ function SidebarGroupContent({ className, ...props }) {
   );
 }
 
-function SidebarMenu({ className, ...props }) {
+function SidebarMenu({ className, ...props }: any) {
   return (
     <ul
       data-slot="sidebar-menu"
@@ -418,7 +418,7 @@ function SidebarMenu({ className, ...props }) {
   );
 }
 
-function SidebarMenuItem({ className, ...props }) {
+function SidebarMenuItem({ className, ...props }: any) {
   return (
     <li
       data-slot="sidebar-menu-item"
@@ -459,7 +459,7 @@ function SidebarMenuButton({
   tooltip,
   className,
   ...props
-}) {
+}: any) {
   const Comp = asChild ? Slot.Root : "button";
   const { isMobile, state } = useSidebar();
 
@@ -502,7 +502,7 @@ function SidebarMenuAction({
   asChild = false,
   showOnHover = false,
   ...props
-}) {
+}: any) {
   const Comp = asChild ? Slot.Root : "button";
 
   return (
@@ -526,7 +526,7 @@ function SidebarMenuAction({
   );
 }
 
-function SidebarMenuBadge({ className, ...props }) {
+function SidebarMenuBadge({ className, ...props }: any) {
   return (
     <div
       data-slot="sidebar-menu-badge"
@@ -545,7 +545,7 @@ function SidebarMenuBadge({ className, ...props }) {
   );
 }
 
-function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
+function SidebarMenuSkeleton({ className, showIcon = false, ...props }: any) {
   // Random width between 50 to 90%.
   const width = React.useMemo(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
@@ -575,7 +575,7 @@ function SidebarMenuSkeleton({ className, showIcon = false, ...props }) {
   );
 }
 
-function SidebarMenuSub({ className, ...props }) {
+function SidebarMenuSub({ className, ...props }: any) {
   return (
     <ul
       data-slot="sidebar-menu-sub"
@@ -590,7 +590,7 @@ function SidebarMenuSub({ className, ...props }) {
   );
 }
 
-function SidebarMenuSubItem({ className, ...props }) {
+function SidebarMenuSubItem({ className, ...props }: any) {
   return (
     <li
       data-slot="sidebar-menu-sub-item"
@@ -607,7 +607,7 @@ function SidebarMenuSubButton({
   isActive = false,
   className,
   ...props
-}) {
+}: any) {
   const Comp = asChild ? Slot.Root : "a";
 
   return (

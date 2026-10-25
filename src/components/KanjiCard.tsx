@@ -5,15 +5,23 @@ import { Input } from "@/components/ui/input";
 import KanjiHint from "@/components/KanjiHint";
 import radicalData from "@/data/kanjidic-radicals.json";
 import partsData from "@/data/kanji-parts.json";
+import type { KanjiData } from "@/store/useStore";
 
-const EMPTY_OBJ = {};
+const EMPTY_OBJ: KanjiData = {
+  strokes: 0,
+  grade: 0,
+  jlpt_new: 0,
+  meanings: [],
+  readings_on: [],
+  readings_kun: [],
+};
 const INPUT_PLACEHOLDERS = {
   meaning: "meaning",
   "reading-on": "on",
   "reading-kun": "kun",
 };
 
-const KanjiCard = memo(function KanjiCard({ kanji }) {
+const KanjiCard = memo(function KanjiCard({ kanji }: { kanji: string }) {
   const inputs = useStore((state) => state.inputs);
   const hintState = useStore((state) => state.hint);
   const validateAnswer = useStore((state) => state.validateAnswer);

@@ -5,9 +5,9 @@ import { loadKanjiData } from "@/data/loader";
 type FilterMode = "jlpt" | "grade" | "frequency";
 type SortMode = "random" | "strokes" | "frequency";
 type CardStatus = "idle" | "correct" | "incorrect";
-type QuizInput = "meaning" | "reading-on" | "reading-kun";
+export type QuizInput = "meaning" | "reading-on" | "reading-kun";
 
-interface KanjiData {
+export interface KanjiData {
   strokes: number;
   grade: number;
   freq?: number;

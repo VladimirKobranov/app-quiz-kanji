@@ -5,11 +5,11 @@ import { Popover as PopoverPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 
-function Popover({ ...props }) {
+function Popover({ ...props }: any) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />;
 }
 
-const PopoverTrigger = React.forwardRef(({ asChild, ...props }, ref) => (
+const PopoverTrigger = React.forwardRef(({ asChild, ...props }: any, ref) => (
   <PopoverPrimitive.Trigger
     data-slot="popover-trigger"
     asChild={asChild}
@@ -20,7 +20,7 @@ const PopoverTrigger = React.forwardRef(({ asChild, ...props }, ref) => (
 PopoverTrigger.displayName = "PopoverTrigger";
 
 const PopoverContent = React.forwardRef(
-  ({ className, align = "center", sideOffset = 4, ...props }, ref) => (
+  ({ className, align = "center", sideOffset = 4, ...props }: any, ref) => (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
         data-slot="popover-content"
@@ -38,7 +38,7 @@ const PopoverContent = React.forwardRef(
 );
 PopoverContent.displayName = "PopoverContent";
 
-const PopoverAnchor = React.forwardRef(({ ...props }, ref) => (
+const PopoverAnchor = React.forwardRef(({ ...props }: any, ref) => (
   <PopoverPrimitive.Anchor data-slot="popover-anchor" ref={ref} {...props} />
 ));
 PopoverAnchor.displayName = "PopoverAnchor";

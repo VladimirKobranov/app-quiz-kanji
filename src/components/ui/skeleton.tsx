@@ -1,6 +1,6 @@
 import { cn } from "cn";
 
-function Skeleton({ className, ...props }) {
+function Skeleton({ className, ...props }: any) {
   return (
     <div
       data-slot="skeleton"
