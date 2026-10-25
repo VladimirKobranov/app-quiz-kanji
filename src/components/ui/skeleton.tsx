@@ -1,0 +1,13 @@
+import { cn } from "cn";
+
+function Skeleton({ className, ...props }: any) {
+  return (
+    <div
+      data-slot="skeleton"
+      className={cn("animate-pulse rounded-md bg-accent", className)}
+      {...props}
+    />
+  );
+}
+
+export { Skeleton };

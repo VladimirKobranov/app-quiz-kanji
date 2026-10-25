@@ -1,0 +1,8 @@
+export const KANJI_CARD = {
+  WIDTH: 100,
+  GAP_X: 10,
+  GAP_Y: 30,
+  BASE_HEIGHT: 138,
+  INPUT_HEIGHT: 32,
+  DEFAULT_ITEMS_PER_PAGE: 100,
+};
