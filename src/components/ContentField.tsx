@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo, useCallback } from "react";
+import { useEffect, useRef, memo, useCallback } from "react";
 import KanjiCard from "@/components/KanjiCard";
 import { ListFilter } from "lucide-react";
 
@@ -115,8 +115,8 @@ const ContentField = memo(function ContentField() {
           ) : (
             <div className="p-4">
               <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-x-2.5 gap-y-7.5">
-                {currentData.map((name, index) => (
-                  <KanjiCard key={name + index} kanji={name} />
+                {currentData.map((name) => (
+                  <KanjiCard key={name} kanji={name} />
                 ))}
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useStore } from "@/store/useStore";
 
 import { Input } from "@/components/ui/input";
@@ -52,7 +52,7 @@ const KanjiCard = memo(function KanjiCard({ kanji }: { kanji: string }) {
 
   /* New handler for validation on blur */
   const handleBlur = useCallback(
-    (inputType, event) => {
+    (_inputType, event) => {
       const v = event.target.value;
       if (!v) return;
       const valid = validateAnswer(kanji, v);
@@ -86,6 +86,10 @@ const KanjiCard = memo(function KanjiCard({ kanji }: { kanji: string }) {
     : "";
 
   return (
+    // The card has a dedicated, keyboard-accessible hint trigger inside it.
+    // Its surrounding surface also opens the same hint on click.
+    // biome-ignore lint/a11y/noStaticElementInteractions: card surface click is a convenience; the nested hint trigger is keyboard accessible.
+    // biome-ignore lint/a11y/useKeyWithClickEvents: card surface click is a convenience; the nested hint trigger is keyboard accessible.
     <div
       onClick={hintState ? handleCardClick : undefined}
       className={`flex flex-col gap-0.5 w-25 rounded-lg shadow-sm border
@@ -128,9 +132,9 @@ const KanjiCard = memo(function KanjiCard({ kanji }: { kanji: string }) {
       </div>
       <div className="p-1 px-1.5 pb-2">
         <div className="flex flex-col gap-1">
-          {inputs.map((inputType, index) => (
+          {inputs.map((inputType) => (
             <Input
-              key={inputType + index}
+              key={inputType}
               placeholder={INPUT_PLACEHOLDERS[inputType] || inputType}
               value={inputValues[inputType] || ""}
               disabled={isLocked}

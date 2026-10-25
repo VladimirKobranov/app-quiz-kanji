@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("node:fs");
 
 const inputPath = process.argv[2] || "src/data/kanjidic2.xml";
 const outputPath = process.argv[3] || "src/data/kanjidic-radicals.json";

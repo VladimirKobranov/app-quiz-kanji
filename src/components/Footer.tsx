@@ -1,8 +1,7 @@
-import React from "react";
 import packageJson from "@/../package.json";
 
 const d = new Date();
-let year = d.getFullYear();
+const year = d.getFullYear();
 
 const link = () => (
   <a href="https://github.com/VladimirKobranov" className="hover:underline">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";
 import { RotateCcw, BarChart3, Lightbulb } from "lucide-react";
@@ -31,7 +31,7 @@ function NavControlResults() {
 
   const accuracyPercentage =
     totalQuestions > 0
-      ? ((correctCount / totalQuestions) * 100).toFixed(0) + "%"
+      ? `${((correctCount / totalQuestions) * 100).toFixed(0)}%`
       : "0%";
   const [percentage, setPercentage] = useState(null);
   const [questions, setQuestions] = useState(null);
@@ -51,7 +51,7 @@ function NavControlResults() {
     toggleHint();
   };
 
-  const percentNum = percentage ? Number.parseInt(percentage) : 0;
+  const percentNum = percentage ? Number.parseInt(percentage, 10) : 0;
   const chartData = [{ score: percentNum, fill: "var(--color-score)" }];
   const chartConfig = {
     score: {

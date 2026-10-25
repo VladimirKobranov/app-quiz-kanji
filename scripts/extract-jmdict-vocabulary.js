@@ -1,5 +1,5 @@
-const fs = require("fs");
-const zlib = require("zlib");
+const fs = require("node:fs");
+const zlib = require("node:zlib");
 
 const inputPath = process.argv[2] || "src/data/JMdict_e.gz";
 const outputPath = process.argv[3] || "src/data/kanji-vocabulary.json";

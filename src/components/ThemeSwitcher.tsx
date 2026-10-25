@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -43,10 +43,7 @@ function ThemeSwitcher() {
   };
 
   return (
-    <div
-      className="flex items-center justify-center gap-1"
-      aria-label="Choose theme"
-    >
+    <div className="flex items-center justify-center gap-1">
       {themes.map(({ value, label, Icon }) => (
         <Button
           key={value}

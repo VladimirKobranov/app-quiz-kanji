@@ -1,4 +1,3 @@
-import React from "react";
 import ChooseInputs from "@/components/ChooseInputs";
 import ChooseFilters from "@/components/ChooseFilters";
 import Title from "@/components/Title";

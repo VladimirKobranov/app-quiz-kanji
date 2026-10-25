@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Button } from "@/components/ui/button";

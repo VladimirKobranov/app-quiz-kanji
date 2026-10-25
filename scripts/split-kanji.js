@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
 
 const KANJI_DATA_PATH = path.join(__dirname, "../src/data/kanji.json");
 const OUTPUT_DIR = path.join(__dirname, "../src/data");

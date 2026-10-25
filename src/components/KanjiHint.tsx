@@ -56,16 +56,17 @@ function KanjiHint({
   const fullHeroRef = useRef(null);
   const isMobile = useIsMobile();
   const kanjiData = useStore((state) => state.kanjiData[activeKanji]) as
-    | KanjiData
-    | undefined;
-  const activeKanjiData = kanjiData ?? {
-    strokes: 0,
-    grade: 0,
-    jlpt_new: 0,
-    meanings: [],
-    readings_on: [],
-    readings_kun: [],
-  } satisfies KanjiData;
+    KanjiData | undefined;
+  const activeKanjiData =
+    kanjiData ??
+    ({
+      strokes: 0,
+      grade: 0,
+      jlpt_new: 0,
+      meanings: [],
+      readings_on: [],
+      readings_kun: [],
+    } satisfies KanjiData);
   const currentDeck = useStore((state) => state.currentDeck);
   const currentPage = useStore((state) => state.currentPage);
   const itemsPerPage = useStore((state) => state.itemsPerPage);
@@ -143,7 +144,7 @@ function KanjiHint({
     incorrect: "bg-destructive text-white",
   };
 
-  const details = (
+  const _details = (
     <div className="flex min-h-0">
       <div className="flex w-24 shrink-0 flex-col items-center justify-center bg-primary p-3 text-primary-foreground">
         <span className="text-5xl font-bold leading-none tracking-tight">
@@ -632,7 +633,17 @@ function KanjiHint({
   );
 }
 
-function InfoRow({ label, labelJp, value, className }: { label: string; labelJp?: string; value: React.ReactNode; className?: string }) {
+function InfoRow({
+  label,
+  labelJp,
+  value,
+  className,
+}: {
+  label: string;
+  labelJp?: string;
+  value: React.ReactNode;
+  className?: string;
+}) {
   return (
     <div className="space-y-0.5">
       <div className="flex items-center gap-1.5">

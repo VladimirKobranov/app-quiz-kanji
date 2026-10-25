@@ -1,4 +1,3 @@
-import * as React from "react";
 import { cn } from "cn";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
@@ -15,7 +14,12 @@ function SelectValue({ ...props }: any) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
 
-function SelectTrigger({ className, size = "default", children, ...props }: any) {
+function SelectTrigger({
+  className,
+  size = "default",
+  children,
+  ...props
+}: any) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
