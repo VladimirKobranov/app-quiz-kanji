@@ -13,7 +13,11 @@ const themes = [
 
 function getStoredTheme() {
   if (typeof window === "undefined") return "system";
-  return window.localStorage.getItem(THEME_STORAGE_KEY) || "system";
+  try {
+    return window.localStorage.getItem(THEME_STORAGE_KEY) || "system";
+  } catch {
+    return "system";
+  }
 }
 
 function ThemeSwitcher() {
@@ -39,7 +43,11 @@ function ThemeSwitcher() {
 
   const handleThemeChange = (nextTheme) => {
     setTheme(nextTheme);
-    window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    } catch {
+      // Keep the selected theme for this session when storage is unavailable.
+    }
   };
 
   return (

@@ -4,6 +4,20 @@
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      let theme = "system";
+      try {
+        theme = localStorage.getItem("kanji-quiz-theme") || theme;
+      } catch {}
+
+      const isDark =
+        theme === "dark" ||
+        (theme === "system" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+    </script>
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
